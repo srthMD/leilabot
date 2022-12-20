@@ -1,0 +1,29 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+    id "co.uzzu.dotenv.gradle" version "2.0.0"
+}
+
+shadowJar {
+    archiveBaseName.set('leilabot')
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ro.srth.leila.Bot'
+        )
+    }
+}
+
+group 'ro.srth'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+    implementation "net.dv8tion:JDA:5.0.0-beta.2"
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+}
