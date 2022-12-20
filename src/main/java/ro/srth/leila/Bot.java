@@ -23,7 +23,7 @@ public class Bot{
     private final Dotenv env;
 
     public Bot() throws LoginException {
-        env = Dotenv.configure().directory("PUT PATH HERE").load(); //load .env
+        env = Dotenv.configure().directory("").load(); //load .env
 
         String token = env.get("TOKEN");
 
@@ -31,7 +31,7 @@ public class Bot{
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("Eating The So"));
+        builder.setActivity(Activity.streaming("Eating The So", "https://www.youtube.com/shorts/H3RR3q0UdxQ"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
 
         sman = builder.build();

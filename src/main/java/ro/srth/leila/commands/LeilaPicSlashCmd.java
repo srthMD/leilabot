@@ -16,7 +16,7 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("leilapicture")){
-            File dir = new File("PUT PATH HERE"); // gets dir
+            File dir = new File(""); // gets dir
             File[] files = dir.listFiles(); // lists the files in the dir
 
             Random rand = new Random();

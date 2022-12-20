@@ -32,6 +32,7 @@ public class SaySlashCommand extends ListenerAdapter {
             }
 
 
+
             if (channel1 != null) {
                 assert channel2 != null;
                 event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
@@ -43,12 +44,9 @@ public class SaySlashCommand extends ListenerAdapter {
                 event.getGuild().getChannelById(TextChannel.class, channel4).sendMessage(message).queue();
                 event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();
                 System.out.println(event.getInteraction().getUser().getAsTag() + " sent " + message);
-            } else if (channel5 != ChannelType.TEXT){
+
+            }   else if (channel5 != ChannelType.TEXT){
                 event.reply("only text channels ya hmar").setEphemeral(true).queue();
-            }
-            else if (channel1.getAsChannel().getId() == "1046576871330037830" || channel1.getAsChannel().getId() == "1022265777371480124"){
-                event.reply("Stopppppppp You Cant Send message There").setEphemeral(true).queue();
-                System.out.println(event.getInteraction().getUser().getAsTag() + " tried to send message in forbidden channel");
             }
             else{
                 event.reply("somethig went wrong ya hmar").setEphemeral(true).queue();
