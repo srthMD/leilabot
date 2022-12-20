@@ -10,10 +10,7 @@ import ro.srth.leila.commands.CmdMan;
 import ro.srth.leila.commands.LeilaPicSlashCmd;
 import ro.srth.leila.commands.SaySlashCommand;
 import ro.srth.leila.commands.TestSlashCmd;
-import ro.srth.leila.listener.ArmeniaMention;
-import ro.srth.leila.listener.KurdistanMention;
-import ro.srth.leila.listener.MsgOnKick;
-import ro.srth.leila.listener.RandomGame;
+import ro.srth.leila.listener.*;
 
 import javax.security.auth.login.LoginException;
 
@@ -31,7 +28,7 @@ public class Bot{
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.streaming("Eating The So", "https://www.youtube.com/shorts/H3RR3q0UdxQ"));
+        builder.setActivity(Activity.playing("Eating The So"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
 
         sman = builder.build();
@@ -45,6 +42,7 @@ public class Bot{
         sman.addEventListener(new TestSlashCmd());
         sman.addEventListener(new SaySlashCommand());
         sman.addEventListener(new CmdMan());
+        sman.addEventListener(new RandomGmodMode());
     }
 
 
