@@ -9,6 +9,7 @@ public class MsgOnKick extends ListenerAdapter {
         String user = event.getUser().getAsTag();
 
         String message = "Goodtbye " + user + " You Are Stupid Cunt";
+
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(message).queue();
     }
 }

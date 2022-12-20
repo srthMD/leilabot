@@ -16,28 +16,20 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("leilapicture")){
-            File dir = new File("PUT PATH HERE");
-            File[] files = dir.listFiles();
+            File dir = new File("PUT PATH HERE"); // gets dir
+            File[] files = dir.listFiles(); // lists the files in the dir
 
             Random rand = new Random();
 
-            assert files != null;
+            assert files != null; // idk
 
-            File file = files[rand.nextInt(files.length)];
+            File file = files[rand.nextInt(files.length)]; // chooses a random file
 
-            System.out.println(file.toString());
+            System.out.println(file.toString()); // debug
 
+            FileUpload upload = FileUpload.fromData(file); // converts file????? idk it works
 
-            FileUpload upload = FileUpload.fromData(file);
-
-            event.replyFiles(upload).queue();
+            event.replyFiles(upload).queue(); // send
         }
     }
-    @Override
-    public void onGuildReady(GuildReadyEvent event) {
-        List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("leilapicture", "Sends a random picture of Leila from what I loaded into the bot."));
-        event.getGuild().updateCommands().addCommands(commandData).queue();
-    }
-
 }

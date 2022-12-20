@@ -21,11 +21,4 @@ public class TestSlashCmd extends ListenerAdapter {
            event.reply("test").queue();
         }
     }
-    @Override
-    public void onGuildReady(GuildReadyEvent event) {
-        List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("test", "Makes the bot send a message as a test to see if it works."));
-        event.getGuild().updateCommands().addCommands(commandData).queue();
-    }
-
 }

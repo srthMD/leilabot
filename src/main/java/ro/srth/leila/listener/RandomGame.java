@@ -12,6 +12,7 @@ public class RandomGame extends ListenerAdapter {
 
         if (event.getMessage().getContentRaw().contains(match)) {
             System.out.println("RandomGame Fired");
+
             String games[] = {
                     "Item Asylum",
                     "Minecraft",
@@ -28,6 +29,7 @@ public class RandomGame extends ListenerAdapter {
                     "Arsenal",
                     "Build A Boat For Treasure",
             };
+
             Random random = new Random();
             int index = random.nextInt(games.length);
 
