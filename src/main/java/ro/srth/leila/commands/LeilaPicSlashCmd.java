@@ -16,7 +16,7 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("leilapicture")){
-            File dir = new File("/home/bot/leila"); // this is meant to run on google shell
+            File dir = new File("PUT PATH HERE");
             File[] files = dir.listFiles();
 
             Random rand = new Random();

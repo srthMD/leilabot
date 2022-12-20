@@ -21,7 +21,7 @@ public class Bot{
     private final Dotenv env;
 
     public Bot() throws LoginException {
-        env = Dotenv.configure().directory("/home/bot").load(); // this is meant to run on google shell
+        env = Dotenv.configure().directory("PUT PATH HERE").load();
 
         String token = env.get("TOKEN");
 
