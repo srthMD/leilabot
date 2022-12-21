@@ -6,21 +6,28 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import ro.srth.leila.commands.CmdMan;
-import ro.srth.leila.commands.LeilaPicSlashCmd;
-import ro.srth.leila.commands.SaySlashCommand;
-import ro.srth.leila.commands.TestSlashCmd;
+import ro.srth.leila.commands.*;
 import ro.srth.leila.listener.*;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Bot{
+    public static FileHandler fh;
+
+    public static String fhp;
     private final ShardManager sman;
 
+    public static Logger log = Logger.getLogger(Bot.class.getName());
     private final Dotenv env;
 
     public Bot() throws LoginException {
-        env = Dotenv.configure().directory("").load(); //load .env
+        env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
 
         String token = env.get("TOKEN");
 
@@ -32,6 +39,22 @@ public class Bot{
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
 
         sman = builder.build();
+
+
+        // logger code from stackoverflow because i don't know how to use logs
+        try {
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yy-hh.mm.ss");
+            LocalDateTime now = LocalDateTime.now();
+            fhp = "C:\\temp\\" + dtf.format(now) +  ".log";
+            fh = new FileHandler(fhp);
+            log.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+        } catch (SecurityException | IOException e) {
+            log.warning(e.toString());
+        }
 
         // register listeners
         sman.addEventListener(new MsgOnKick());
@@ -46,6 +69,7 @@ public class Bot{
         sman.addEventListener(new SlinkRobuxMention());
         sman.addEventListener(new LeilaEmojiMention());
         sman.addEventListener(new SimonEmojiMention());
+        sman.addEventListener(new GetLogSlashCmd());
     }
 
 
@@ -57,7 +81,7 @@ public class Bot{
         try{
             Bot bot = new Bot();
         } catch (LoginException hmar){
-            System.out.println("somethign went wrong on login");
+            Bot.log.warning("somethign went wrong on login");
         }
     }
 }

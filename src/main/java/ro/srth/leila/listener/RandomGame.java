@@ -2,6 +2,7 @@ package ro.srth.leila.listener;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import ro.srth.leila.Bot;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class RandomGame extends ListenerAdapter {
         String match = "what do i play";
 
         if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod")) {
-            System.out.println("RandomGame Fired");
+            Bot.log.info("RandomGame Fired");
 
             String games[] = {
                     "Item Asylum",
@@ -33,7 +34,7 @@ public class RandomGame extends ListenerAdapter {
             int index = random.nextInt(games.length);
 
             String reply = games[index];
-            System.out.println(reply);
+            Bot.log.info(reply);
 
             event.getMessage().reply(reply).queue();
         }
