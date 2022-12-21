@@ -10,17 +10,18 @@ public class SlinkRobuxMention extends ListenerAdapter {
         String match2 = "pls robux";
         String match3 = "plz robux";
         String match4 = "please robux";
+        String match5 = "give me robux";
 
         String received = event.getMessage().getContentRaw();
-        if(event.getAuthor().getId().equals("474329614022606851")){
-            if(received.contains(match) || received.contains(match2) || received.contains(match3) || received.contains(match4)/*inneficent but it works*/){
+        if(received.contains(match) || received.contains(match2) || received.contains(match3) || received.contains(match4) || received.contains(match5)){
+            if(event.getAuthor().getId().equals("474329614022606851"/*inneficent but it works*/)){
                 System.out.println("KurdistanMention Fired");
 
                 String message = "SHAT AP POOR TURK STOP BEGGAR";
                 event.getMessage().reply(message).queue();
+            } else {
+                System.out.println("SlinkRobuxMention id check fail");
             }
-        } else {
-            System.out.println("SlinkRobuxMention id check failed");
         }
     }
 }

@@ -44,6 +44,8 @@ public class Bot{
         sman.addEventListener(new CmdMan());
         sman.addEventListener(new RandomGmodMode());
         sman.addEventListener(new SlinkRobuxMention());
+        sman.addEventListener(new LeilaEmojiMention());
+        sman.addEventListener(new SimonEmojiMention());
     }
 
 
