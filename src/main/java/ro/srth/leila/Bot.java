@@ -70,6 +70,8 @@ public class Bot{
         sman.addEventListener(new LeilaEmojiMention());
         sman.addEventListener(new SimonEmojiMention());
         sman.addEventListener(new GetLogSlashCmd());
+        sman.addEventListener(new OctaviousPicSlashCmd());
+        sman.addEventListener(new BotInfoSlashCmd());
     }
 
 

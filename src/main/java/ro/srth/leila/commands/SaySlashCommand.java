@@ -37,8 +37,7 @@ public class SaySlashCommand extends ListenerAdapter {
             }
 
 
-
-            if (channel1 != null) {
+          if (channel1 != null) {
                 assert channel2 != null; // idk
                 event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
                 event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();

@@ -10,8 +10,9 @@ public class RandomGame extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
+        String match2 = "what game do i play";
 
-        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod")) {
+        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match2) && !event.getMessage().getContentRaw().contains("gmod")) {
             Bot.log.info("RandomGame Fired");
 
             String games[] = {
@@ -28,6 +29,34 @@ public class RandomGame extends ListenerAdapter {
                     "Nothing You Stupid Cunt",
                     "Arsenal",
                     "Build A Boat For Treasure",
+                    "Fortnite",
+                    "Jailbreak",
+                    "World Of Tanks",
+                    "World Of Tanks Blitz",
+                    "War Thunder",
+                    "Gang Beasts",
+                    "Hollow Knight",
+                    "MW2",
+                    "People Playground",
+                    "Ready or Not",
+                    "Hotline Miami 1",
+                    "Hotline Miami 2",
+                    "Slime Rancher",
+                    "Slime Rancher 2",
+                    "BONELAB",
+                    "Blade & Sorcery",
+                    "Gta V",
+                    "SUPERHOT",
+                    "SUPERHOT:MCD",
+                    "Rainbow 6 Seige",
+                    "Hand Simulator",
+                    "Trove",
+                    "The Wild West",
+                    "State Of Anarchy",
+                    "Doom Eternal",
+                    "Make A Wish",
+                    "Pls Donate",
+                    "Ultrakill"
             };
 
             Random random = new Random();

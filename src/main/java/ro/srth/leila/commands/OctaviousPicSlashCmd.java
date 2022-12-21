@@ -8,16 +8,16 @@ import ro.srth.leila.Bot;
 import java.io.File;
 import java.util.Random;
 
-public class LeilaPicSlashCmd extends ListenerAdapter {
-    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
+public class OctaviousPicSlashCmd extends ListenerAdapter {
+    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
     static File[] files = dir.listFiles();;
     static int amt = files.length;
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
         String command = event.getName();
-        if (command.equals("leilapicture")) {
-            Bot.log.info("class leilapicslash command event fired");
+        if (command.equals("octaviouspicture")){
+            Bot.log.info("class octaviouspicslash command event fired");
 
             Random rand = new Random();
 
@@ -30,8 +30,8 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
             event.replyFiles(upload).queue(); // send
         }
     }
-    static int getNumberOfLeilaPictures(){
-        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
+    static int getNumberOfOctaviousPictures(){
+        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
         File[] files = dir.listFiles();;
         int amt = files.length;
         return amt;
