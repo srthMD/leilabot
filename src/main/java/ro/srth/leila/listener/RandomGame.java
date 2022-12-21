@@ -10,7 +10,7 @@ public class RandomGame extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
 
-        if (event.getMessage().getContentRaw().contains(match)) {
+        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod")) {
             System.out.println("RandomGame Fired");
 
             String games[] = {

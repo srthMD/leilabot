@@ -8,6 +8,7 @@ public class SimonEmojiMention extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         String match = ":simon:";
         if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains(":Lela:")){
+            System.out.println("SimonEmojiMention Fired");
             event.getMessage().reply("Wowe That Simoen Emoji I Know That Cat").queue();
         }
     }

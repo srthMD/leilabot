@@ -8,6 +8,7 @@ public class LeilaEmojiMention extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         String match = ":Lela:";
         if (event.getMessage().getContentRaw().contains(match)){
+            System.out.println("LeilaEmojiMention fired");
             event.getMessage().reply("is thgat me emoji?????????????").queue();
         }
     }

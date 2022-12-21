@@ -10,8 +10,10 @@ public class RandomGmodMode extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent  event) {
         String match = "what do we play in gmod";
         String match1 = "what do i play in gmod";
+        String match2 = "what do we play on gmod";
+        String match3 = "what do i play on gmod";
 
-        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match1)) {
+        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match1) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3)) {
             System.out.println("RandomGmodMode Fired");
 
             String games[] = {
