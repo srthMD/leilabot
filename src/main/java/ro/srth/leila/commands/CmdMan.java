@@ -32,6 +32,7 @@ public class CmdMan extends ListenerAdapter {
 
             OptionData isEphemeral = new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true);
             commandData.add(Commands.slash("getlog", "Sends the current log of the bot.").addOptions(isEphemeral));
+            Bot.log.info("attempting to add getlog command to command data");
 
         } catch (Exception e){
             Bot.log.warning("exeption while registering slash commands");
