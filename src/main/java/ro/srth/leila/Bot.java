@@ -43,6 +43,7 @@ public class Bot{
         sman.addEventListener(new SaySlashCommand());
         sman.addEventListener(new CmdMan());
         sman.addEventListener(new RandomGmodMode());
+        sman.addEventListener(new SlinkRobuxMention());
     }
 
 
