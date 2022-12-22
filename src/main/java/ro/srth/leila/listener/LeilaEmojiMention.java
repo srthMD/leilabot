@@ -8,7 +8,7 @@ public class LeilaEmojiMention extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         String match = ":Lela:";
-        if (event.getMessage().getContentRaw().contains(match)){
+        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
             Bot.log.info("LeilaEmojiMention fired by" + event.getAuthor().getAsTag());
             event.getMessage().reply("is thgat me emoji?????????????").queue();
         }

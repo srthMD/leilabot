@@ -16,13 +16,15 @@ public class CmdMan extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         // register commands here
         List<CommandData> commandData = new ArrayList<>();
-
         try{
             commandData.add(Commands.slash("leilapicture", "Sends a random picture of Leila from what I loaded into the bot."));
             Bot.log.info("attempting to add leilapicture command to command data");
 
             commandData.add(Commands.slash("octaviouspicture", "Sends a random picture of Octavious from what I loaded into the bot."));
             Bot.log.info("attempting to add octaviouspicture command to command data");
+
+            commandData.add(Commands.slash("simonpicture", "Sends a random picture of Simon from what I loaded into the bot."));
+            Bot.log.info("attempting to add simonpicture command to command data");
 
             OptionData content = new OptionData(OptionType.STRING, "content", "What you want the bot to say.", true);
             OptionData channel = new OptionData(OptionType.CHANNEL, "channel", "What channel you want the bot to say the message in.", false);
@@ -39,11 +41,18 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("botinfo", "Sends information about the bot."));
             Bot.log.info("attempting to add botinfo command to command data");
 
+            OptionData user_to_rate = new OptionData(OptionType.USER, "user_to_rate", "Select the user to rate.", true);
+            commandData.add(Commands.slash("rate", "Rates a user 0-100.").addOptions(user_to_rate));
+            Bot.log.info("attempting to add rate command to command data");
+
+            Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n");
+
+
+
         } catch (Exception e){
             Bot.log.warning("exeption while registering slash commands");
             Bot.log.warning(e.toString());
         }
-
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }
 }
