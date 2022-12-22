@@ -17,7 +17,7 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
 
         String command = event.getName();
         if (command.equals("leilapicture")) {
-            Bot.log.info("class leilapicslash command event fired");
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + "Fired LeilaPicSlashCmd");
 
             Random rand = new Random();
 

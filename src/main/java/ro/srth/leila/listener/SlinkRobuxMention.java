@@ -16,7 +16,7 @@ public class SlinkRobuxMention extends ListenerAdapter {
         String received = event.getMessage().getContentRaw();
         if(received.contains(match) || received.contains(match2) || received.contains(match3) || received.contains(match4) || received.contains(match5)/*inneficent but it works*/){
             if(event.getAuthor().getId().equals("474329614022606851")){
-                Bot.log.info("SlinkRobuxMention Fired");
+                Bot.log.info("SlinkRobuxMention Fired by " + event.getAuthor().getAsTag());
 
                 String message = "SHAT AP POOR TURK STOP BEGGAR";
                 event.getMessage().reply(message).queue();

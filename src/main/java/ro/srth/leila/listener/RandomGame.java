@@ -15,7 +15,7 @@ public class RandomGame extends ListenerAdapter {
         String match4 = "what game do we play";
 
         if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3) || event.getMessage().getContentRaw().contains(match4) && !event.getMessage().getContentRaw().contains("gmod")) {
-            Bot.log.info("RandomGame Fired");
+            Bot.log.info("RandomGame Fired by " + event.getAuthor().getAsTag());
 
             String games[] = {
                     "Item Asylum",

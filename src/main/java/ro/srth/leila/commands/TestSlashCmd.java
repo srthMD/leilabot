@@ -9,7 +9,7 @@ public class TestSlashCmd extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("test")){
-           Bot.log.info("TestSlashCmd Fired");
+           Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired TestSlashCmd");
            event.reply("test").queue();
         }
     }

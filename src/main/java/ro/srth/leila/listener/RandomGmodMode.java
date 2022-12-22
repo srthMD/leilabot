@@ -15,7 +15,7 @@ public class RandomGmodMode extends ListenerAdapter {
         String match3 = "what do i play on gmod";
 
         if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match1) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3)) {
-            Bot.log.info("RandomGmodMode Fired");
+            Bot.log.info("RandomGmodMode Fired by " + event.getAuthor().getAsTag());
 
             String games[] = {
                     "sandbox",

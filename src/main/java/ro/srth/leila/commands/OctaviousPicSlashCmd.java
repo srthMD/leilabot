@@ -17,7 +17,7 @@ public class OctaviousPicSlashCmd extends ListenerAdapter {
 
         String command = event.getName();
         if (command.equals("octaviouspicture")){
-            Bot.log.info("class octaviouspicslash command event fired");
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired OctaviousPicSlashCmd");
 
             Random rand = new Random();
 

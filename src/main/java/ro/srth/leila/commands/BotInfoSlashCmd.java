@@ -11,7 +11,7 @@ public class BotInfoSlashCmd extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("botinfo")){
-            Bot.log.info("BotInfoSlashCmd Fired");
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired BotInfoSlashCmd");
             EmbedBuilder eb = new EmbedBuilder();
 
             eb.setTitle("Bot Information", null);

@@ -14,7 +14,7 @@ public class SaySlashCommand extends ListenerAdapter {
 
         String command = event.getName();
         if (command.equals("say")) {
-            Bot.log.info("SaySlashCommand Fired");
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SaySlashCmd");
 
             OptionMapping content1 = event.getOption("content");
             OptionMapping channel1 = event.getOption("channel");

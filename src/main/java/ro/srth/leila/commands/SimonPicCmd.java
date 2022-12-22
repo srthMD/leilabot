@@ -17,7 +17,7 @@ public class SimonPicCmd extends ListenerAdapter {
 
         String command = event.getName();
         if (command.equals("simonpicture")){
-            Bot.log.info("class simonpiccmd command event fired");
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SimonPicCmd");
 
             Random rand = new Random();
 
