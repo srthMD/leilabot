@@ -19,10 +19,8 @@ import java.util.logging.SimpleFormatter;
 
 public class Bot{
     public static FileHandler fh;
-
     public static String fhp;
     private final ShardManager sman;
-
     public static Logger log = Logger.getLogger(Bot.class.getName());
     private final Dotenv env;
 
@@ -57,6 +55,7 @@ public class Bot{
         }
 
         // register listeners
+        sman.addEventListener(new CmdMan());
         sman.addEventListener(new MsgOnKick());
         sman.addEventListener(new RandomGame());
         sman.addEventListener(new KurdistanMention());
@@ -64,7 +63,6 @@ public class Bot{
         sman.addEventListener(new LeilaPicSlashCmd());
         sman.addEventListener(new TestSlashCmd());
         sman.addEventListener(new SaySlashCommand());
-        sman.addEventListener(new CmdMan());
         sman.addEventListener(new RandomGmodMode());
         sman.addEventListener(new SlinkRobuxMention());
         sman.addEventListener(new LeilaEmojiMention());
@@ -73,7 +71,6 @@ public class Bot{
         sman.addEventListener(new OctaviousPicSlashCmd());
         sman.addEventListener(new BotInfoSlashCmd());
     }
-
 
     public ShardManager getsman(){return sman;}
 

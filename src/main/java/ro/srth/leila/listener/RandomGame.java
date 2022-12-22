@@ -11,8 +11,10 @@ public class RandomGame extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
         String match2 = "what game do i play";
+        String match3 = "what do we play";
+        String match4 = "what game do we play";
 
-        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match2) && !event.getMessage().getContentRaw().contains("gmod")) {
+        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3) || event.getMessage().getContentRaw().contains(match4) && !event.getMessage().getContentRaw().contains("gmod")) {
             Bot.log.info("RandomGame Fired");
 
             String games[] = {
@@ -56,7 +58,11 @@ public class RandomGame extends ListenerAdapter {
                     "Doom Eternal",
                     "Make A Wish",
                     "Pls Donate",
-                    "Ultrakill"
+                    "Ultrakill",
+                    "Terraria(unmodded)",
+                    "Terraria(modded)",
+                    "Fall Guys",
+                    "Oxygen Not Included"
             };
 
             Random random = new Random();
