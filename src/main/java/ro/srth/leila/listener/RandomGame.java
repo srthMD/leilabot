@@ -59,7 +59,13 @@ public class RandomGame extends ListenerAdapter {
                     "Terraria(unmodded)",
                     "Terraria(modded)",
                     "Fall Guys",
-                    "Oxygen Not Included"
+                    "Oxygen Not Included",
+                    "With Your Penis Hahahahahahahahhahahahahahhahahahhahahahahhahhahahahahahhhahahahahahahahahahahahahahahahahahahahahahhahahahahhahahahahahahahahahah",
+                    "Play baldis basics  educational and learning classic remastered demo that's me",
+                    "Blood And Bacon",
+                    "Redbox",
+                    "Jackbox",
+                    ""
             };
 
             Random random = new Random();

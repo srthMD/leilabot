@@ -71,6 +71,7 @@ public class Bot{
         sman.addEventListener(new BotInfoSlashCmd());
         sman.addEventListener(new RateSlashCmd());
         sman.addEventListener(new SimonPicCmd());
+        sman.addEventListener(new RngSlashCmd());
     }
 
     public ShardManager getsman(){return sman;}

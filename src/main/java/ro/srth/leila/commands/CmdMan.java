@@ -45,6 +45,12 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("rate", "Rates a user 0-100.").addOptions(user_to_rate));
             Bot.log.info("attempting to add rate command to command data");
 
+
+            OptionData minimum = new OptionData(OptionType.INTEGER, "minimum", "Minimum number.", true);
+            OptionData maximum = new OptionData(OptionType.INTEGER, "maximum", "Minimum number.", true);
+            commandData.add(Commands.slash("rng", "Generates a random number with given paramaters.").addOptions(minimum, maximum));
+            Bot.log.info("attempting to add rng command to command data");
+
             Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n");
 
 
