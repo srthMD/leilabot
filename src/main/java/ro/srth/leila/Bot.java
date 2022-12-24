@@ -72,6 +72,7 @@ public class Bot{
         sman.addEventListener(new RateSlashCmd());
         sman.addEventListener(new SimonPicCmd());
         sman.addEventListener(new RngSlashCmd());
+        sman.addEventListener(new PolandGifMention());
     }
 
     public ShardManager getsman(){return sman;}
