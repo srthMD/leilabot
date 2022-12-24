@@ -24,9 +24,9 @@ public class RngSlashCmd extends ListenerAdapter {
                 event.reply("None of the options can be negative, equal to each other or be more than the maximum value of " + Integer.MAX_VALUE + ".").setEphemeral(true).queue();
             } else{
                 Random random = new Random();
-                int rating = random.nextInt(minmapping.getAsInt(), maxmapping.getAsInt());
+                int rating = random.nextInt(min, max);
 
-                event.reply(String.valueOf(rating)).queue();
+                event.reply(String.valueOf(rating + " (min: " + min + " max: " + max + ")")).queue();
             }
 
         }
