@@ -41,7 +41,6 @@ public class Bot{
 
         // logger code from stackoverflow because i don't know how to use logs
         try {
-
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yy-hh.mm.ss");
             LocalDateTime now = LocalDateTime.now();
             fhp = "C:\\temp\\" + dtf.format(now) +  ".log";

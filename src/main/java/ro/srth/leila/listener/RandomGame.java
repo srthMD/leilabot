@@ -10,11 +10,8 @@ public class RandomGame extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
-        String match2 = "what game do i play";
-        String match3 = "what do we play";
-        String match4 = "what game do we play";
 
-        if (event.getMessage().getContentRaw().contains(match) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3) || event.getMessage().getContentRaw().contains(match4) && !event.getMessage().getContentRaw().contains("gmod")) {
+        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod")) {
             Bot.log.info("RandomGame Fired by " + event.getAuthor().getAsTag());
 
             String games[] = {
@@ -45,7 +42,7 @@ public class RandomGame extends ListenerAdapter {
                     "Hotline Miami 2",
                     "Slime Rancher",
                     "Slime Rancher 2",
-                    "BONELAB",
+                    "BONEWORKS",
                     "Blade & Sorcery",
                     "Gta V",
                     "SUPERHOT",
