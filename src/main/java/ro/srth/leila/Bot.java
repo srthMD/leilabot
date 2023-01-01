@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import ro.srth.leila.commands.*;
+import ro.srth.leila.commands.handler.CmdMan;
 import ro.srth.leila.listener.*;
 
 import javax.security.auth.login.LoginException;
@@ -21,6 +22,7 @@ public class Bot{
     public static FileHandler fh;
     public static String fhp;
     private final ShardManager sman;
+
     public static Logger log = Logger.getLogger(Bot.class.getName());
     private final Dotenv env;
 
@@ -73,6 +75,10 @@ public class Bot{
         sman.addEventListener(new SimonPicCmd());
         sman.addEventListener(new RngSlashCmd());
         sman.addEventListener(new PolandGifMention());
+        sman.addEventListener(new SayBanCmdHandler());
+        sman.addEventListener(new RandomMsg());
+        sman.addEventListener(new ToggleRandomMsg());
+        sman.addEventListener(new ForceRandomMsg());
     }
 
     public ShardManager getsman(){return sman;}

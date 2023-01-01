@@ -1,4 +1,4 @@
-package ro.srth.leila.commands;
+package ro.srth.leila.commands.handler;
 
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -51,8 +51,20 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("rng", "Generates a random number with given paramaters.").addOptions(minimum, maximum));
             Bot.log.info("attempting to add rng command to command data");
 
-            Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n");
 
+            OptionData saybanuser = new OptionData(OptionType.USER, "saybanuser", "The user you want to ban from /say.", true);
+            commandData.add(Commands.slash("sayban", "Bans a user from using /say.").addOptions(saybanuser));
+            Bot.log.info("attempting to add sayban command to command data");
+
+            OptionData liftbanuser = new OptionData(OptionType.USER, "liftbanuser", "The user you want to unban from /say.", true);
+            commandData.add(Commands.slash("liftsayban", "Lifts a users ban from /say.").addOptions(liftbanuser));
+            Bot.log.info("attempting to add liftsayban command to command data");
+
+            commandData.add(Commands.slash("togglerandommsg", "Toggles random messages"));
+
+            commandData.add(Commands.slash("forcerandommsg", "Forces the random message event to be fired every message"));
+
+            Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n"); // idk why it logs twice but i dont care
 
 
         } catch (Exception e){
