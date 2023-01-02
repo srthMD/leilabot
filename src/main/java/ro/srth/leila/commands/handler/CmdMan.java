@@ -47,7 +47,7 @@ public class CmdMan extends ListenerAdapter {
 
 
             OptionData minimum = new OptionData(OptionType.INTEGER, "minimum", "Minimum number.", true);
-            OptionData maximum = new OptionData(OptionType.INTEGER, "maximum", "Minimum number.", true);
+            OptionData maximum = new OptionData(OptionType.INTEGER, "maximum", "Maximum number.", true);
             commandData.add(Commands.slash("rng", "Generates a random number with given paramaters.").addOptions(minimum, maximum));
             Bot.log.info("attempting to add rng command to command data");
 
