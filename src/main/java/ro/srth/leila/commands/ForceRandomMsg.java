@@ -21,6 +21,8 @@ public class ForceRandomMsg extends ListenerAdapter {
                 forcedreply = "false";
                 event.reply("setting random message toggle to " + forcedreply).setEphemeral(true).queue();
             }
+        } else{
+            event.reply("you dont have permission for this command Lahhhh").setEphemeral(true).queue();
         }
     }
 }
