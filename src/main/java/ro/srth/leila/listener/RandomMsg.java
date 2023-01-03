@@ -78,7 +78,8 @@ public class RandomMsg extends ListenerAdapter {
                     "Itnoways pleas play Baldis Basics To Get All Achievements Because you love Achievements",
                     "I Hate Mex",
                     "Leroy Has Problem In Bren",
-                    "https://cdn.discordapp.com/attachments/1020345638405292043/1059629248782008450/Circel.mp4"
+                    "https://cdn.discordapp.com/attachments/1020345638405292043/1059629248782008450/Circel.mp4",
+                    "Senin ananin amina koyarim orospu cocugu seni pic"
             };
 
             Random random = new Random();
