@@ -26,6 +26,9 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("simonpicture", "Sends a random picture of Simon from what I loaded into the bot."));
             Bot.log.info("attempting to add simonpicture command to command data");
 
+            commandData.add(Commands.slash("chuckypicture", "Sends a random picture of Chucky from what I loaded into the bot."));
+            Bot.log.info("attempting to add chuckypicture command to command data");
+
             OptionData content = new OptionData(OptionType.STRING, "content", "What you want the bot to say.", true);
             OptionData channel = new OptionData(OptionType.CHANNEL, "channel", "What channel you want the bot to say the message in.", false);
             commandData.add(Commands.slash("say", "Makes the bot say a message in a specified channel as long as it can speak in that channel.").addOptions(content, channel));

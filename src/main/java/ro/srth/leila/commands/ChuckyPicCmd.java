@@ -9,16 +9,16 @@ import java.io.File;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LeilaPicSlashCmd extends ListenerAdapter {
-    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
+public class ChuckyPicCmd extends ListenerAdapter {
+    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
     static File[] files = dir.listFiles();;
     static int amt = files.length;
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
         String command = event.getName();
-        if (command.equals("leilapicture")) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + "Fired LeilaPicSlashCmd");
+        if (command.equals("chuckypicture")){
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ChuckyPicture");
 
             Random rand = ThreadLocalRandom.current();
 
@@ -31,8 +31,8 @@ public class LeilaPicSlashCmd extends ListenerAdapter {
             event.replyFiles(upload).queue(); // send
         }
     }
-    static int getNumberOfLeilaPictures(){
-        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
+    static int getNumberOfChuckyPictures(){
+        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
         File[] files = dir.listFiles();;
         int amt = files.length;
         return amt;

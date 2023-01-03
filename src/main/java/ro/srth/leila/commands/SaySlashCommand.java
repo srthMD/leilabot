@@ -11,8 +11,11 @@ import ro.srth.leila.api.SayBan;
 
 public class SaySlashCommand extends ListenerAdapter {
     SayBan handler = new SayBan();
+    String channel2;
+    ChannelType channel3;
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+
         String command = event.getName();
         if (command.equals("say")) {
             if(String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
@@ -26,38 +29,35 @@ public class SaySlashCommand extends ListenerAdapter {
                 OptionMapping channel1 = event.getOption("channel");
 
                 String message = content1.getAsString();
-                String channel2;
-                ChannelType channel5;
 
                 if (channel1 == null){
-                    channel5 = event.getInteraction().getChannelType();
+                    channel3 = event.getInteraction().getChannelType();
                     channel2 = event.getInteraction().getChannel().getId();
                     Bot.log.info("channel1 == null");
                 } else if (channel1.getChannelType() != ChannelType.TEXT){
                     event.reply("invalid channel type ya hmar").setEphemeral(true).queue();
                     Bot.log.info("channel1 type is not text");
-
                     return;
-                } else{
-                    channel5 = channel1.getChannelType();
+                } else if (channel1.getAsChannel().getId().equals("1046576871330037830") || channel1.getAsChannel().getId().equals("1046576871330037830")){
+                    event.reply("You cant use /say in that channel").setEphemeral(true).queue();
+                } else {
+                    channel3 = channel1.getChannelType();
                     channel2 = channel1.getAsChannel().asTextChannel().getId();
                     Bot.log.info("channel1 is proper type and not null");
                 }
 
 
                 if (channel1 != null) {
-                    assert channel2 != null; // idk
                     event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
                     event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();
                     Bot.log.info(event.getInteraction().getUser().getAsTag() + " sent " + message);
                 } else if (channel1 == null) {
-                    String channel4 = event.getInteraction().getChannel().getId();
 
-                    event.getGuild().getChannelById(TextChannel.class, channel4).sendMessage(message).queue();
+                    event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
                     event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();
                     Bot.log.info(event.getInteraction().getUser().getAsTag() + " sent " + message);
 
-                }   else if (channel5 != ChannelType.TEXT /* additional check */){
+                }   else if (channel3 != ChannelType.TEXT /* additional check */){
                     event.reply("only text channels ya hmar").setEphemeral(true).queue();
                 }
                 else{

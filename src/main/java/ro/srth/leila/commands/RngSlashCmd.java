@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import ro.srth.leila.Bot;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RngSlashCmd extends ListenerAdapter {
     @Override
@@ -23,10 +24,10 @@ public class RngSlashCmd extends ListenerAdapter {
             if(min < 0 || max < 0 || min > Integer.MAX_VALUE || max > Integer.MAX_VALUE || min == max){
                 event.reply("None of the options can be negative, equal to each other or be more than the maximum value of " + Integer.MAX_VALUE + ".").setEphemeral(true).queue();
             } else{
-                Random random = new Random();
+                Random random = ThreadLocalRandom.current();
                 int rating = random.nextInt(min, max);
 
-                event.reply(String.valueOf(rating + " (min: " + min + " max: " + max + ")")).queue();
+                event.reply(rating + " (min: " + min + " max: " + max + ")").queue();
             }
 
         }

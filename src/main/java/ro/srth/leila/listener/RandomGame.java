@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomGame extends ListenerAdapter {
     @Override
@@ -64,11 +65,10 @@ public class RandomGame extends ListenerAdapter {
                     "Play baldis basics  educational and learning classic remastered demo that's me",
                     "Blood And Bacon",
                     "Redbox",
-                    "Jackbox",
-                    ""
+                    "Jackbox"
             };
 
-            Random random = new Random();
+            Random random = ThreadLocalRandom.current();
             int index = random.nextInt(games.length);
 
             String reply = games[index];

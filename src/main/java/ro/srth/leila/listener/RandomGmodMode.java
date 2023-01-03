@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomGmodMode extends ListenerAdapter {
     @Override
@@ -27,7 +28,7 @@ public class RandomGmodMode extends ListenerAdapter {
                     "flood"
             };
 
-            Random random = new Random();
+            Random random = ThreadLocalRandom.current();
             int index = random.nextInt(games.length);
 
             String reply = games[index];

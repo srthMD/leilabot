@@ -79,6 +79,7 @@ public class Bot{
         sman.addEventListener(new RandomMsg());
         sman.addEventListener(new ToggleRandomMsg());
         sman.addEventListener(new ForceRandomMsg());
+        sman.addEventListener(new ChuckyPicCmd());
     }
 
     public ShardManager getsman(){return sman;}

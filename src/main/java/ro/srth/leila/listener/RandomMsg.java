@@ -7,29 +7,30 @@ import ro.srth.leila.commands.ForceRandomMsg;
 import ro.srth.leila.commands.ToggleRandomMsg;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomMsg extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent  event) {
-        Random randommsgchance = new Random();
+        Random randommsgchance = ThreadLocalRandom.current();
 
         int num1;
         int num2;
-        int chance;
+        int chance = 0;
 
-        if(ForceRandomMsg.forced){
-            chance = 26;
-        } else{
-            num1 = 0;
-            num2 = 75;
+        if(!ForceRandomMsg.forced){
+            num1 = 1;
+            num2 = 55;
             chance = randommsgchance.nextInt(num1, num2);
+        } else if (ForceRandomMsg.forced){
+            chance = 26;
         }
 
 
-        if (chance == 26 && ToggleRandomMsg.toggled && !event.getMessage().getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
+        if (chance == 26 && ToggleRandomMsg.toggled && !event.getMessage().getAuthor().getId().equals(event.getJDA().getSelfUser().getId()) && !event.getChannel().getId().equals("1046576871330037830")){
             Bot.log.info("RandomMsg Fired");
 
-            String msgs[] = {
+            String[] msgs = {
                     "guys pleas like ans subscrib as only 2 percent of me vi ewers are subscribed",
                     "6 LIKES AND I WILL PLAY FORTNITE",
                     "erdoganchik",
@@ -59,18 +60,32 @@ public class RandomMsg extends ListenerAdapter {
                     "Stupid Ass Simon https://cdn.discordapp.com/attachments/1045328191369256990/1058852518475595826/Bxlx4WvvXaZGAAAAAElFTkSuQmCC.png",
                     "moldovan superpower",
                     "Cheddar Is A Stupid Cunt",
-                    "BUNA ZIUA EU SUNT LEILA ȘI EU PLACE COCAINE"
+                    "BUNA ZIUA EU SUNT LEILA SI EU PLACE COCAINE",
+                    "https://tenor.com/view/sharkblox-sharkblox-server-stupid59-gif-19277040",
+                    "https://tenor.com/view/ccp-gif-20520582",
+                    "Kaka land :steamhappy:",
+                    "green waht is yum problem in bren men",
+                    "i lov bananass",
+                    "https://tenor.com/view/baldi-wave-happy-basics-education-gif-12160854",
+                    "whas ap rob lox gang",
+                    "https://tenor.com/view/haram-gif-25942073",
+                    "are yuo haram",
+                    "Marhaba",
+                    "https://tenor.com/view/agamatsu-the-voices-deepwoken-gif-26200177",
+                    "https://media.discordapp.net/attachments/992420210093084767/1036771831752949770/16639618653756539506196417252122.gif",
+                    "https://media.discordapp.net/attachments/956290218946863134/991485412495343616/speed-3.gif",
+                    "MIY AKKKKKK!@#!#!$(*@#*(&#@&*^(&^*!!@",
+                    "Itnoways pleas play Baldis Basics To Get All Achievements Because you love Achievements",
+                    "I Hate Mex",
+                    "Leroy Has Problem In Bren",
+                    "https://cdn.discordapp.com/attachments/1020345638405292043/1059629248782008450/Circel.mp4"
             };
 
             Random random = new Random();
             int index = random.nextInt(msgs.length);
 
             String reply = msgs[index];
-
-            if(!event.getMessage().getChannel().getId().equals("1046576871330037830") || !event.getMessage().getChannel().getId().equals("1022265777371480124")){
-                event.getMessage().getChannel().sendMessage(reply).queue();
-                Bot.log.info("sending" + reply + "from random message");
-            }
+            event.getMessage().getChannel().sendMessage(reply).queue();
         }
     }
 }

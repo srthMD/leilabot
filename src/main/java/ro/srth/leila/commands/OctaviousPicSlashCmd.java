@@ -7,6 +7,7 @@ import ro.srth.leila.Bot;
 
 import java.io.File;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OctaviousPicSlashCmd extends ListenerAdapter {
     static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
@@ -19,7 +20,7 @@ public class OctaviousPicSlashCmd extends ListenerAdapter {
         if (command.equals("octaviouspicture")){
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired OctaviousPicSlashCmd");
 
-            Random rand = new Random();
+            Random rand = ThreadLocalRandom.current();
 
             File file = files[rand.nextInt(files.length)]; // chooses a random file
 
