@@ -16,7 +16,7 @@ public class SearchCopypasta extends ListenerAdapter {
             OptionMapping query = event.getOption("query");
             String query1 = query.getAsString();
 
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SearchCopypasta with query" + query1);
+            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SearchCopypasta with query " + query1);
             try {
                 event.getInteraction().reply(copypastahandler.getCopypasta(query1)).queue();
             } catch (Exception e) {

@@ -35,7 +35,7 @@ public class GetCopypasta {
         }
 
         if (jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().length() >= 1950){
-            return "cant show this copypasta because it is over 2000 characters, so heres the link: https://www.reddit.com/" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**";
+            return "cant show this copypasta because it is over 2000 characters, so heres the link: https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**";
         } else if(jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().isEmpty()){
             return "no results came up for this query \n\n**Query: " + query + "**";
         } else {
