@@ -60,8 +60,15 @@ public class CmdMan extends ListenerAdapter {
             Bot.log.info("attempting to add sayban command to command data");
 
             commandData.add(Commands.slash("togglerandommsg", "Toggles random messages"));
+            Bot.log.info("attempting to add togglerandommsg command to command data");
 
             commandData.add(Commands.slash("forcerandommsg", "Forces the random message event to be fired every message"));
+            Bot.log.info("attempting to add forcerandommsg command to command data");
+
+            OptionData query = new OptionData(OptionType.STRING, "query", "Searches r/copypasta with the query provided.", true);
+            commandData.add(Commands.slash("searchcopypasta", "Replies with a copypasta from r/copypasta given a search query.").addOptions(query));
+            Bot.log.info("attempting to add searchcopypasta command to command data");
+
 
             Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n"); // idk why it logs twice but i dont care
 

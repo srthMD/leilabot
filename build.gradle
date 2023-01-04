@@ -20,6 +20,7 @@ group 'ro.srth'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {

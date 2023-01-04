@@ -26,6 +26,7 @@ public class BotInfoSlashCmd extends ListenerAdapter {
             eb.addField("Total Amt Of Octavious Pictures:", String.valueOf(OctaviousPicSlashCmd.getNumberOfOctaviousPictures()), false);
             eb.addField("Total Amt Of Simon Pictures:", String.valueOf(SimonPicCmd.getNumberOfSimonPictures()), false);
             eb.addField("Total Amt Of Chucky Pictures:", String.valueOf(ChuckyPicCmd.getNumberOfChuckyPictures()), false);
+            eb.addField("Random Messages Toggled:", String.valueOf(ToggleRandomMsg.getToggledStatus()), false);
             eb.setFooter("Written in Java by srth#2668",  "https://avatars.githubusercontent.com/u/94727593?v=4");
 
             try{event.getInteraction().replyEmbeds(eb.build()).queue();} catch (Exception e) {Bot.log.warning(e.toString());}

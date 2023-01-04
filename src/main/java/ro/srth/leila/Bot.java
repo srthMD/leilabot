@@ -24,7 +24,7 @@ public class Bot{
     private final ShardManager sman;
 
     public static Logger log = Logger.getLogger(Bot.class.getName());
-    private final Dotenv env;
+    public static Dotenv env;
 
     public Bot() throws LoginException {
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
@@ -80,6 +80,7 @@ public class Bot{
         sman.addEventListener(new ToggleRandomMsg());
         sman.addEventListener(new ForceRandomMsg());
         sman.addEventListener(new ChuckyPicCmd());
+        sman.addEventListener(new SearchCopypasta());
     }
 
     public ShardManager getsman(){return sman;}

@@ -6,21 +6,24 @@ import ro.srth.leila.Bot;
 
 public class ToggleRandomMsg extends ListenerAdapter {
     public static boolean toggled = true;
+    String toggledreply;
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String command = event.getName();
-        String toggledreply;
         if (command.equals("togglerandommsg")){
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ToggleRandomMessage");
             if(!toggled){
                 toggled = true;
                 toggledreply = "true";
-                event.reply("setting random message toggle to " + toggledreply).setEphemeral(true).queue();
+                event.reply("setting random message toggle to " + toggledreply).queue();
             } else if(toggled){
                 toggled = false;
                 toggledreply = "false";
-                event.reply("setting random message toggle to " + toggledreply).setEphemeral(true).queue();
+                event.reply("setting random message toggle to " + toggledreply).queue();
             }
         }
+    }
+    public static boolean getToggledStatus(){
+        return toggled;
     }
 }
