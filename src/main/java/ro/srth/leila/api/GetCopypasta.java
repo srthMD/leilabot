@@ -10,14 +10,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GetCopypasta {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+    Random random = ThreadLocalRandom.current();
+
     public String getCopypasta(String query) throws Exception{
 
-        String[] triggers = Bot.env.get("COPYPASTASEARCHNSFWTRIGGERS").split(","); // i am not publicly posting this list on github
+        String[] triggers = Bot.env.get("COPYPASTASEARCHNSFWTRIGGERS").split(","); // i am not publicly posting this list on github you dont want to see it
 
         if (query.contains(" ")){
             query = query.replaceAll(" ", "%20");
@@ -25,9 +29,29 @@ public class GetCopypasta {
 
         String content;
 
-        String url = "https://www.reddit.com/r/copypasta/search.json?q=title:" + query + "&sort=top&restrict_sr=true&t=all&limit=1";
+        String[] sorts = {
+                "top",
+                "hot",
+                "relevance"
+        };
+
+        String[] times = {
+                "year",
+                "all"
+        };
+
+        String sort = sorts[random.nextInt(sorts.length)];
+        String time = times[random.nextInt(times.length)];
+        int jsonindex = random.nextInt(0,2);
+
+
+        String url = "https://www.reddit.com/r/copypasta/search.json?q=title:" + query + "&sort=" + sort + "&restrict_sr=true&t=" + time + "&limit=3";
 
         Bot.log.info(url);
+
+        if(sort.equals("hot")){
+            sort = "trending";
+        }
 
         URL url1 = new URL(url);
         URLConnection request = url1.openConnection();
@@ -35,9 +59,9 @@ public class GetCopypasta {
 
         JsonObject jsonObject = gson.fromJson(new InputStreamReader((InputStream) request.getContent()), JsonObject.class);
         try{
-            content = jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString();
+            content = jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString();
         } catch (IndexOutOfBoundsException e ){
-            return "no results came up for this query \n\n**Query: " + query + "**";
+            return "no results came up for this query \n\n**Query: " + query + "**\n" + "Sorted posts by " + sort + " with time period of " + time;
         }
 
         boolean flag = true;
@@ -57,14 +81,18 @@ public class GetCopypasta {
             query = query.replaceAll("%20", " ");
         }
 
-        if (jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().length() >= 1950) {
-            return "cant show this copypasta because it is over 2000 characters, so heres the link: https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**";
-        } else if(jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().isEmpty()){
-            return "no results came up for this query \n\n**Query: " + query + "**";
-        } else if(flag || jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonObject().get("over_18").getAsBoolean()){
+        if (jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().length() >= 1900) {
+            if(flag || jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("over_18").getAsBoolean()){
+                return "cant show this copypasta because it is over 2000 characters, so heres the link: ||https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "|| \n\n**Query: " + query + "**" + "\n(content was marked as nsfw by bot)";
+            } else {
+                return "cant show this copypasta because it is over 2000 characters, so heres the link: https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**" + "\n(content was not marked by bot as nsfw but still might be nsfw)";
+            }
+        } else if(jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().isEmpty()){
+            return "no results came up for this query \n\n**Query: " + query + "**\n" + "Sorted posts by " + sort + " with time period of " + time;
+        } else if(flag || jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("over_18").getAsBoolean()){
             return "Post might be nsfw so spoilers added\n\n||" + content + "||\n\n**Query: " + query + "**";
         }else {
             return content + "\n\n**Query: " + query + "**";
         } // i hate this but it works
-    }
+    } 
 }
