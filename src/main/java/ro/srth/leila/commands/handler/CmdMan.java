@@ -77,7 +77,7 @@ public class CmdMan extends ListenerAdapter {
             Bot.log.info("attempting to add searchcopypasta command to command data");
 
 
-            Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD" + event.getGuild().getName() + "\n\n\n--------------------------");
+            Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD NAME " + event.getGuild().getName() + " ID:" + event.getGuild().getId() + " --------------------------\n\n\n");
 
 
         } catch (Exception e){
