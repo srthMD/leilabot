@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import ro.srth.leila.commands.*;
 import ro.srth.leila.commands.handler.CmdMan;
 import ro.srth.leila.listener.*;
@@ -37,6 +38,7 @@ public class Bot{
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("Eating The So"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
+        builder.enableCache(CacheFlag.EMOJI);
 
         sman = builder.build();
 
@@ -81,6 +83,9 @@ public class Bot{
         sman.addEventListener(new ForceRandomMsg());
         sman.addEventListener(new ChuckyPicCmd());
         sman.addEventListener(new SearchCopypasta());
+        sman.addEventListener(new RandomReaction());
+        sman.addEventListener(new ToggleRandomReaction());
+        sman.addEventListener(new ForceRandomReaction());
     }
 
     public ShardManager getsman(){return sman;}

@@ -79,11 +79,11 @@ public class RandomMsg extends ListenerAdapter {
                     "I Hate Mex",
                     "Leroy Has Problem In Bren",
                     "https://cdn.discordapp.com/attachments/1020345638405292043/1059629248782008450/Circel.mp4",
-                    "Senin ananin amina koyarim orospu cocugu seni pic"
+                    "Senin ananin amina koyarim orospu cocugu seni pic",
+                    "https://cdn.discordapp.com/attachments/781885169375903756/1060791156490899526/v09044g40000ceo4vc3c77ubb9vpk620.mp4"
             };
 
-            Random random = new Random();
-            int index = random.nextInt(msgs.length);
+            int index = randommsgchance.nextInt(msgs.length);
 
             String reply = msgs[index];
             event.getMessage().getChannel().sendMessage(reply).queue();

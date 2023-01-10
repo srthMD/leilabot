@@ -62,6 +62,13 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("togglerandommsg", "Toggles random messages"));
             Bot.log.info("attempting to add togglerandommsg command to command data");
 
+            commandData.add(Commands.slash("togglerandomreaction", "Toggles random messages"));
+            Bot.log.info("attempting to add togglerandomreaction command to command data");
+
+            commandData.add(Commands.slash("forcerandomreaction", "Toggles random messages"));
+            Bot.log.info("attempting to add forcerandomreaction command to command data");
+
+
             commandData.add(Commands.slash("forcerandommsg", "Forces the random message event to be fired every message"));
             Bot.log.info("attempting to add forcerandommsg command to command data");
 
@@ -70,7 +77,7 @@ public class CmdMan extends ListenerAdapter {
             Bot.log.info("attempting to add searchcopypasta command to command data");
 
 
-            Bot.log.info("\n--------------------------END COMMAND REGISTERING--------------------------\n\n\n"); // idk why it logs twice but i dont care
+            Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD" + event.getGuild().getName() + "\n\n\n--------------------------");
 
 
         } catch (Exception e){
