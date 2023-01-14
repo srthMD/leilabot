@@ -35,8 +35,10 @@ public class Bot{
         //builder stuff
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
+        String status = "hi i am women from tunisia i sold my house for best wifi in the world my roblox is currently running in 1 fps";
+
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("Eating The So"));
+        builder.setActivity(Activity.watching(status));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
         builder.enableCache(CacheFlag.EMOJI);
 
@@ -86,6 +88,7 @@ public class Bot{
         sman.addEventListener(new RandomReaction());
         sman.addEventListener(new ToggleRandomReaction());
         sman.addEventListener(new ForceRandomReaction());
+
     }
 
     public ShardManager getsman(){return sman;}
@@ -97,6 +100,7 @@ public class Bot{
             Bot bot = new Bot();
         } catch (LoginException hmar){
             Bot.log.warning("somethign went wrong on login");
+            Bot.log.info(hmar.getLocalizedMessage());
         }
     }
 }

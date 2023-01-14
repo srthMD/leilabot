@@ -80,7 +80,8 @@ public class RandomMsg extends ListenerAdapter {
                     "Leroy Has Problem In Bren",
                     "https://cdn.discordapp.com/attachments/1020345638405292043/1059629248782008450/Circel.mp4",
                     "Senin ananin amina koyarim orospu cocugu seni pic",
-                    "https://cdn.discordapp.com/attachments/781885169375903756/1060791156490899526/v09044g40000ceo4vc3c77ubb9vpk620.mp4"
+                    "https://cdn.discordapp.com/attachments/781885169375903756/1060791156490899526/v09044g40000ceo4vc3c77ubb9vpk620.mp4",
+                    "https://tenor.com/view/henners786-henla-hennerse-henners-henry-gif-25599177"
             };
 
             int index = randommsgchance.nextInt(msgs.length);

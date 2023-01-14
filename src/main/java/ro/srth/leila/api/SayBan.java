@@ -35,7 +35,7 @@ public class SayBan {
         return ids;
     }
 
-
+/*
     public int getIndex(String user) {
         JsonArray json = readJson().getAsJsonArray();
         int i;
@@ -47,5 +47,5 @@ public class SayBan {
             }
         }
         return i;
-    }
+    }*/
 }

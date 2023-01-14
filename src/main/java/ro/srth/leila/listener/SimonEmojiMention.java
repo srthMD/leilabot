@@ -1,16 +1,42 @@
 package ro.srth.leila.listener;
 
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
+import ro.srth.leila.api.KeywordMentionHandler;
+
+import java.util.concurrent.TimeUnit;
 
 public class SimonEmojiMention extends ListenerAdapter {
+    public static Channel channel;
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         String match = ":simon:";
-        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains(":Lela:") && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
+        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
             Bot.log.info("SimonEmojiMention Fired by" + event.getAuthor().getAsTag());
-            event.getMessage().reply("Wowe That Simoen Emoji I Know That Cat").queue();
+
+            String message = "Wowe That Simoen Emoji I Know That Cat";
+
+            channel = event.getChannel();
+
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(KeywordMentionHandler.returnInt() == 5){
+                event.getChannel().sendMessage(message).queue();
+                channel = null;
+            }
+        }
+    }
+    public static Channel returnChannel(){
+        if (channel == null){
+            return null;
+        } else {
+            return channel;
         }
     }
 }

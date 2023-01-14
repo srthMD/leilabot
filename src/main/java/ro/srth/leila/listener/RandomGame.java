@@ -8,14 +8,15 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomGame extends ListenerAdapter {
+
     @Override
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
 
-        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod")) {
+        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod") && !event.getMessage().getAuthor().getId().equals("1054544562841997363")) {
             Bot.log.info("RandomGame Fired by " + event.getAuthor().getAsTag());
 
-            String games[] = {
+            String[] games = {
                     "Item Asylum",
                     "Minecraft",
                     "Dont Starve Together",
