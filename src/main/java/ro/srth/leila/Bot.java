@@ -88,12 +88,12 @@ public class Bot{
         sman.addEventListener(new RandomReaction());
         sman.addEventListener(new ToggleRandomReaction());
         sman.addEventListener(new ForceRandomReaction());
+        sman.addEventListener(new CopypastaBanCmdHandler());
 
     }
 
     public ShardManager getsman(){return sman;}
 
-    public Dotenv getEnv(){return env;}
 
     public static void main(String[] args){
         try{

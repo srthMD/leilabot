@@ -60,6 +60,11 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("sayban", "Bans a user from using /say.").addOptions(saybanuser));
             Bot.log.info("attempting to add sayban command to command data");
 
+
+            OptionData copypastabanuser = new OptionData(OptionType.USER, "copypastabanuser", "The user you want to ban from /searchcopypasta.", true);
+            commandData.add(Commands.slash("copypastaban", "Bans a user from using /searchcopypasta.").addOptions(copypastabanuser));
+            Bot.log.info("attempting to add copypastaban command to command data");
+
             commandData.add(Commands.slash("togglerandommsg", "Toggles random messages"));
             Bot.log.info("attempting to add togglerandommsg command to command data");
 
