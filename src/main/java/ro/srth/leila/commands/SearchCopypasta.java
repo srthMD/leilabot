@@ -17,6 +17,7 @@ public class SearchCopypasta extends ListenerAdapter {
         if (command.equals("searchcopypasta")) {
             if(banhandler.readJson().toString().contains(event.getInteraction().getUser().getId())){
                 event.reply("you cant use this command").setEphemeral(true).queue();
+                Bot.log.info(event.getInteraction().getUser().getAsTag() + " tried to fire searchcopypasta but was banned");
             } else{
                 OptionMapping query = event.getOption("query");
                 String query1 = query.getAsString();
