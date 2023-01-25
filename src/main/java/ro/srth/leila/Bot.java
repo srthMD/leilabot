@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import ro.srth.leila.commands.*;
 import ro.srth.leila.commands.handler.CmdMan;
@@ -22,7 +23,7 @@ import java.util.logging.SimpleFormatter;
 public class Bot{
     public static FileHandler fh;
     public static String fhp;
-    private final ShardManager sman;
+    private static ShardManager sman;
 
     public static Logger log = Logger.getLogger(Bot.class.getName());
     public static Dotenv env;
@@ -39,8 +40,9 @@ public class Bot{
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching(status));
-        builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS);
-        builder.enableCache(CacheFlag.EMOJI);
+        builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES);
+        builder.enableCache(CacheFlag.EMOJI, CacheFlag.VOICE_STATE);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         sman = builder.build();
 
@@ -58,6 +60,7 @@ public class Bot{
         } catch (SecurityException | IOException e) {
             log.warning(e.toString());
         }
+
 
         // register listeners
         sman.addEventListener(new CmdMan());
@@ -89,7 +92,7 @@ public class Bot{
         sman.addEventListener(new ToggleRandomReaction());
         sman.addEventListener(new ForceRandomReaction());
         sman.addEventListener(new CopypastaBanCmdHandler());
-
+        sman.addEventListener(new Shitify());
     }
 
     public ShardManager getsman(){return sman;}

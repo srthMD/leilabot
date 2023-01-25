@@ -1,13 +1,14 @@
 package ro.srth.leila.api;
 
 import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.listener.*;
 
-public class KeywordMentionHandler{
+public class KeywordMentionHandler extends ListenerAdapter {
+    public static int handler;
 
-
-
-    public static int returnInt(){
+    public int returnInt(){
 
          Channel channel1 = ArmeniaMention.returnChannel();
          Channel channel2 = KurdistanMention.returnChannel();
@@ -33,5 +34,10 @@ public class KeywordMentionHandler{
         } else{
             return 0;
         }
+    }
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        handler = returnInt();
+        System.out.println(handler);
     }
 }

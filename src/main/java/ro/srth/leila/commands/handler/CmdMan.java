@@ -82,6 +82,10 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("searchcopypasta", "Replies with a copypasta from r/copypasta given a search query.").addOptions(query));
             Bot.log.info("attempting to add searchcopypasta command to command data");
 
+            OptionData image = new OptionData(OptionType.ATTACHMENT, "image", "image to compress", true);
+            commandData.add(Commands.slash("shitify", "Compresses an image alot.").addOptions(image));
+            Bot.log.info("attempting to add shitify command to command data");
+
 
             Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD NAME " + event.getGuild().getName() + " ID:" + event.getGuild().getId() + " --------------------------\n\n\n");
 

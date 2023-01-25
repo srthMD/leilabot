@@ -21,23 +21,19 @@ public class PolandGifMention extends ListenerAdapter {
 
             channel = event.getChannel();
 
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            int handler = KeywordMentionHandler.handler;
 
-            if (KeywordMentionHandler.returnInt() == 4){
+            //if (handler == 4){
                 event.getChannel().sendMessage(message).queue();
-                channel = null;
-            }
+            //    channel = null;
+            //}
         }
     }
     public static Channel returnChannel(){
-        if (channel == null){
-            return null;
-        } else {
+        if (channel != null){
             return channel;
+        } else {
+            return null;
         }
     }
 }

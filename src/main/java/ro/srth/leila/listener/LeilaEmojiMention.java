@@ -20,23 +20,19 @@ public class LeilaEmojiMention extends ListenerAdapter {
 
             String message = "Wowwe That Is Me Emoji So Cooli";
 
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            int handler = KeywordMentionHandler.handler;
 
-            if(KeywordMentionHandler.returnInt() == 3){
+            //if(handler == 3){
                 event.getChannel().sendMessage(message).queue();
-                channel = null;
-            }
+            //    channel = null;
+            //}
         }
     }
     public static Channel returnChannel(){
-        if (channel == null){
-            return null;
-        } else {
+        if (channel != null){
             return channel;
+        } else {
+            return null;
         }
     }
 }

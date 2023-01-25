@@ -17,7 +17,7 @@ public class RateSlashCmd extends ListenerAdapter {
 
             Random random = new Random();
             int rating = random.nextInt(0, 100);
-            Bot.log.info(rating + "");// thanks tostring and casting for not working but im dumb
+            Bot.log.info(String.valueOf(rating));
             String messages[] = {
                     usertorate.getAsUser().getName() + " is soooo haram " + rating + "/100 :thumbsdown::thumbsdown::thumbsdown::thumbsdown:",
                     usertorate.getAsUser().getName() + " has Problem In Bren " + rating + "/100",
