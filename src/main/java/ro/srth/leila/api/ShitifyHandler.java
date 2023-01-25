@@ -15,21 +15,19 @@ import java.util.Iterator;
 
 
 public class ShitifyHandler {
-    public File compress(File image) throws IOException {
+    public File compressImg(File image) throws IOException {
         BufferedImage img = ImageIO.read(image);
-        BufferedImage image1 = Scalr.resize(img, 50);
+        BufferedImage image1 = Scalr.resize(img, 65);
 
         BufferedImage image2 = Scalr.resize(image1, 400);
 
         BufferedImage image3 = new BufferedImage(image2.getWidth(), image2.getHeight(), BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2d = image3.createGraphics();
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, image3.getWidth(), image3.getHeight());
-        g2d.drawImage(image2, 0, 0, null);
+        g2d.drawImage(image2, 0, 0, Color.WHITE, null);
         g2d.dispose();
 
-        File compressed = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\compressed.png");
+        File compressed = new File( "C:\\Users\\SRTH_\\Desktop\\leilabot\\compressed.png");
         OutputStream os = new FileOutputStream(compressed);
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpeg");
@@ -41,8 +39,8 @@ public class ShitifyHandler {
         ImageWriteParam param = writer.getDefaultWriteParam();
 
         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        param.setCompressionQuality(0.065f);  // Change the quality value you prefer
-        writer.write(null, new IIOImage(image2, null, null), param);
+        param.setCompressionQuality(0.07f);
+        writer.write(null, new IIOImage(image3, null, null), param);
 
         os.close();
         ios.close();

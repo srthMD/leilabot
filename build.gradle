@@ -28,4 +28,5 @@ dependencies {
     implementation 'io.github.cdimascio:java-dotenv:5.2.2' // :steamhappy:
     implementation "net.dv8tion:JDA:5.0.0-beta.2"
     implementation "org.imgscalr:imgscalr-lib:4.2"
+    implementation 'org.jcodec:jcodec:0.2.5'
 }

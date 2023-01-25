@@ -24,14 +24,14 @@ public class Shitify extends ListenerAdapter {
                 if(!image.getAsAttachment().isImage()){
                     event.reply("attachment is not an image").setEphemeral(true).queue();
                 } else if (image.getAsAttachment().isImage()){
-                    if(image.getAsAttachment().getFileExtension().equals(".webp")){
+                    if(image.getAsAttachment().getFileExtension().contains("webp")){
                         event.reply("SORRY NO QUIERES WEBP PICTURE").setEphemeral(true).queue();
                     }
                     File imageToCompress = image.getAsAttachment().downloadToFile().join();
                     File shitifyFile;
 
                     try {
-                        shitifyFile = shitifyhandler.compress(imageToCompress);
+                        shitifyFile = shitifyhandler.compressImg(imageToCompress);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -42,7 +42,8 @@ public class Shitify extends ListenerAdapter {
                         event.replyFiles(FileUpload.fromData(shitifyFile)).queue();
                     }
                 }
-            } catch (Exception ignored){
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
