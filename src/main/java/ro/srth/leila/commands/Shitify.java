@@ -1,7 +1,9 @@
 package ro.srth.leila.commands;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
 import ro.srth.leila.Bot;
@@ -9,6 +11,7 @@ import ro.srth.leila.api.ShitifyHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Shitify extends ListenerAdapter {
     ShitifyHandler shitifyhandler = new ShitifyHandler();
@@ -20,27 +23,29 @@ public class Shitify extends ListenerAdapter {
 
             OptionMapping image = event.getOption("image");
 
+            Message.Attachment attachment = image.getAsAttachment();
+
             try{
-                if(!image.getAsAttachment().isImage()){
-                    event.reply("attachment is not an image").setEphemeral(true).queue();
-                } else if (image.getAsAttachment().isImage()){
-                    if(image.getAsAttachment().getFileExtension().contains("webp")){
-                        event.reply("SORRY NO QUIERES WEBP PICTURE").setEphemeral(true).queue();
+                if(!attachment.isImage() && !attachment.isVideo()){
+                    event.reply("attachment is not an image or video").setEphemeral(true).queue();
+                } else if (attachment.isImage() || attachment.isVideo()) {
+                    File shitifyFile = null;
+                    if (attachment.isImage()) {
+                        File imageToCompress = attachment.downloadToFile().join();
+                        try {
+                            shitifyFile = shitifyhandler.compressImg(imageToCompress);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (attachment.isVideo()) {
+                        File videoToCompress = attachment.downloadToFile().join();
+                        try {
+                            shitifyFile = shitifyhandler.compressVid(videoToCompress);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                    File imageToCompress = image.getAsAttachment().downloadToFile().join();
-                    File shitifyFile;
-
-                    try {
-                        shitifyFile = shitifyhandler.compressImg(imageToCompress);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    if(shitifyFile.getTotalSpace() == 0){
-                        event.reply("something broke while compressing file just try the command again").setEphemeral(true).queue();
-                    } else{
-                        event.replyFiles(FileUpload.fromData(shitifyFile)).queue();
-                    }
+                    event.replyFiles(FileUpload.fromData(shitifyFile)).queue();
                 }
             } catch (Exception e){
                 e.printStackTrace();

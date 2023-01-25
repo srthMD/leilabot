@@ -1,5 +1,10 @@
 package ro.srth.leila.api;
 
+import io.github.techgnious.IVCompressor;
+import io.github.techgnious.dto.*;
+import io.github.techgnious.exception.VideoException;
+import io.github.techgnious.utils.IVFileUtils;
+import org.apache.commons.io.FileUtils;
 import org.imgscalr.Scalr;
 
 import javax.imageio.IIOImage;
@@ -9,12 +14,41 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 
 
 public class ShitifyHandler {
+
+    public File compressVid(File video) throws IOException, VideoException {
+        IVCompressor compressor = new IVCompressor();
+        IVSize customRes = new IVSize();
+        IVAudioAttributes audio = new IVAudioAttributes();
+        IVVideoAttributes video1 = new IVVideoAttributes();
+
+        customRes.setWidth(700);
+        customRes.setHeight(400);
+
+        video1.setSize(customRes);
+        video1.setBitRate(20000);
+        video1.setFrameRate(18);
+
+        audio.setBitRate(3000);
+        audio.setChannels(1);
+        audio.setSamplingRate(16000);
+
+        File file = new File(video.toURI());
+        byte[] data = compressor.encodeVideoWithAttributes(FileUtils.readFileToByteArray(file), VideoFormats.MP4, audio, video1);
+
+        FileUtils.writeByteArrayToFile(new File(file.getAbsolutePath()), data);
+
+        return file;
+    }
+
+
     public File compressImg(File image) throws IOException {
         BufferedImage img = ImageIO.read(image);
         BufferedImage image1 = Scalr.resize(img, 65);
