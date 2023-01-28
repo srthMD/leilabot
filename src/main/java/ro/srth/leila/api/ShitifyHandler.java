@@ -23,20 +23,15 @@ import java.util.Iterator;
 
 public class ShitifyHandler {
 
-    public File compressVid(File video) throws IOException, VideoException {
+    public File compressVid(File video) throws Exception{
         IVCompressor compressor = new IVCompressor();
-        IVSize customRes = new IVSize();
         IVAudioAttributes audio = new IVAudioAttributes();
         IVVideoAttributes video1 = new IVVideoAttributes();
 
-        customRes.setWidth(700);
-        customRes.setHeight(400);
+        video1.setBitRate(25000);
+        video1.setFrameRate(7);
 
-        video1.setSize(customRes);
-        video1.setBitRate(20000);
-        video1.setFrameRate(18);
-
-        audio.setBitRate(3000);
+        audio.setBitRate(16000);
         audio.setChannels(1);
         audio.setSamplingRate(16000);
 

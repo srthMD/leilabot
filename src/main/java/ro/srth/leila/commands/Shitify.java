@@ -11,6 +11,7 @@ import ro.srth.leila.api.ShitifyHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class Shitify extends ListenerAdapter {
@@ -25,10 +26,10 @@ public class Shitify extends ListenerAdapter {
 
             Message.Attachment attachment = image.getAsAttachment();
 
-            try{
-                if(!attachment.isImage() && !attachment.isVideo()){
+            try {
+                if (!attachment.isImage() && !attachment.isVideo()) {
                     event.reply("attachment is not an image or video").setEphemeral(true).queue();
-                } else if (attachment.isImage() || attachment.isVideo()) {
+                }else if (attachment.isImage() || attachment.isVideo()) {
                     File shitifyFile = null;
                     if (attachment.isImage()) {
                         File imageToCompress = attachment.downloadToFile().join();
@@ -46,6 +47,9 @@ public class Shitify extends ListenerAdapter {
                         }
                     }
                     event.replyFiles(FileUpload.fromData(shitifyFile)).queue();
+
+                    shitifyFile.deleteOnExit();
+
                 }
             } catch (Exception e){
                 e.printStackTrace();
