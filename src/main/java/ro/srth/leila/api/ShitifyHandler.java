@@ -38,7 +38,7 @@ public class ShitifyHandler {
         File file = new File(video.toURI());
         byte[] data = compressor.encodeVideoWithAttributes(FileUtils.readFileToByteArray(file), VideoFormats.MP4, audio, video1);
 
-        FileUtils.writeByteArrayToFile(new File("C:\\temp\\compressed.mp4"), data);
+        FileUtils.writeByteArrayToFile(new File(file.getAbsolutePath()), data);
 
         return file;
     }
