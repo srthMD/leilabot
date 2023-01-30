@@ -42,6 +42,7 @@ public class Shitify extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        channel.sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
                     } else if (attachment.isVideo()) {
                         File videoToCompress = attachment.getProxy().downloadToPath().get().toFile();
                         try {
@@ -49,13 +50,12 @@ public class Shitify extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        channel.sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            channel.sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
 
             shitifyFile.deleteOnExit();
         }
