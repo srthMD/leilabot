@@ -1,9 +1,9 @@
 package ro.srth.leila.api;
 
 import io.github.techgnious.IVCompressor;
-import io.github.techgnious.dto.*;
-import io.github.techgnious.exception.VideoException;
-import io.github.techgnious.utils.IVFileUtils;
+import io.github.techgnious.dto.IVAudioAttributes;
+import io.github.techgnious.dto.IVVideoAttributes;
+import io.github.techgnious.dto.VideoFormats;
 import org.apache.commons.io.FileUtils;
 import org.imgscalr.Scalr;
 
@@ -38,7 +38,7 @@ public class ShitifyHandler {
         File file = new File(video.toURI());
         byte[] data = compressor.encodeVideoWithAttributes(FileUtils.readFileToByteArray(file), VideoFormats.MP4, audio, video1);
 
-        FileUtils.writeByteArrayToFile(new File(file.getAbsolutePath()), data);
+        FileUtils.writeByteArrayToFile(new File("C:\\temp\\compressed.mp4"), data);
 
         return file;
     }
@@ -56,7 +56,7 @@ public class ShitifyHandler {
         g2d.drawImage(image2, 0, 0, Color.WHITE, null);
         g2d.dispose();
 
-        File compressed = new File( "C:\\Users\\SRTH_\\Desktop\\leilabot\\compressed.png");
+        File compressed = new File( "C:\\temp\\compressed.png");
         OutputStream os = new FileOutputStream(compressed);
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpeg");
