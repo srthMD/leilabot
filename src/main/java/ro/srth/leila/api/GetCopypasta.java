@@ -28,6 +28,7 @@ public class GetCopypasta {
         }
 
         String content;
+        String title;
 
         String[] sorts = {
                 "top",
@@ -60,6 +61,7 @@ public class GetCopypasta {
         JsonObject jsonObject = gson.fromJson(new InputStreamReader((InputStream) request.getContent()), JsonObject.class);
         try{
             content = jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString();
+            title = "```" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("title").getAsString() + "```";
         } catch (IndexOutOfBoundsException e ){
             return "no results came up for this query \n\n**Query: " + query + "**\n" + "Sorted posts by " + sort + " with time period of " + time;
         }
@@ -90,9 +92,9 @@ public class GetCopypasta {
         } else if(jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().isEmpty()){
             return "no results came up for this query \n\n**Query: " + query + "**\n" + "Sorted posts by " + sort + " with time period of " + time;
         } else if(flag || jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("over_18").getAsBoolean()){
-            return "Post might be nsfw so spoilers added\n\n||" + content + "||\n\n**Query: " + query + "**";
+            return "Post might be nsfw so spoilers added\n\n||" + title + "\n" + content + "||\n\n**Query: " + query + "**";
         }else {
-            return content + "\n\n**Query: " + query + "**";
+            return title + "\n" + content + "\n\n**Query: " + query + "**";
         } // i hate this but it works
     } 
 }
