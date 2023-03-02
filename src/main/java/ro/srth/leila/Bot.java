@@ -1,6 +1,7 @@
 package ro.srth.leila;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -34,6 +35,7 @@ public class Bot{
         String token = env.get("TOKEN");
 
         //builder stuff
+
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
         String status = "hi i am women from tunisia i sold my house for best wifi in the world my roblox is currently running in 1 fps";
@@ -93,6 +95,9 @@ public class Bot{
         sman.addEventListener(new ForceRandomReaction());
         sman.addEventListener(new CopypastaBanCmdHandler());
         sman.addEventListener(new Shitify());
+        sman.addEventListener(new AggeRandomMsg());
+        sman.addEventListener(new CupRandomMessage());
+        sman.addEventListener(new Haram());
     }
 
     public ShardManager getsman(){return sman;}
@@ -100,7 +105,7 @@ public class Bot{
 
     public static void main(String[] args){
         try{
-            Bot bot = new Bot();
+           Bot bot = new Bot();
         } catch (LoginException hmar){
             Bot.log.warning("somethign went wrong on login");
             Bot.log.info(hmar.getLocalizedMessage());
