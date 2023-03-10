@@ -13,7 +13,7 @@ public class SlinkRobuxMention extends ListenerAdapter {
         String match4 = "please robux";
         String match5 = "give me robux";
 
-        String received = event.getMessage().getContentRaw();
+        String received = event.getMessage().getContentRaw().toLowerCase();
         if(received.contains(match) || received.contains(match2) || received.contains(match3) || received.contains(match4) || received.contains(match5)/*inneficent but it works*/){
             if(event.getAuthor().getId().equals("474329614022606851")){
                 Bot.log.info("SlinkRobuxMention Fired by " + event.getAuthor().getAsTag());

@@ -14,7 +14,7 @@ public class ArmeniaMention extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 
         String match = "armenia";
-        if(event.getMessage().getContentRaw().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
+        if(event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
 
             Bot.log.info("ArmeniaMention fired by" + event.getAuthor().getAsTag()); // log this just in case there is abuse
 

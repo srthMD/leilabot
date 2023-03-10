@@ -13,7 +13,7 @@ public class RandomGame extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent /* fuck you intents */ event) {
         String match = "what do i play";
 
-        if (event.getMessage().getContentRaw().contains(match) && !event.getMessage().getContentRaw().contains("gmod") && !event.getMessage().getAuthor().getId().equals("1054544562841997363")) {
+        if (event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getContentRaw().contains("gmod") && !event.getMessage().getAuthor().getId().equals("1054544562841997363")) {
             Bot.log.info("RandomGame Fired by " + event.getAuthor().getAsTag());
 
             String[] games = {
@@ -33,7 +33,7 @@ public class RandomGame extends ListenerAdapter {
                     "Fortnite",
                     "Jailbreak",
                     "World Of Tanks",
-                    "World Of Tanks Blitz",
+                    "World Of Tanks Blitz BECAUS I LAV BELARUS!!*&@@!!@@!##@!#@!",
                     "War Thunder",
                     "Gang Beasts",
                     "Hollow Knight",
@@ -66,7 +66,8 @@ public class RandomGame extends ListenerAdapter {
                     "Play baldis basics  educational and learning classic remastered demo that's me",
                     "Blood And Bacon",
                     "Redbox",
-                    "Jackbox"
+                    "Jackbox",
+                    "Modern Warfare 2"
             };
 
             Random random = ThreadLocalRandom.current();

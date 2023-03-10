@@ -97,6 +97,7 @@ public class Bot{
         sman.addEventListener(new Shitify());
         sman.addEventListener(new AggeRandomMsg());
         sman.addEventListener(new CupRandomMessage());
+        sman.addEventListener(new TutorialMention());
         sman.addEventListener(new Haram());
     }
 

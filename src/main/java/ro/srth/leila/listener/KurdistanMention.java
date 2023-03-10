@@ -13,7 +13,7 @@ public class KurdistanMention extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         String match = "kurdistan";
-        if(event.getMessage().getContentRaw().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
+        if(event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
             Bot.log.info("KurdistanMention fired by" + event.getAuthor().getAsTag()); // log in case of abuse
 
             channel = event.getChannel();
