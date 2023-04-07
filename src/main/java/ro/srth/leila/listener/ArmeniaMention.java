@@ -4,9 +4,6 @@ import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
-import ro.srth.leila.api.KeywordMentionHandler;
-
-import java.util.concurrent.TimeUnit;
 
 public class ArmeniaMention extends ListenerAdapter {
     public static Channel channel;

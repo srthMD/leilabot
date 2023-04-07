@@ -1,6 +1,5 @@
 package ro.srth.leila.listener;
 
-import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

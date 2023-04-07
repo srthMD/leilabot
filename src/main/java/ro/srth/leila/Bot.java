@@ -1,7 +1,6 @@
 package ro.srth.leila;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -38,7 +37,7 @@ public class Bot{
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
-        String status = "hi i am women from tunisia i sold my house for best wifi in the world my roblox is currently running in 1 fps";
+        String status = "KICK ME IF ANIMAL ABUSER";
 
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching(status));
@@ -108,7 +107,7 @@ public class Bot{
         try{
            Bot bot = new Bot();
         } catch (LoginException hmar){
-            Bot.log.warning("somethign went wrong on login");
+            Bot.log.warning("somethign went wrong on login:\n");
             Bot.log.info(hmar.getLocalizedMessage());
         }
     }

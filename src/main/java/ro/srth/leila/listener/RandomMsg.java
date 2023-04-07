@@ -6,7 +6,6 @@ import ro.srth.leila.Bot;
 import ro.srth.leila.commands.ForceRandomMsg;
 import ro.srth.leila.commands.ToggleRandomMsg;
 
-import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -96,7 +95,8 @@ public class RandomMsg extends ListenerAdapter {
                     "https://cdn.discordapp.com/attachments/1064186787007832214/1083088157777612851/de.mp4",
                     "Alex Stop Using Equalizer You Stupid Cunt",
                     "Intoways Why Did You Send This To Me https://cdn.discordapp.com/attachments/1064186787007832214/1083068248800628838/Screenshot_10.png",
-                    "https://cdn.discordapp.com/attachments/1064186787007832214/1083088476897030215/image.png"
+                    "https://cdn.discordapp.com/attachments/1064186787007832214/1083088476897030215/image.png",
+                    "HI GUYS IM HERE TO REMIND YUO THAT /getlog EXISTS YOU IDIOTS BYE!!#!@!1212!!11!"
             };
 
             int index = randommsgchance.nextInt(msgs.length);

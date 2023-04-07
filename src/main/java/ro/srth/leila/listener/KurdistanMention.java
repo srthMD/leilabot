@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
 import ro.srth.leila.api.KeywordMentionHandler;
 
-import java.util.concurrent.TimeUnit;
-
 public class KurdistanMention extends ListenerAdapter {
     public static Channel channel;
     @Override
