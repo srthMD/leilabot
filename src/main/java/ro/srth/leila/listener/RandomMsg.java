@@ -48,7 +48,6 @@ public class RandomMsg extends ListenerAdapter {
                     "yuor keyboart",
                     "https://cdn.discordapp.com/attachments/1021759229452898356/1042758070360617011/redditsave.com_patched_it_2022-wm0bpgw2a4x91.mp4",
                     "https://gyazo.com/6ecd578d231aaeba22c4cf67d8bbbad4.gif",
-                    "https://media.discordapp.net/attachments/776456526638219274/893170620425195581/image0-1-1.gif",
                     "https://tenor.com/view/ragedose-criminality-roblox-criminality-katana-katana-sword-gif-25383013",
                     "Scrubby Number One Polish Femboy",
                     "https://tenor.com/view/send-horny-not-sussy-gif-21191779",

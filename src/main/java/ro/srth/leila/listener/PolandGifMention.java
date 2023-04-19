@@ -5,12 +5,14 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
 import ro.srth.leila.api.KeywordMentionHandler;
+import ro.srth.leila.commands.ToggleTextReactions;
 
 
 public class PolandGifMention extends ListenerAdapter {
     public static Channel channel;
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        if(!ToggleTextReactions.getToggledStatus()){return;}
         String match = "https://tenor.com/view/poland-polish-flag-gif-11055231";
         if(event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
             Bot.log.info("PolandGifMention fired by" + event.getAuthor().getAsTag()); // log in case of abuse

@@ -3,20 +3,18 @@ package ro.srth.leila.listener;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
+import ro.srth.leila.commands.ToggleTextReactions;
 
 public class SlinkRobuxMention extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        String match = "give robux";
-        String match2 = "pls robux";
-        String match3 = "plz robux";
-        String match4 = "please robux";
-        String match5 = "give me robux";
+        if(!ToggleTextReactions.getToggledStatus()){return;}
+        String match = "robux";
 
         String received = event.getMessage().getContentRaw().toLowerCase();
-        if(received.contains(match) || received.contains(match2) || received.contains(match3) || received.contains(match4) || received.contains(match5)/*inneficent but it works*/){
+        if(received.contains(match)){
             if(event.getAuthor().getId().equals("474329614022606851")){
-                Bot.log.info("SlinkRobuxMention Fired by " + event.getAuthor().getAsTag());
+                Bot.log.info("SlinkRobuxMention Fired by " + event.getAuthor().getAsTag() /* in case of false positives */);
 
                 String message = "SHAT AP POOR TURK STOP BEGGAR";
                 event.getMessage().reply(message).queue();

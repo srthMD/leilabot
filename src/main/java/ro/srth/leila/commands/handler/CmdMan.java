@@ -35,9 +35,6 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("say", "Makes the bot say a message in a specified channel as long as it can speak in that channel.").addOptions(content, channel));
             Bot.log.info("attempting to add say command to command data");
 
-            commandData.add(Commands.slash("test", "Makes the bot send a message as a test to see if it works."));
-            Bot.log.info("attempting to add test command to command data");
-
             OptionData isEphemeral = new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true);
             commandData.add(Commands.slash("getlog", "Sends the current log of the bot.").addOptions(isEphemeral));
             Bot.log.info("attempting to add getlog command to command data");
@@ -74,7 +71,6 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("forcerandomreaction", "Toggles random messages"));
             Bot.log.info("attempting to add forcerandomreaction command to command data");
 
-
             commandData.add(Commands.slash("forcerandommsg", "Forces the random message event to be fired every message"));
             Bot.log.info("attempting to add forcerandommsg command to command data");
 
@@ -86,6 +82,8 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("shitify", "Compresses an image alot.").addOptions(image));
             Bot.log.info("attempting to add shitify command to command data");
 
+            commandData.add(Commands.slash("toggletextreactions", "Bot wont react to keywords like tutorial, listeners like random game still work."));
+            Bot.log.info("attempting to add toggletextreactions command to command data");
 
             Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD NAME " + event.getGuild().getName() + " ID:" + event.getGuild().getId() + " --------------------------\n\n\n");
 

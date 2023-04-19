@@ -70,7 +70,6 @@ public class Bot{
         sman.addEventListener(new KurdistanMention());
         sman.addEventListener(new ArmeniaMention());
         sman.addEventListener(new LeilaPicSlashCmd());
-        sman.addEventListener(new TestSlashCmd());
         sman.addEventListener(new SaySlashCommand());
         sman.addEventListener(new RandomGmodMode());
         sman.addEventListener(new SlinkRobuxMention());
@@ -98,6 +97,7 @@ public class Bot{
         sman.addEventListener(new CupRandomMessage());
         sman.addEventListener(new TutorialMention());
         sman.addEventListener(new Haram());
+        sman.addEventListener(new ToggleTextReactions());
     }
 
     public ShardManager getsman(){return sman;}

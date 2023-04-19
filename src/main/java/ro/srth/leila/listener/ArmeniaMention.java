@@ -4,12 +4,13 @@ import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
+import ro.srth.leila.commands.ToggleTextReactions;
 
 public class ArmeniaMention extends ListenerAdapter {
     public static Channel channel;
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-
+        if(!ToggleTextReactions.getToggledStatus()){return;}
         String match = "armenia";
         if(event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getAuthor().getId().equals("1054544562841997363")){
 
