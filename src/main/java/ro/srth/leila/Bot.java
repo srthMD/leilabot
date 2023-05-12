@@ -105,9 +105,8 @@ public class Bot{
     public static void main(String[] args){
         try{
            Bot bot = new Bot();
-        } catch (LoginException hmar){
-            Bot.log.warning("somethign went wrong on login:\n");
-            Bot.log.info(hmar.getLocalizedMessage());
+        } catch (LoginException ex){
+            Bot.log.warning("somethign went wrong on login:\n" + ex.getLocalizedMessage());
         }
     }
 }
