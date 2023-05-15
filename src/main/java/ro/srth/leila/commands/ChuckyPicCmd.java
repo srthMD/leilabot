@@ -10,15 +10,16 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChuckyPicCmd extends ListenerAdapter {
-    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
-    static File[] files = dir.listFiles();;
-    static int amt = files.length;
+    final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
+
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
         String command = event.getName();
         if (command.equals("chuckypicture")){
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ChuckyPicture");
+
+            File[] files = dir.listFiles();
 
             Random rand = ThreadLocalRandom.current();
 
@@ -32,9 +33,8 @@ public class ChuckyPicCmd extends ListenerAdapter {
         }
     }
     static int getNumberOfChuckyPictures(){
-        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
+        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
         File[] files = dir.listFiles();;
-        int amt = files.length;
-        return amt;
+        return files.length;
     }
 }

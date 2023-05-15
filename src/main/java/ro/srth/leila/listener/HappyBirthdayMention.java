@@ -10,9 +10,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HappyBirthdayMention extends ListenerAdapter {
-    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
-    static File[] files = dir.listFiles();;
-    static int amt = files.length;
+    private static final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -21,11 +19,13 @@ public class HappyBirthdayMention extends ListenerAdapter {
 
             Random rand = ThreadLocalRandom.current();
 
+            File[] files = dir.listFiles();
+
             File file = files[rand.nextInt(files.length)]; // chooses a random file
 
             FileUpload upload = FileUpload.fromData(file);
 
-            Bot.log.info("filepath:" + file.toString());
+            Bot.log.info("filepath:" + file);
 
             event.getMessage().getChannel().sendFiles(upload).queue();
         }
@@ -33,7 +33,7 @@ public class HappyBirthdayMention extends ListenerAdapter {
 
 
     public static int getNumberOfBdayArtPctures(){
-        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
+        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
         File[] files = dir.listFiles();
         return files.length;
     }

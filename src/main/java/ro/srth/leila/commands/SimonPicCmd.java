@@ -10,9 +10,8 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SimonPicCmd extends ListenerAdapter {
-    static File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
-    static File[] files = dir.listFiles();;
-    static int amt = files.length;
+    final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
+
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
@@ -21,6 +20,8 @@ public class SimonPicCmd extends ListenerAdapter {
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SimonPicCmd");
 
             Random rand = ThreadLocalRandom.current();
+
+            final File[] files = dir.listFiles();
 
             File file = files[rand.nextInt(files.length)]; // chooses a random file
 
@@ -32,9 +33,8 @@ public class SimonPicCmd extends ListenerAdapter {
         }
     }
     static int getNumberOfSimonPictures(){
-        File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
+        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
         File[] files = dir.listFiles();;
-        int amt = files.length;
-        return amt;
+        return files.length;
     }
 }
