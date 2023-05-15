@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
+import ro.srth.leila.listener.HappyBirthdayMention;
 
 import java.awt.*;
 
@@ -23,10 +24,11 @@ public class BotInfoSlashCmd extends ListenerAdapter {
 
             eb.addField("Github:", "https://github.com/srthMD/leilabot", false);
             eb.addField("Lastest commit:", "https://github.com/srthMD/leilabot/commit/master", false);
-            eb.addField("Total Amt Of Leila Pictures: ", String.valueOf(LeilaPicSlashCmd.getNumberOfLeilaPictures()), false);
-            eb.addField("Total Amt Of Octavious Pictures: ", String.valueOf(OctaviousPicSlashCmd.getNumberOfOctaviousPictures()), false);
-            eb.addField("Total Amt Of Simon Pictures: ", String.valueOf(SimonPicCmd.getNumberOfSimonPictures()), false);
-            eb.addField("Total Amt Of Chucky Pictures: ", String.valueOf(ChuckyPicCmd.getNumberOfChuckyPictures()), false);
+            eb.addField("Total amt of Leila pictures: ", String.valueOf(LeilaPicSlashCmd.getNumberOfLeilaPictures()), false);
+            eb.addField("Total amt of Octavious pictures: ", String.valueOf(OctaviousPicSlashCmd.getNumberOfOctaviousPictures()), false);
+            eb.addField("Total amt of Simon pictures: ", String.valueOf(SimonPicCmd.getNumberOfSimonPictures()), false);
+            eb.addField("Total amt of Chucky pictures: ", String.valueOf(ChuckyPicCmd.getNumberOfChuckyPictures()), false);
+            eb.addField("Total Amt of birthday art pictures: ", String.valueOf(HappyBirthdayMention.getNumberOfBdayArtPctures()), false);
             eb.addField("Random Messages Toggled: ", String.valueOf(ToggleRandomMsg.getToggledStatus()), false);
             eb.addField("Random Reactions Toggled: ", String.valueOf(ToggleRandomReaction.getToggledStatus()), false);
             eb.addField("Random Text Reactions Toggled: ", String.valueOf(ToggleTextReactions.getToggledStatus()), false);

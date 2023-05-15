@@ -97,6 +97,9 @@ public class Bot{
         sman.addEventListener(new CupRandomMessage());
         sman.addEventListener(new TutorialMention());
         sman.addEventListener(new ToggleTextReactions());
+        sman.addEventListener(new HappyBirthdayMention());
+
+        sman.addEventListener(new Haram());
     }
 
     public ShardManager getsman(){return sman;}
