@@ -98,6 +98,7 @@ public class Bot{
         sman.addEventListener(new TutorialMention());
         sman.addEventListener(new ToggleTextReactions());
         sman.addEventListener(new HappyBirthdayMention());
+        sman.addEventListener(new BillterRandomMessage());
 
         sman.addEventListener(new Haram());
     }
