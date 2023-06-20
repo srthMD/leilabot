@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
-import ro.srth.leila.api.KeywordMentionHandler;
 import ro.srth.leila.commands.ToggleTextReactions;
 
 public class SimonEmojiMention extends ListenerAdapter {
@@ -20,19 +19,8 @@ public class SimonEmojiMention extends ListenerAdapter {
 
             channel = event.getChannel();
 
-            int handler = KeywordMentionHandler.handler;
+            event.getChannel().sendMessage(message).queue();
 
-            //if(handler == 5){
-                event.getChannel().sendMessage(message).queue();
-           //    channel = null;
-           // }
-        }
-    }
-    public static Channel returnChannel(){
-        if (channel != null){
-            return channel;
-        } else {
-            return null;
         }
     }
 }

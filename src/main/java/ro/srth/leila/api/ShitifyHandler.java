@@ -2,6 +2,7 @@ package ro.srth.leila.api;
 
 import io.github.techgnious.IVCompressor;
 import io.github.techgnious.dto.IVAudioAttributes;
+import io.github.techgnious.dto.IVSize;
 import io.github.techgnious.dto.IVVideoAttributes;
 import io.github.techgnious.dto.VideoFormats;
 import org.apache.commons.io.FileUtils;
@@ -28,8 +29,14 @@ public class ShitifyHandler {
         IVAudioAttributes audio = new IVAudioAttributes();
         IVVideoAttributes video1 = new IVVideoAttributes();
 
-        video1.setBitRate(25000);
-        video1.setFrameRate(7);
+        video1.setBitRate(24000);
+        video1.setFrameRate(5);
+
+        IVSize size = new IVSize();
+        size.setHeight(250);
+        size.setWidth(700);
+
+        video1.setSize(size);
 
         audio.setBitRate(16000);
         audio.setChannels(1);
