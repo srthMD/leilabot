@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import ro.srth.leila.Bot;
-import ro.srth.leila.api.SayBan;
+import ro.srth.leila.util.SayBan;
 
 public class SayBanCmdHandler extends ListenerAdapter {
     public String user1;

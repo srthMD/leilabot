@@ -1,4 +1,4 @@
-package ro.srth.leila.api;
+package ro.srth.leila.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,13 +8,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 
-public class SayBan {
+public class CopypastaBan {
     Gson gson = new GsonBuilder().create();
 
     public JsonArray jArray = new JsonArray();
 
     public void writeJson(){
-        try (FileWriter writer = new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.json")) {
+        try (FileWriter writer = new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\copypastabanned.json")) {
             gson.toJson(jArray, writer);
         } catch (Exception e) {
             e.printStackTrace();
@@ -25,7 +25,7 @@ public class SayBan {
     public JsonArray readJson() {
 
         JsonArray ids = null;
-        try (Reader reader = new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.json")) {
+        try (Reader reader = new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\copypastabanned.json")) {
 
             ids = gson.fromJson(reader, JsonArray.class);
 

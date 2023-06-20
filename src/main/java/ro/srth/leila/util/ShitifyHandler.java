@@ -1,4 +1,4 @@
-package ro.srth.leila.api;
+package ro.srth.leila.util;
 
 import io.github.techgnious.IVCompressor;
 import io.github.techgnious.dto.IVAudioAttributes;

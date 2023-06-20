@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import ro.srth.leila.Bot;
-import ro.srth.leila.api.CopypastaBan;
-import ro.srth.leila.api.GetCopypasta;
+import ro.srth.leila.util.CopypastaBan;
+import ro.srth.leila.util.GetCopypasta;
 
 public class SearchCopypasta extends ListenerAdapter {
     GetCopypasta copypastahandler = new GetCopypasta();

@@ -67,21 +67,15 @@ public class Bot{
         sman.addEventListener(new CmdMan());
         sman.addEventListener(new MsgOnKick());
         sman.addEventListener(new RandomGame());
-        sman.addEventListener(new KurdistanMention());
-        sman.addEventListener(new ArmeniaMention());
         sman.addEventListener(new LeilaPicSlashCmd());
         sman.addEventListener(new SaySlashCommand());
         sman.addEventListener(new RandomGmodMode());
-        sman.addEventListener(new SlinkRobuxMention());
-        sman.addEventListener(new LeilaEmojiMention());
-        sman.addEventListener(new SimonEmojiMention());
         sman.addEventListener(new GetLogSlashCmd());
         sman.addEventListener(new OctaviousPicSlashCmd());
         sman.addEventListener(new BotInfoSlashCmd());
         sman.addEventListener(new RateSlashCmd());
         sman.addEventListener(new SimonPicCmd());
         sman.addEventListener(new RngSlashCmd());
-        sman.addEventListener(new PolandGifMention());
         sman.addEventListener(new SayBanCmdHandler());
         sman.addEventListener(new RandomMsg());
         sman.addEventListener(new ToggleRandomMsg());
@@ -93,15 +87,9 @@ public class Bot{
         sman.addEventListener(new ForceRandomReaction());
         sman.addEventListener(new CopypastaBanCmdHandler());
         sman.addEventListener(new Shitify());
-        sman.addEventListener(new AggeRandomMsg());
-        sman.addEventListener(new CupRandomMessage());
-        sman.addEventListener(new TutorialMention());
         sman.addEventListener(new ToggleTextReactions());
-        sman.addEventListener(new HappyBirthdayMention());
-        sman.addEventListener(new BillterRandomMessage());
-        sman.addEventListener(new AdamRandomMessage());
-
-        sman.addEventListener(new Haram());
+        sman.addEventListener(new GenericMentionHandler());
+        sman.addEventListener(new GenericUserRandomMessage());
     }
 
     public ShardManager getsman(){return sman;}

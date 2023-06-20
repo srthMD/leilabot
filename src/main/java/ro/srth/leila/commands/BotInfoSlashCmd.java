@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
-import ro.srth.leila.listener.HappyBirthdayMention;
+import ro.srth.leila.listener.GenericMentionHandler;
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public class BotInfoSlashCmd extends ListenerAdapter {
             eb.addField("Total amt of Octavious pictures: ", String.valueOf(OctaviousPicSlashCmd.getNumberOfOctaviousPictures()), false);
             eb.addField("Total amt of Simon pictures: ", String.valueOf(SimonPicCmd.getNumberOfSimonPictures()), false);
             eb.addField("Total amt of Chucky pictures: ", String.valueOf(ChuckyPicCmd.getNumberOfChuckyPictures()), false);
-            eb.addField("Total Amt of birthday art pictures: ", String.valueOf(HappyBirthdayMention.getNumberOfBdayArtPctures()), false);
+            eb.addField("Total Amt of birthday art pictures: ", String.valueOf(GenericMentionHandler.getNumberOfBdayArtPctures()), false);
             eb.addField("Random Messages Toggled: ", String.valueOf(ToggleRandomMsg.getToggledStatus()), false);
             eb.addField("Random Reactions Toggled: ", String.valueOf(ToggleRandomReaction.getToggledStatus()), false);
             eb.addField("Random Text Reactions Toggled: ", String.valueOf(ToggleTextReactions.getToggledStatus()), false);

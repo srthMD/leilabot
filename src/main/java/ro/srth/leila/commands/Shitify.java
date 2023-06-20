@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
 import ro.srth.leila.Bot;
-import ro.srth.leila.api.ShitifyHandler;
+import ro.srth.leila.util.ShitifyHandler;
 
 import java.io.File;
 import java.io.IOException;
