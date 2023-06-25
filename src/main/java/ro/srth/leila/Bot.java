@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import ro.srth.leila.annotations.NeedsRevamp;
 import ro.srth.leila.commands.*;
 import ro.srth.leila.commands.handler.CmdMan;
 import ro.srth.leila.listener.*;
@@ -20,6 +21,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+@NeedsRevamp(reason = "bad logging and addEventListener spam")
 public class Bot{
     public static FileHandler fh;
     public static String fhp;
@@ -27,6 +29,7 @@ public class Bot{
 
     public static Logger log = Logger.getLogger(Bot.class.getName());
     public static Dotenv env;
+
 
     public Bot() throws LoginException {
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
@@ -65,7 +68,6 @@ public class Bot{
 
         // register listeners
         sman.addEventListener(new CmdMan());
-        sman.addEventListener(new MsgOnKick());
         sman.addEventListener(new RandomGame());
         sman.addEventListener(new LeilaPicSlashCmd());
         sman.addEventListener(new SaySlashCommand());
@@ -90,6 +92,10 @@ public class Bot{
         sman.addEventListener(new ToggleTextReactions());
         sman.addEventListener(new GenericMentionHandler());
         sman.addEventListener(new GenericUserRandomMessage());
+
+        //funny stuff
+        sman.addEventListener(new PrivateMute());
+        sman.addEventListener(new WebhookTroll());
     }
 
     public ShardManager getsman(){return sman;}

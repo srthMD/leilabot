@@ -43,6 +43,7 @@ public class ShitifyHandler {
         audio.setSamplingRate(16000);
 
         File file = new File(video.toURI());
+
         byte[] data = compressor.encodeVideoWithAttributes(FileUtils.readFileToByteArray(file), VideoFormats.MP4, audio, video1);
 
         FileUtils.writeByteArrayToFile(new File(file.getAbsolutePath()), data);
@@ -53,7 +54,7 @@ public class ShitifyHandler {
 
     public File compressImg(File image) throws IOException {
         BufferedImage img = ImageIO.read(image);
-        BufferedImage image1 = Scalr.resize(img, 65);
+        BufferedImage image1 = Scalr.resize(img, 40);
 
         BufferedImage image2 = Scalr.resize(image1, 400);
 

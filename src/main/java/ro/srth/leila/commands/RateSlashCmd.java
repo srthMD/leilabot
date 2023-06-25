@@ -4,9 +4,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import ro.srth.leila.Bot;
+import ro.srth.leila.annotations.NeedsRevamp;
 
 import java.util.Random;
 
+@NeedsRevamp(reason = "unfunny messages")
 public class RateSlashCmd extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {

@@ -8,10 +8,12 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.Bot;
+import ro.srth.leila.annotations.NeedsRevamp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NeedsRevamp(reason = "cluttered asf")
 public class CmdMan extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
@@ -30,9 +32,10 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("chuckypicture", "Sends a random picture of Chucky from what I loaded into the bot."));
             Bot.log.info("attempting to add chuckypicture command to command data");
 
-            OptionData content = new OptionData(OptionType.STRING, "content", "What you want the bot to say.", true);
-            OptionData channel = new OptionData(OptionType.CHANNEL, "channel", "What channel you want the bot to say the message in.", false);
-            commandData.add(Commands.slash("say", "Makes the bot say a message in a specified channel as long as it can speak in that channel.").addOptions(content, channel));
+            OptionData content = new OptionData(OptionType.STRING, "content", "What you want the bot to say.", false);
+            OptionData channel = new OptionData(OptionType.STRING, "replyto", "Optional message id of the message you want to reply to.", false);
+            OptionData file = new OptionData(OptionType.ATTACHMENT, "attachment", "Optional attachment to send.", false);
+            commandData.add(Commands.slash("say", "Makes the bot say a message.").addOptions(content, channel, file));
             Bot.log.info("attempting to add say command to command data");
 
             OptionData isEphemeral = new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true);
@@ -45,7 +48,6 @@ public class CmdMan extends ListenerAdapter {
             OptionData user_to_rate = new OptionData(OptionType.USER, "user_to_rate", "Select the user to rate.", true);
             commandData.add(Commands.slash("rate", "Rates a user 0-100.").addOptions(user_to_rate));
             Bot.log.info("attempting to add rate command to command data");
-
 
             OptionData minimum = new OptionData(OptionType.INTEGER, "minimum", "Minimum number.", true);
             OptionData maximum = new OptionData(OptionType.INTEGER, "maximum", "Maximum number.", true);

@@ -1,7 +1,6 @@
 package ro.srth.leila.commands;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -24,11 +23,9 @@ public class Shitify extends ListenerAdapter {
 
             Message.Attachment attachment = image.getAsAttachment();
 
-            MessageChannelUnion channel = event.getInteraction().getChannel();
-
             File shitifyFile = null;
 
-            event.reply("bot will send file in the channel when compression is done").setEphemeral(true).queue();
+            event.getInteraction().deferReply().queue();
 
             try {
                 if (!attachment.isImage() && !attachment.isVideo()) {
@@ -42,7 +39,7 @@ public class Shitify extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        channel.sendMessage("requested by " + event.getInteraction().getUser().getAsMention()).addFiles(FileUpload.fromData(shitifyFile)).submit(true);
+                        event.getHook().sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
                     } else if (attachment.isVideo()) {
                         File videoToCompress = attachment.getProxy().downloadToPath().get().toFile();
                         try {
@@ -50,14 +47,14 @@ public class Shitify extends ListenerAdapter {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        channel.sendMessage("requested by " + event.getInteraction().getUser().getAsMention()).addFiles(FileUpload.fromData(shitifyFile)).submit(true);
+                        event.getHook().sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            shitifyFile.deleteOnExit();
+            shitifyFile.delete();
         }
     }
 }

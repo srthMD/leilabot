@@ -1,18 +1,23 @@
 package ro.srth.leila.commands;
 
-import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.requests.ErrorResponse;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.utils.FileUpload;
 import ro.srth.leila.Bot;
 import ro.srth.leila.util.SayBan;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class SaySlashCommand extends ListenerAdapter {
     SayBan handler = new SayBan();
-    String channel2;
-    ChannelType channel3;
+
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
@@ -20,49 +25,73 @@ public class SaySlashCommand extends ListenerAdapter {
         if (command.equals("say")) {
             if(String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
                 Bot.log.info(event.getUser().getAsTag() + "Fired /say but was banned");
-                event.reply("yuo are banned from this command ya hamr").setEphemeral(true).queue();
+                event.reply("you are banned from this command").setEphemeral(true).queue();
             }
             else if(!String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
                 Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SaySlashCmd");
 
-                OptionMapping content1 = event.getOption("content");
-                OptionMapping channel1 = event.getOption("channel");
+                String message = event.getOption("content", OptionMapping::getAsString);
 
-                String message = content1.getAsString();
+                Long msgId;
 
-                if (channel1 == null){
-                    channel3 = event.getInteraction().getChannelType();
-                    channel2 = event.getInteraction().getChannel().getId();
-                    Bot.log.info("channel1 == null");
-                } else if (channel1.getChannelType() != ChannelType.TEXT){
-                    event.reply("invalid channel type ya hmar").setEphemeral(true).queue();
-                    Bot.log.info("channel1 type is not text");
+                try {
+                    msgId = event.getOption("replyto", OptionMapping::getAsLong);
+                } catch (NumberFormatException e){
+                    event.reply("invalid id, should only have numbers").setEphemeral(true).queue();
                     return;
-                } else if (channel1.getAsChannel().getId().equals("1046576871330037830") || channel1.getAsChannel().getId().equals("1046576871330037830")){
-                    event.reply("You cant use /say in that channel").setEphemeral(true).queue();
+                }
+
+                Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
+                File upload;
+                try {
+                    upload = attachment != null ? attachment.getProxy().downloadToFile(File.createTempFile("send",  "." + attachment.getFileExtension())).join() : null;
+                } catch (IOException e) {
+                    event.getInteraction().reply("something went wrong processing file").setEphemeral(true).queue();
+                    throw new RuntimeException(e);
+                }
+
+
+                if (msgId == null) {
+                    if (message == null){
+                        event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
+                        event.reply("sending file").setEphemeral(true).queue();
+                        upload.delete();
+                    } else {
+                        MessageCreateAction tmp = event.getChannel().sendMessage(message);
+
+                        if (upload != null) {
+                            tmp.addFiles(FileUpload.fromData(upload)).queue();
+                            Boolean result = upload.delete();
+                        } else {
+                            tmp.queue();
+                        }
+                        event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                    }
                 } else {
-                    channel3 = channel1.getChannelType();
-                    channel2 = channel1.getAsChannel().asTextChannel().getId();
-                    Bot.log.info("channel1 is proper type and not null");
-                }
+                    event.getChannel().retrieveMessageById(msgId).queue((msg) -> {
 
+                        if (message == null){
+                            msg.replyFiles(FileUpload.fromData(upload)).queue();
+                            event.reply("sending file").setEphemeral(true).queue();
+                            upload.delete();
+                        } else{
+                            MessageCreateAction tmp = msg.reply(message);
 
-                if (channel1 != null) {
-                    event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
-                    event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();
-                    Bot.log.info(event.getInteraction().getUser().getAsTag() + " sent " + message);
-                } else if (channel1 == null) {
+                            if(upload != null){
+                                tmp.addFiles(FileUpload.fromData(upload)).queue();
+                                Boolean result = upload.delete();
+                            }
+                            else{
+                                tmp.queue();
+                            }
+                            event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                        }
 
-                    event.getGuild().getChannelById(TextChannel.class, channel2).sendMessage(message).queue();
-                    event.reply("Sending content " + '"' + message + '"').setEphemeral(true).queue();
-                    Bot.log.info(event.getInteraction().getUser().getAsTag() + " sent " + message);
-
-                }   else if (channel3 != ChannelType.TEXT /* additional check */){
-                    event.reply("only text channels ya hmar").setEphemeral(true).queue();
-                }
-                else{
-                    event.reply("somethig went wrong ya hmar").setEphemeral(true).queue();
-                    Bot.log.warning("something went wrong on say slash command");
+                    }, new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, (e) -> {
+                        event.getInteraction().reply("message id is invalid").setEphemeral(true).queue();
+                        upload.delete();
+                        Bot.log.warning("invalid message id for say command");
+                    }));
                 }
             }
         }

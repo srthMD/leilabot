@@ -3,10 +3,12 @@ package ro.srth.leila.listener;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import ro.srth.leila.Bot;
+import ro.srth.leila.annotations.NeedsRevamp;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+@NeedsRevamp(reason = "possible conflicting reactions with GenericMentionHandler")
 public class RandomGmodMode extends ListenerAdapter {
 
     @Override
