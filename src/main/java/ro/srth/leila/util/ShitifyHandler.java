@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 
-
 public class ShitifyHandler {
 
     public File compressVid(File video) throws Exception{

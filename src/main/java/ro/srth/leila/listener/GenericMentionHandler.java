@@ -79,7 +79,7 @@ public class GenericMentionHandler extends ListenerAdapter {
                 break;
 
             default:
-                Bot.log.warning(trigger + " is not a known trigger in switch statement");
+                Bot.log.warn(trigger + " is not a known trigger in switch statement");
         }
     }
 

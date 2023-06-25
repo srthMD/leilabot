@@ -34,7 +34,7 @@ public class BotInfoSlashCmd extends ListenerAdapter {
             eb.addField("Random Text Reactions Toggled: ", String.valueOf(ToggleTextReactions.getToggledStatus()), false);
             eb.setFooter("Written in Java by srth#2668 ",  "https://avatars.githubusercontent.com/u/94727593?v=4");
 
-            try{event.getInteraction().replyEmbeds(eb.build()).queue();} catch (Exception e) {Bot.log.warning(e.toString());}
+            try{event.getInteraction().replyEmbeds(eb.build()).queue();} catch (Exception e) {Bot.log.warn(e.toString());}
 
         }
     }

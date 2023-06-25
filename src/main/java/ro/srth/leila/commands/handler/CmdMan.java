@@ -2,6 +2,7 @@ package ro.srth.leila.commands.handler;
 
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -87,12 +88,15 @@ public class CmdMan extends ListenerAdapter {
             commandData.add(Commands.slash("toggletextreactions", "Bot wont react to keywords like tutorial, listeners like random game still work."));
             Bot.log.info("attempting to add toggletextreactions command to command data");
 
+            commandData.add(Commands.context(Command.Type.MESSAGE, "Reaction Spam"));
+            Bot.log.info("attempting to add reactionspam command to command data");
+
             Bot.log.info("\n--------------------------END COMMAND REGISTERING FOR GUILD NAME " + event.getGuild().getName() + " ID:" + event.getGuild().getId() + " --------------------------\n\n\n");
 
 
         } catch (Exception e){
-            Bot.log.warning("exeption while registering slash commands");
-            Bot.log.warning(e.toString());
+            Bot.log.warn("exeption while registering slash commands");
+            Bot.log.warn(e.toString());
         }
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }

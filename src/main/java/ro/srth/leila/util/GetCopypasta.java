@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import ro.srth.leila.Bot;
+import ro.srth.leila.annotations.NeedsRevamp;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
+@NeedsRevamp(reason = "old")
 public class GetCopypasta {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();

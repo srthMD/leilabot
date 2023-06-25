@@ -8,26 +8,23 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ro.srth.leila.annotations.NeedsRevamp;
 import ro.srth.leila.commands.*;
+import ro.srth.leila.commands.ctx.ReactionSpam;
 import ro.srth.leila.commands.handler.CmdMan;
 import ro.srth.leila.listener.*;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+
 
 @NeedsRevamp(reason = "bad logging and addEventListener spam")
 public class Bot{
-    public static FileHandler fh;
-    public static String fhp;
-    private static ShardManager sman;
+    private final ShardManager sman;
 
-    public static Logger log = Logger.getLogger(Bot.class.getName());
+    public static final Logger log = LoggerFactory.getLogger(Bot.class);
+
     public static Dotenv env;
 
 
@@ -37,6 +34,8 @@ public class Bot{
         String token = env.get("TOKEN");
 
         //builder stuff
+
+
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
@@ -49,21 +48,6 @@ public class Bot{
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         sman = builder.build();
-
-
-        // logger code from stackoverflow because i don't know how to use logs
-        try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yy-hh.mm.ss");
-            LocalDateTime now = LocalDateTime.now();
-            fhp = "C:\\temp\\" + dtf.format(now) +  ".log";
-            fh = new FileHandler(fhp);
-            log.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-
-        } catch (SecurityException | IOException e) {
-            log.warning(e.toString());
-        }
 
 
         // register listeners
@@ -92,20 +76,19 @@ public class Bot{
         sman.addEventListener(new ToggleTextReactions());
         sman.addEventListener(new GenericMentionHandler());
         sman.addEventListener(new GenericUserRandomMessage());
+        sman.addEventListener(new ReactionSpam());
 
         //funny stuff
         sman.addEventListener(new PrivateMute());
         sman.addEventListener(new WebhookTroll());
     }
 
-    public ShardManager getsman(){return sman;}
-
 
     public static void main(String[] args){
         try{
            Bot bot = new Bot();
         } catch (LoginException ex){
-            Bot.log.warning("somethign went wrong on login:\n" + ex.getLocalizedMessage());
+            Bot.log.warn("somethign went wrong on login:\n" + ex.getLocalizedMessage());
         }
     }
 }

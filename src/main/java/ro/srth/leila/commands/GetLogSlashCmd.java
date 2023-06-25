@@ -1,9 +1,11 @@
 package ro.srth.leila.commands;
 
+import ch.qos.logback.classic.LoggerContext;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
+import org.slf4j.LoggerFactory;
 import ro.srth.leila.Bot;
 import ro.srth.leila.annotations.NeedsRevamp;
 
@@ -16,7 +18,10 @@ public class GetLogSlashCmd extends ListenerAdapter {
         String command = event.getName();
         if (command.equals("getlog")){
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired GetLogSlashCmd");
-            FileUpload upload = FileUpload.fromData(Paths.get(Bot.fhp));
+
+            LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+            FileUpload upload = FileUpload.fromData(Paths.get("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\bot.log"));
 
             OptionMapping isEphemeral = event.getOption("isephemeral");
 

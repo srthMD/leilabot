@@ -50,18 +50,15 @@ public class SaySlashCommand extends ListenerAdapter {
                     throw new RuntimeException(e);
                 }
 
-
                 if (msgId == null) {
                     if (message == null){
                         event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
                         event.reply("sending file").setEphemeral(true).queue();
-                        upload.delete();
                     } else {
                         MessageCreateAction tmp = event.getChannel().sendMessage(message);
 
                         if (upload != null) {
                             tmp.addFiles(FileUpload.fromData(upload)).queue();
-                            Boolean result = upload.delete();
                         } else {
                             tmp.queue();
                         }
@@ -73,13 +70,11 @@ public class SaySlashCommand extends ListenerAdapter {
                         if (message == null){
                             msg.replyFiles(FileUpload.fromData(upload)).queue();
                             event.reply("sending file").setEphemeral(true).queue();
-                            upload.delete();
                         } else{
                             MessageCreateAction tmp = msg.reply(message);
 
                             if(upload != null){
                                 tmp.addFiles(FileUpload.fromData(upload)).queue();
-                                Boolean result = upload.delete();
                             }
                             else{
                                 tmp.queue();
@@ -89,8 +84,7 @@ public class SaySlashCommand extends ListenerAdapter {
 
                     }, new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, (e) -> {
                         event.getInteraction().reply("message id is invalid").setEphemeral(true).queue();
-                        upload.delete();
-                        Bot.log.warning("invalid message id for say command");
+                        Bot.log.warn("invalid message id for say command");
                     }));
                 }
             }

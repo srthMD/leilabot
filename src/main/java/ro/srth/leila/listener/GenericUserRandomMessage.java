@@ -34,7 +34,7 @@ public class GenericUserRandomMessage extends ListenerAdapter {
                         event.getMessage().reply("https://cdn.discordapp.com/attachments/1026077332689145932/1062766645535330405/Danskt_svin.mp4").queue();
                         return;
                     } else{
-                        Bot.log.warning(id + " is not a valid id for GenericUserRandomMessage");
+                        Bot.log.warn(id + " is not a valid id for GenericUserRandomMessage");
                     }
                 }
             }

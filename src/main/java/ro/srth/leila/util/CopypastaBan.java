@@ -3,11 +3,12 @@ package ro.srth.leila.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import ro.srth.leila.annotations.NeedsRevamp;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
-
+@NeedsRevamp(reason = "not efficient")
 public class CopypastaBan {
     Gson gson = new GsonBuilder().create();
 
