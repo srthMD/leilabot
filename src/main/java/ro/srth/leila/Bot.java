@@ -11,22 +11,28 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.srth.leila.annotations.NeedsRevamp;
-import ro.srth.leila.commands.*;
-import ro.srth.leila.commands.ctx.ReactionSpam;
-import ro.srth.leila.commands.handler.CmdMan;
-import ro.srth.leila.listener.*;
+import ro.srth.leila.commands.CmdMan;
+import ro.srth.leila.commands.Command;
+import ro.srth.leila.listener.ListenerHandler;
 
 import javax.security.auth.login.LoginException;
+import java.util.Set;
 
 
-@NeedsRevamp(reason = "bad logging and addEventListener spam")
+@NeedsRevamp(reason = "addEventListener spam")
 public class Bot{
-    private final ShardManager sman;
 
     public static final Logger log = LoggerFactory.getLogger(Bot.class);
 
     public static Dotenv env;
 
+    private static ShardManager sman;
+
+    public static void registerCommand(Command command){
+        sman.addEventListener(command);
+    }
+
+    public static Set<Class<? extends Command>> classes;
 
     public Bot() throws LoginException {
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
@@ -34,7 +40,6 @@ public class Bot{
         String token = env.get("TOKEN");
 
         //builder stuff
-
 
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
@@ -52,35 +57,11 @@ public class Bot{
 
         // register listeners
         sman.addEventListener(new CmdMan());
-        sman.addEventListener(new RandomGame());
-        sman.addEventListener(new LeilaPicSlashCmd());
-        sman.addEventListener(new SaySlashCommand());
-        sman.addEventListener(new RandomGmodMode());
-        sman.addEventListener(new GetLogSlashCmd());
-        sman.addEventListener(new OctaviousPicSlashCmd());
-        sman.addEventListener(new BotInfoSlashCmd());
-        sman.addEventListener(new RateSlashCmd());
-        sman.addEventListener(new SimonPicCmd());
-        sman.addEventListener(new RngSlashCmd());
-        sman.addEventListener(new SayBanCmdHandler());
-        sman.addEventListener(new RandomMsg());
-        sman.addEventListener(new ToggleRandomMsg());
-        sman.addEventListener(new ForceRandomMsg());
-        sman.addEventListener(new ChuckyPicCmd());
-        sman.addEventListener(new SearchCopypasta());
-        sman.addEventListener(new RandomReaction());
-        sman.addEventListener(new ToggleRandomReaction());
-        sman.addEventListener(new ForceRandomReaction());
-        sman.addEventListener(new CopypastaBanCmdHandler());
-        sman.addEventListener(new Shitify());
-        sman.addEventListener(new ToggleTextReactions());
-        sman.addEventListener(new GenericMentionHandler());
-        sman.addEventListener(new GenericUserRandomMessage());
-        sman.addEventListener(new ReactionSpam());
+        sman.addEventListener(new ListenerHandler());
+    }
 
-        //funny stuff
-        sman.addEventListener(new PrivateMute());
-        sman.addEventListener(new WebhookTroll());
+    public static ShardManager getSman(){
+        return sman;
     }
 
 
@@ -88,7 +69,7 @@ public class Bot{
         try{
            Bot bot = new Bot();
         } catch (LoginException ex){
-            Bot.log.warn("somethign went wrong on login:\n" + ex.getLocalizedMessage());
+            Bot.log.warn("something went wrong on login:\n" + ex.getLocalizedMessage());
         }
     }
 }
