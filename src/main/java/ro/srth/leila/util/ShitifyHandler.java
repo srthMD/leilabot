@@ -23,23 +23,23 @@ import java.util.Iterator;
 
 public class ShitifyHandler {
 
-    public File compressVid(File video) throws Exception{
+    public File compressVid(File video, Integer bitrate, Integer fps, Integer height, Integer width, Integer audioBitRate, Integer audioSamplingRate) throws Exception{
         IVCompressor compressor = new IVCompressor();
         IVAudioAttributes audio = new IVAudioAttributes();
         IVVideoAttributes video1 = new IVVideoAttributes();
 
-        video1.setBitRate(24000);
-        video1.setFrameRate(5);
+        video1.setBitRate(bitrate);
+        video1.setFrameRate(fps);
 
         IVSize size = new IVSize();
-        size.setHeight(250);
-        size.setWidth(700);
+        size.setHeight(height);
+        size.setWidth(width);
 
         video1.setSize(size);
 
-        audio.setBitRate(16000);
+        audio.setBitRate(audioBitRate);
         audio.setChannels(1);
-        audio.setSamplingRate(16000);
+        audio.setSamplingRate(audioSamplingRate);
 
         File file = new File(video.toURI());
 
@@ -51,11 +51,12 @@ public class ShitifyHandler {
     }
 
 
-    public File compressImg(File image) throws IOException {
-        BufferedImage img = ImageIO.read(image);
-        BufferedImage image1 = Scalr.resize(img, 40);
+    public File compressImg(File image, int resizeBefore, int resizeAfter, int quality) throws IOException {
 
-        BufferedImage image2 = Scalr.resize(image1, 400);
+        BufferedImage img = ImageIO.read(image);
+        BufferedImage image1 = Scalr.resize(img, resizeBefore);
+
+        BufferedImage image2 = Scalr.resize(image1, resizeAfter);
 
         BufferedImage image3 = new BufferedImage(image2.getWidth(), image2.getHeight(), BufferedImage.TYPE_INT_RGB);
 
@@ -75,7 +76,7 @@ public class ShitifyHandler {
         ImageWriteParam param = writer.getDefaultWriteParam();
 
         param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        param.setCompressionQuality(0.07f);
+        param.setCompressionQuality((float) quality/100);
         writer.write(null, new IIOImage(image3, null, null), param);
 
         os.close();

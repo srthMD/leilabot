@@ -86,9 +86,9 @@ public class GetCopypasta {
 
         if (jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().length() >= 1900) {
             if(flag || jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("over_18").getAsBoolean()){
-                return "cant show this copypasta because it is over 2000 characters, so heres the link: ||https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "|| \n\n**Query: " + query + "**" + "\n(content was marked as nsfw by bot)";
+                return "cant show this copypasta because it is over 2000 characters, so heres the link: \n https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n|| \n\n**Query: " + query + "**" + "\n(content was marked as nsfw by bot)";
             } else {
-                return "cant show this copypasta because it is over 2000 characters, so heres the link: https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**" + "\n(content was not marked by bot as nsfw but still might be nsfw)";
+                return "cant show this copypasta because it is over 2000 characters, so heres the link: \n https://www.reddit.com" + jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("permalink").getAsString() + "\n\n**Query: " + query + "**" + "\n(content was not marked by bot as nsfw but still might be nsfw)";
             }
         } else if(jsonObject.get("data").getAsJsonObject().get("children").getAsJsonArray().get(jsonindex).getAsJsonObject().get("data").getAsJsonObject().get("selftext").getAsString().isEmpty()){
             return "no results came up for this query \n\n**Query: " + query + "**\n" + "Sorted posts by " + sort + " with time period of " + time;
