@@ -31,7 +31,7 @@ public class Shitify extends Command {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ShitifyCmd");
 
-            OptionMapping image = event.getOption("image");
+            OptionMapping image = event.getOption("file");
 
             Message.Attachment attachment = image.getAsAttachment();
 

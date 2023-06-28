@@ -10,14 +10,11 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ro.srth.leila.annotations.NeedsRevamp;
 import ro.srth.leila.commands.CmdMan;
 import ro.srth.leila.listener.ListenerHandler;
 
 import javax.security.auth.login.LoginException;
 
-
-@NeedsRevamp(reason = "addEventListener spam")
 public class Bot{
 
     public static final Logger log = LoggerFactory.getLogger(Bot.class);
