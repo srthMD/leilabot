@@ -32,7 +32,7 @@ public class ShitifyImg extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired shitifyImg");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired shitifyImg");
 
             OptionMapping image = event.getOption("image");
 

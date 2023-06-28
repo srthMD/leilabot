@@ -25,7 +25,7 @@ public class SimonPicCmd extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SimonPicCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired SimonPicCmd");
 
             Random rand = ThreadLocalRandom.current();
 

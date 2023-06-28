@@ -30,12 +30,14 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
-    implementation "net.dv8tion:JDA:5.0.0-beta.9"
+    implementation "net.dv8tion:JDA:5.0.0-beta.11"
     implementation "org.imgscalr:imgscalr-lib:4.2"
-    implementation "io.github.techgnious:IVCompressor:1.0.1"
+    implementation "io.github.techgnious:IVCompressor:2.0.2"
     implementation "com.github.jai-imageio:jai-imageio-core:1.4.0"
     implementation "club.minnced:discord-webhooks:0.8.2"
     implementation 'ch.qos.logback:logback-classic:1.4.8'
     implementation 'org.reflections:reflections:0.10.2'
+
+    //because discord-webhooks uses a version of org.json with vulnerabilities
     implementation "org.json:json:20230618"
 }

@@ -30,7 +30,7 @@ public class GetLogSlashCmd extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired GetLogSlashCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired GetLogSlashCmd");
 
             LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 

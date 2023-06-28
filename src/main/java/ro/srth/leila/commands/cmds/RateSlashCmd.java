@@ -27,7 +27,7 @@ public class RateSlashCmd extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             OptionMapping usertorate = event.getOption("user_to_rate");
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " fired RateSlashCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " fired RateSlashCmd");
 
             Random random = new Random();
             int rating = random.nextInt(0, 100);

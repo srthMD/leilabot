@@ -29,7 +29,7 @@ public class RngSlashCmd extends Command {
             OptionMapping minmapping = event.getOption("minimum");
             OptionMapping maxmapping = event.getOption("maximum");
 
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " fired RngSlashCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " fired RngSlashCmd");
 
             int min = minmapping.getAsInt();
             int max = maxmapping.getAsInt();

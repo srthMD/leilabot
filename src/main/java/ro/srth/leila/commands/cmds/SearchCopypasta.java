@@ -28,14 +28,14 @@ public class SearchCopypasta extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            if(banhandler.readJson().toString().contains(event.getInteraction().getUser().getId())){
+            if(banhandler.isBanned(event.getUser().getIdLong())){
                 event.reply("you cant use this command").setEphemeral(true).queue();
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " tried to fire searchcopypasta but was banned");
+                Bot.log.info(event.getInteraction().getUser().getName() + " tried to fire searchcopypasta but was banned");
             } else{
                 OptionMapping query = event.getOption("query");
                 String query1 = query.getAsString();
 
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SearchCopypasta with query " + query1);
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired SearchCopypasta with query " + query1);
                 try {
                     event.getInteraction().reply(copypastahandler.getCopypasta(query1)).queue();
                 } catch (Exception e) {

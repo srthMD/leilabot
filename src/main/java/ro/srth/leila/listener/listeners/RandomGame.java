@@ -24,7 +24,7 @@ public class RandomGame extends Listener {
         }
 
         if (event.getMessage().getContentRaw().toLowerCase().contains(match) && !event.getMessage().getContentRaw().contains("gmod") && !event.getMessage().getAuthor().getId().equals("1054544562841997363")) {
-            Bot.log.info("RandomGame Fired by " + event.getAuthor().getAsTag());
+            Bot.log.info("RandomGame Fired by " + event.getAuthor().getName());
 
             String[] games = {
                     "Item Asylum",

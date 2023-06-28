@@ -41,7 +41,7 @@ public class GenericMentionHandler extends Listener {
 
 
     private void sendResult(String trigger, MessageReceivedEvent event) {
-        Bot.log.info(event.getAuthor().getAsTag() + " fired GenericMentionHandler with trigger " + trigger);
+        Bot.log.info(event.getAuthor().getName() + " fired GenericMentionHandler with trigger " + trigger);
 
         switch(trigger){
             case("armenia"):

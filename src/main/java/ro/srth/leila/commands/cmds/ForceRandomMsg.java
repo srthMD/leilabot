@@ -23,7 +23,7 @@ public class ForceRandomMsg extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             if(event.getUser().getIdLong() == (584834083943874581L | 780805916743565312L)){
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ForceRandomMessage");
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired ForceRandomMessage");
                 if(!forced){
                     forced = true;
                     event.reply("setting force message toggle to %s".formatted(forced)).setEphemeral(true).queue();

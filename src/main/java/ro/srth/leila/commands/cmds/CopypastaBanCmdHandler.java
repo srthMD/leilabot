@@ -29,7 +29,7 @@ public class CopypastaBanCmdHandler extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             if(event.getInteraction().getUser().getId().equals("780805916743565312") || event.getInteraction().getUser().getId().equals("584834083943874581")){
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired Copypastaban");
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired Copypastaban");
 
                 OptionMapping user = event.getOption("copypastabanuser");
 
@@ -41,7 +41,7 @@ public class CopypastaBanCmdHandler extends Command {
                     return;
                 }
 
-                event.reply("Banning " + user.getAsUser().getAsTag() + " from using /searchcopypasta.").setEphemeral(true).queue();
+                event.reply("Banning " + user.getAsUser().getName() + " from using /searchcopypasta.").setEphemeral(true).queue();
 
                 Bot.log.info("Writing " + user1);
                 handler.jArray.add(user1);

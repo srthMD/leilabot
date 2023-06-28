@@ -20,7 +20,7 @@ public class ToggleTextReactions extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ToggleTextReactions");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired ToggleTextReactions");
             if(!ReactionsToggled){
                 ReactionsToggled = true;
                 event.getInteraction().reply("Setting reaction toggle to " + ReactionsToggled).queue();

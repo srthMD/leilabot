@@ -25,7 +25,7 @@ public class OctaviousPicSlashCmd extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired OctaviousPicSlashCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired OctaviousPicSlashCmd");
 
             Random rand = ThreadLocalRandom.current();
 

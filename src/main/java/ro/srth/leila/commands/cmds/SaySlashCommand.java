@@ -35,12 +35,12 @@ public class SaySlashCommand extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            if(String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
-                Bot.log.info(event.getUser().getAsTag() + "Fired /say but was banned");
+            if(handler.isBanned(event.getUser().getIdLong())){
+                Bot.log.info(event.getUser().getName() + "Fired /say but was banned");
                 event.reply("you are banned from this command").setEphemeral(true).queue();
             }
             else if(!String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SaySlashCmd");
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired SaySlashCmd");
 
                 String message = event.getOption("content", OptionMapping::getAsString);
 

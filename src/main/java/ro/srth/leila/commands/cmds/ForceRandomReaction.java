@@ -23,7 +23,7 @@ public class ForceRandomReaction extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             if (event.getInteraction().getUser().getId().equals("780805916743565312") || event.getInteraction().getUser().getId().equals("584834083943874581")){
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ForceRandomReaction");
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired ForceRandomReaction");
                 if(!forced){
                     forced = true;
                     event.reply("setting force reaction toggle to " + forced).setEphemeral(true).queue();

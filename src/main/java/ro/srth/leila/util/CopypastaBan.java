@@ -3,12 +3,12 @@ package ro.srth.leila.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import ro.srth.leila.annotations.NeedsRevamp;
+import com.google.gson.JsonPrimitive;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
-@NeedsRevamp(reason = "not efficient")
+
 public class CopypastaBan {
     Gson gson = new GsonBuilder().create();
 
@@ -36,17 +36,25 @@ public class CopypastaBan {
         return ids;
     }
 
-/*
-    public int getIndex(String user) {
-        JsonArray json = readJson().getAsJsonArray();
-        int i;
-        for (i = 0; i > json.size(); i++) {
-            if (user.equals(json.get(i).getAsString())) {
-                System.out.println(json.get(i));
-                System.out.println(i);
-                break;
+    public boolean isBanned(long id){
+        JsonArray arr = readJson();
+
+        return arr.contains(new JsonPrimitive(id));
+    }
+
+
+    public boolean unban(long id){
+        if(isBanned(id)){
+            JsonArray arr = readJson();
+            arr.remove(new JsonPrimitive(id));
+
+            if(isBanned(id)){
+                return true;
+            }else {
+                throw new RuntimeException("something went wrong while unbanning");
             }
+        }else{
+            return false;
         }
-        return i;
-    }*/
+    }
 }

@@ -29,7 +29,7 @@ public class SayBanCmdHandler extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             if(event.getInteraction().getUser().getId().equals("780805916743565312") || event.getInteraction().getUser().getId().equals("584834083943874581")){
-                Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired SayBan");
+                Bot.log.info(event.getInteraction().getUser().getName() + " Fired SayBan");
 
                 OptionMapping user = event.getOption("saybanuser");
 
@@ -41,7 +41,7 @@ public class SayBanCmdHandler extends Command {
                     return;
                 }
 
-                event.reply("Banning " + user.getAsUser().getAsTag() + " from using /say.").setEphemeral(true).queue();
+                event.reply("Banning " + user.getAsUser().getName() + " from using /say.").setEphemeral(true).queue();
 
                 Bot.log.info("Writing " + user1);
                 handler.jArray.add(user1);

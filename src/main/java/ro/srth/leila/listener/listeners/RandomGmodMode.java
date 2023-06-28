@@ -23,7 +23,7 @@ public class RandomGmodMode extends Listener {
         String match3 = "what do i play on gmod";
 
         if (event.getMessage().getContentRaw().toLowerCase().contains(match) || event.getMessage().getContentRaw().contains(match1) || event.getMessage().getContentRaw().contains(match2) || event.getMessage().getContentRaw().contains(match3)) {
-            Bot.log.info("RandomGmodMode Fired by " + event.getAuthor().getAsTag());
+            Bot.log.info("RandomGmodMode Fired by " + event.getAuthor().getName());
 
             String[] games = {
                     "sandbox",

@@ -4,9 +4,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.listener.listeners.GenericMentionHandler;
-import ro.srth.leila.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class BotInfoSlashCmd extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired BotInfoSlashCmd");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired BotInfoSlashCmd");
 
             EmbedBuilder eb = new EmbedBuilder();
 

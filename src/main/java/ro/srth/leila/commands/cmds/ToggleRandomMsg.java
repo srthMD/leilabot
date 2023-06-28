@@ -22,7 +22,7 @@ public class ToggleRandomMsg extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            Bot.log.info(event.getInteraction().getUser().getAsTag() + " Fired ToggleRandomMessage");
+            Bot.log.info(event.getInteraction().getUser().getName() + " Fired ToggleRandomMessage");
             if(!toggled){
                 toggled = true;
                 event.reply("setting random message toggle to " + toggled).queue();
