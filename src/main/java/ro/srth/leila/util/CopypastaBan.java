@@ -54,7 +54,7 @@ public class CopypastaBan {
     }
 
     public boolean isBanned(long id) throws IOException {
-        Reader reader = Files.newBufferedReader(Paths.get("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.csv"));
+        Reader reader = Files.newBufferedReader(path);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(reader);
         boolean a = false;
 
