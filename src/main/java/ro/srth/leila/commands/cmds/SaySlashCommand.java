@@ -35,70 +35,74 @@ public class SaySlashCommand extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            if(handler.isBanned(event.getUser().getIdLong())){
-                Bot.log.info(event.getUser().getName() + "Fired /say but was banned");
-                event.reply("you are banned from this command").setEphemeral(true).queue();
-            }
-            else if(!String.valueOf(handler.readJson()).contains(event.getInteraction().getUser().getId())){
-                Bot.log.info(event.getInteraction().getUser().getName() + " Fired SaySlashCmd");
-
-                String message = event.getOption("content", OptionMapping::getAsString);
-
-                Long msgId;
-
-                try {
-                    msgId = event.getOption("replyto", OptionMapping::getAsLong);
-                } catch (NumberFormatException e){
-                    event.reply("invalid id, should only have numbers").setEphemeral(true).queue();
-                    return;
+            try {
+                if(handler.isBanned(event.getUser().getIdLong())){
+                    Bot.log.info(event.getUser().getName() + "Fired /say but was banned");
+                    event.reply("you are banned from this command").setEphemeral(true).queue();
                 }
+                else{
+                    Bot.log.info(event.getInteraction().getUser().getName() + " Fired SaySlashCmd");
 
-                Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
-                File upload;
-                try {
-                    upload = attachment != null ? attachment.getProxy().downloadToFile(File.createTempFile("send",  "." + attachment.getFileExtension())).join() : null;
-                } catch (IOException e) {
-                    event.getInteraction().reply("something went wrong processing file").setEphemeral(true).queue();
-                    throw new RuntimeException(e);
-                }
+                    String message = event.getOption("content", OptionMapping::getAsString);
 
-                if (msgId == null) {
-                    if (message == null){
-                        event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
-                        event.reply("sending file").setEphemeral(true).queue();
-                    } else {
-                        MessageCreateAction tmp = event.getChannel().sendMessage(message);
+                    Long msgId;
 
-                        if (upload != null) {
-                            tmp.addFiles(FileUpload.fromData(upload)).queue();
-                        } else {
-                            tmp.queue();
-                        }
-                        event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                    try {
+                        msgId = event.getOption("replyto", OptionMapping::getAsLong);
+                    } catch (NumberFormatException e){
+                        event.reply("invalid id, should only have numbers").setEphemeral(true).queue();
+                        return;
                     }
-                } else {
-                    event.getChannel().retrieveMessageById(msgId).queue((msg) -> {
 
+                    Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
+                    File upload;
+                    try {
+                        upload = attachment != null ? attachment.getProxy().downloadToFile(File.createTempFile("send",  "." + attachment.getFileExtension())).join() : null;
+                    } catch (IOException e) {
+                        event.getInteraction().reply("something went wrong processing file").setEphemeral(true).queue();
+                        throw new RuntimeException(e);
+                    }
+
+                    if (msgId == null) {
                         if (message == null){
-                            msg.replyFiles(FileUpload.fromData(upload)).queue();
+                            event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
                             event.reply("sending file").setEphemeral(true).queue();
-                        } else{
-                            MessageCreateAction tmp = msg.reply(message);
+                        } else {
+                            MessageCreateAction tmp = event.getChannel().sendMessage(message);
 
-                            if(upload != null){
+                            if (upload != null) {
                                 tmp.addFiles(FileUpload.fromData(upload)).queue();
-                            }
-                            else{
+                            } else {
                                 tmp.queue();
                             }
                             event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
                         }
+                    } else {
+                        event.getChannel().retrieveMessageById(msgId).queue((msg) -> {
 
-                    }, new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, (e) -> {
-                        event.getInteraction().reply("message id is invalid").setEphemeral(true).queue();
-                        Bot.log.warn("invalid message id for say command");
-                    }));
+                            if (message == null){
+                                msg.replyFiles(FileUpload.fromData(upload)).queue();
+                                event.reply("sending file").setEphemeral(true).queue();
+                            } else{
+                                MessageCreateAction tmp = msg.reply(message);
+
+                                if(upload != null){
+                                    tmp.addFiles(FileUpload.fromData(upload)).queue();
+                                }
+                                else{
+                                    tmp.queue();
+                                }
+                                event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                            }
+
+                        }, new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, (e) -> {
+                            event.getInteraction().reply("message id is invalid").setEphemeral(true).queue();
+                            Bot.log.warn("invalid message id for say command");
+                        }));
+                    }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

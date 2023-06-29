@@ -9,6 +9,7 @@ import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.CopypastaBan;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CopypastaSearchUnban extends Command{
@@ -26,16 +27,17 @@ public class CopypastaSearchUnban extends Command{
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             User user = event.getOption("user").getAsUser();
-            if(handler.isBanned(user.getIdLong())){
-                boolean success = handler.unban(user.getIdLong());
-                if(success){
-                    Bot.log.info(user.getName() + " was successfully unbanned from /copypastasearch");
-                    event.reply("user was successfully unbanned").setEphemeral(true).queue();
+            try {
+                if(handler.isBanned(user.getIdLong())){
+                    handler.unbanId(user.getIdLong());
+                    Bot.log.info("attempting unban on " + user.getName());
+                    event.reply("attempting unban on user " + user.getName()).setEphemeral(true).queue();
+
                 }else{
-                    event.reply("something went wrong while unbanning").setEphemeral(true).queue();
+                    event.reply("user is not banned").setEphemeral(true).queue();
                 }
-            }else{
-                event.reply("user is not banned").setEphemeral(true).queue();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

@@ -9,11 +9,12 @@ import ro.srth.leila.*;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.SayBan;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SayBanCmdHandler extends Command {
 
-    public String user1;
+    public long user1;
 
     SayBan handler = new SayBan();
 
@@ -33,20 +34,24 @@ public class SayBanCmdHandler extends Command {
 
                 OptionMapping user = event.getOption("saybanuser");
 
-                String json = String.valueOf(handler.readJson());
-
-                user1 = user.getAsUser().getId();
-                if (json.contains(user1)){
-                    event.reply("User is already banned.").setEphemeral(true).queue();
-                    return;
+                user1 = user.getAsUser().getIdLong();
+                try {
+                    if (handler.isBanned(user1)){
+                        event.reply("User is already banned.").setEphemeral(true).queue();
+                        return;
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 event.reply("Banning " + user.getAsUser().getName() + " from using /say.").setEphemeral(true).queue();
 
                 Bot.log.info("Writing " + user1);
-                handler.jArray.add(user1);
-
-                handler.writeJson();
+                try {
+                    handler.banId(user1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else{
                 event.reply("You cant fire this command").setEphemeral(true).queue();
             }

@@ -9,11 +9,12 @@ import ro.srth.leila.*;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.CopypastaBan;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CopypastaBanCmdHandler extends Command {
 
-    public String user1;
+    public long user1;
 
     CopypastaBan handler = new CopypastaBan();
 
@@ -33,20 +34,26 @@ public class CopypastaBanCmdHandler extends Command {
 
                 OptionMapping user = event.getOption("copypastabanuser");
 
-                String json = String.valueOf(handler.readJson());
 
-                user1 = user.getAsUser().getId();
-                if (json.contains(user1)){
-                    event.reply("User is already banned.").setEphemeral(true).queue();
-                    return;
+                user1 = user.getAsUser().getIdLong();
+                try {
+                    if (handler.isBanned(user1)){
+                        event.reply("User is already banned.").setEphemeral(true).queue();
+                        return;
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 event.reply("Banning " + user.getAsUser().getName() + " from using /searchcopypasta.").setEphemeral(true).queue();
 
                 Bot.log.info("Writing " + user1);
-                handler.jArray.add(user1);
+                try {
+                    handler.banId(user1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-                handler.writeJson();
             } else if(!event.getInteraction().getUser().getId().equals("780805916743565312") || !event.getInteraction().getUser().getId().equals("584834083943874581")){
                 event.reply("You cant fire this command").setEphemeral(true).queue();
             }

@@ -1,65 +1,71 @@
 package ro.srth.leila.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 public class SayBan {
 
-    private static Gson gson;
+    private final Path path = Paths.get("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.csv");
+    public void banId(long id) throws IOException {
+        Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 
-    public JsonArray jArray;
-    public SayBan(){
-        gson = new GsonBuilder().create();
+        CSVPrinter printer = CSVFormat.DEFAULT.print(writer);
 
-        jArray = new JsonArray();
+        printer.printRecord(id);
+
+        printer.flush();
+
+        writer.close();
+
     }
 
-    public void writeJson(){
-        try (FileWriter writer = new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.json")) {
-            gson.toJson(jArray, writer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public void unbanId(long id) throws IOException {
 
+        Reader in = Files.newBufferedReader(path);
+        CSVParser parser = new CSVParser(in, CSVFormat.DEFAULT);
+        List<CSVRecord> records = parser.getRecords();
+        parser.close();
 
-    public JsonArray readJson() {
+        records.removeIf(record -> record.get(0).equals(String.valueOf(id)));
 
-        JsonArray ids = null;
-        try (Reader reader = new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.json")) {
+        Writer writer = Files.newBufferedWriter(path);
+        CSVPrinter printer = CSVFormat.DEFAULT.print(writer);
 
-            ids = gson.fromJson(reader, JsonArray.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ids;
-    }
-
-    public boolean isBanned(long id){
-        JsonArray arr = readJson();
-
-        return arr.contains(new JsonPrimitive(id));
-    }
-
-    public boolean unban(long id){
-        if(isBanned(id)){
-            JsonArray arr = readJson();
-            arr.remove(new JsonPrimitive(id));
-
-            if(isBanned(id)){
-                return true;
-            }else {
-                throw new RuntimeException("something went wrong while unbanning");
+        records.forEach(record -> {
+            try {
+                printer.printRecord(record);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        }else{
-            return false;
+        });
+
+        writer.flush();
+        writer.close();
+    }
+
+    public boolean isBanned(long id) throws IOException {
+        Reader reader = Files.newBufferedReader(Paths.get("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.csv"));
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(reader);
+        boolean a = false;
+
+        for (CSVRecord record : records) {
+            if(record.get(0).equals(String.valueOf(id))){
+                a = true;
+                break;
+            }
         }
+        reader.close();
+        return a;
     }
 }

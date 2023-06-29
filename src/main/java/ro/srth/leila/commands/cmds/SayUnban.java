@@ -5,10 +5,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.SayBan;
+import ro.srth.leila.Bot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SayUnban extends Command{
@@ -26,16 +27,18 @@ public class SayUnban extends Command{
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             User user = event.getOption("user").getAsUser();
-            if(handler.isBanned(user.getIdLong())){
-                boolean success = handler.unban(user.getIdLong());
-                if(success){
-                    Bot.log.info(user.getName() + " was successfully unbanned from /say");
-                    event.reply("user was successfully unbanned").setEphemeral(true).queue();
+            try {
+                if(handler.isBanned(user.getIdLong())){
+                   handler.unbanId(user.getIdLong());
+
+                   Bot.log.info(user.getName() + " was successfully unbanned from /say");
+                   event.reply("attempting to unban").setEphemeral(true).queue();
+
                 }else{
-                    event.reply("something went wrong while unbanning").setEphemeral(true).queue();
+                    event.reply("user is not banned").setEphemeral(true).queue();
                 }
-            }else{
-                event.reply("user is not banned").setEphemeral(true).queue();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
