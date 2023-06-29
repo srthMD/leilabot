@@ -27,6 +27,6 @@ public class ListenerHandler extends ListenerAdapter {
                 throw new RuntimeException(e);
             }
         }
-
+        Bot.log.info("done registering listeners");
     }
 }

@@ -20,7 +20,7 @@ public class RandomReaction extends Listener {
     }
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent  event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
         Random randomchance = ThreadLocalRandom.current();
 
         int num1;

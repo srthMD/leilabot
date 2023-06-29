@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import ro.srth.leila.*;
+import ro.srth.leila.Bot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -71,5 +71,6 @@ public class CmdMan extends ListenerAdapter {
         }
         event.getGuild().updateCommands().addCommands(commandData).queue();
         i++;
+        Bot.log.info("done registering commands for guild: " + event.getGuild().getName());
     }
 }

@@ -16,17 +16,18 @@ import java.util.concurrent.ExecutionException;
 @PrivateAccess
 public class WebhookTroll extends Listener {
 
+    String url;
+
     public WebhookTroll(){
         this.name = "WebhookTroll";
+        url = Bot.env.get("HOOK");
+
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 
-        if(event.getChannel().getIdLong() == 1120459667638865950L && (event.getAuthor().getIdLong() == (584834083943874581L | 820081420889751603L))){
-
-
-            String url = Bot.env.get("WEBHOOKURL"); // oopsie from last time
+        if(event.getChannel().getIdLong() == 1120459667638865950L && (!event.getAuthor().isBot())){
 
             WebhookClient client = WebhookClient.withUrl(url);
 

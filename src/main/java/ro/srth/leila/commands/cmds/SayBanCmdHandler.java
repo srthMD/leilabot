@@ -23,7 +23,7 @@ public class SayBanCmdHandler extends Command {
         this.type = CommandType.SLASH;
         this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.USER, "saybanuser", "The user you want to ban from /say.", true));
-        this.register = false;
+        this.register = true;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
