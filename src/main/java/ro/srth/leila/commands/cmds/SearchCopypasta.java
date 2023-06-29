@@ -10,6 +10,7 @@ import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.CopypastaBan;
 import ro.srth.leila.util.GetCopypasta;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SearchCopypasta extends Command {
@@ -28,20 +29,24 @@ public class SearchCopypasta extends Command {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            if(banhandler.isBanned(event.getUser().getIdLong())){
-                event.reply("you cant use this command").setEphemeral(true).queue();
-                Bot.log.info(event.getInteraction().getUser().getName() + " tried to fire searchcopypasta but was banned");
-            } else{
-                OptionMapping query = event.getOption("query");
-                String query1 = query.getAsString();
+            try {
+                if(banhandler.isBanned(event.getUser().getIdLong())){
+                    event.reply("you cant use this command").setEphemeral(true).queue();
+                    Bot.log.info(event.getInteraction().getUser().getName() + " tried to fire searchcopypasta but was banned");
+                } else{
+                    OptionMapping query = event.getOption("query");
+                    String query1 = query.getAsString();
 
-                Bot.log.info(event.getInteraction().getUser().getName() + " Fired SearchCopypasta with query " + query1);
-                try {
-                    event.getInteraction().reply(copypastahandler.getCopypasta(query1)).queue();
-                } catch (Exception e) {
-                    Bot.log.info(e.toString());
-                    event.reply("something went wrong while executing the command").setEphemeral(true).queue();
+                    Bot.log.info(event.getInteraction().getUser().getName() + " Fired SearchCopypasta with query " + query1);
+                    try {
+                        event.getInteraction().reply(copypastahandler.getCopypasta(query1)).queue();
+                    } catch (Exception e) {
+                        Bot.log.info(e.toString());
+                        event.reply("something went wrong while executing the command").setEphemeral(true).queue();
+                    }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
