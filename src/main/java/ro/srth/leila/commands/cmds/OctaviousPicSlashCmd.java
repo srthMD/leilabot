@@ -31,18 +31,18 @@ public class OctaviousPicSlashCmd extends Command {
 
             File[] files = dir.listFiles();
 
-            File file = files[rand.nextInt(files.length)]; // chooses a random file
+            File file = files[rand.nextInt(files.length)];
 
-            FileUpload upload = FileUpload.fromData(file); // converts file????? idk it works
+            FileUpload upload = FileUpload.fromData(file);
 
-            Bot.log.info("filepath:" + file.toString());
+            Bot.log.info("filepath:" + file);
 
-            event.replyFiles(upload).queue(); // send
+            event.replyFiles(upload).queue();
         }
     }
     static int getNumberOfOctaviousPictures(){
         final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
-        File[] files = dir.listFiles();;
+        File[] files = dir.listFiles();
         return files.length;
     }
 }

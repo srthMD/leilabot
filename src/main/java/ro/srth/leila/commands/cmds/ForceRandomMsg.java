@@ -27,7 +27,7 @@ public class ForceRandomMsg extends Command {
                 if(!forced){
                     forced = true;
                     event.reply("setting force message toggle to %s".formatted(forced)).setEphemeral(true).queue();
-                } else if(forced){
+                } else{
                     forced = false;
                     event.reply("setting force message toggle to %s".formatted(forced)).setEphemeral(true).queue();
                 }

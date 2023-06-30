@@ -26,7 +26,7 @@ public class ToggleRandomMsg extends Command {
             if(!toggled){
                 toggled = true;
                 event.reply("setting random message toggle to " + toggled).queue();
-            } else if(toggled){
+            } else{
                 toggled = false;
                 event.reply("setting random message toggle to " + toggled).queue();
             }

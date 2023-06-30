@@ -1,10 +1,7 @@
 package ro.srth.leila.util;
 
 import io.github.techgnious.IVCompressor;
-import io.github.techgnious.dto.IVAudioAttributes;
-import io.github.techgnious.dto.IVSize;
-import io.github.techgnious.dto.IVVideoAttributes;
-import io.github.techgnious.dto.VideoFormats;
+import io.github.techgnious.dto.*;
 import org.apache.commons.io.FileUtils;
 import org.imgscalr.Scalr;
 
@@ -54,8 +51,8 @@ public class ShitifyHandler {
     public File compressImg(File image, int resizeBefore, int resizeAfter, int quality) throws IOException {
 
         BufferedImage img = ImageIO.read(image);
-        BufferedImage image1 = Scalr.resize(img, resizeBefore);
 
+        BufferedImage image1 = Scalr.resize(img, resizeBefore);
         BufferedImage image2 = Scalr.resize(image1, resizeAfter);
 
         BufferedImage image3 = new BufferedImage(image2.getWidth(), image2.getHeight(), BufferedImage.TYPE_INT_RGB);

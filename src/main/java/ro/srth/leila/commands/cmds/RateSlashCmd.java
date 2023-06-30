@@ -38,6 +38,7 @@ public class RateSlashCmd extends Command {
                     usertorate.getAsUser().getName() + " is ok i don see proble in bren " + rating + "/100",
                     usertorate.getAsUser().getName() + " is very coole like simone cat " + rating + "/100 <:simon:1033343266227232768><:simon:1033343266227232768><:simon:1033343266227232768><:simon:1033343266227232768><:simon:1033343266227232768>",
                     usertorate.getAsUser().getName() + " very coolest man " + rating + "/100 :thumbsup::thumbsup::thumbsup:"};
+
             if(rating <= 19){
                 event.reply(messages[0]).queue();
                 Bot.log.info("message 0");

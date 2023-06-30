@@ -24,12 +24,12 @@ public class ShitifyVid extends Command {
         this.type = CommandType.SLASH;
         this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.ATTACHMENT, "video", "video to compress", true));
-        args.add(new OptionData(OptionType.INTEGER, "bitrate", "bitrate of the video (default 2400)", false).setRequiredRange(1000L, 10000L));
+        args.add(new OptionData(OptionType.INTEGER, "bitrate", "bitrate of the video (default 2400)", false).setRequiredRange(1000L, 30000L));
         args.add(new OptionData(OptionType.INTEGER, "fps", "fps of the video (default 5)", false).setRequiredRange(3L, 25L));
         args.add(new OptionData(OptionType.INTEGER, "width", "width dimension of the video (default 700)", false).setRequiredRange(200, 1200L));
         args.add(new OptionData(OptionType.INTEGER, "height", "height dimension of the video (default 250)", false).setRequiredRange(200, 1200L));
-        args.add(new OptionData(OptionType.INTEGER, "audiobitrate", "audio bit rate (default 16000)", false).setRequiredRange(16000, 25000L));
-        args.add(new OptionData(OptionType.INTEGER, "audiosamplingrate", "audio sampling rate (default 16000)", false).setRequiredRange(16000, 25000L));
+        args.add(new OptionData(OptionType.INTEGER, "audiobitrate", "audio bit rate (default 16000)", false).setRequiredRange(15000L, 25000L));
+        args.add(new OptionData(OptionType.INTEGER, "audiosamplingrate", "audio sampling rate (default 16000)", false).setRequiredRange(15000L, 25000L));
         this.register = true;
     }
     @Override

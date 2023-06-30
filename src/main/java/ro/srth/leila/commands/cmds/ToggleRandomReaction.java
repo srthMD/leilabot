@@ -27,7 +27,7 @@ public class ToggleRandomReaction extends Command {
                 toggled = true;
 
                 event.reply("setting random reaction toggle to " + toggled).queue();
-            } else if(toggled){
+            }else{
                 toggled = false;
 
                 event.reply("setting random reaction toggle to " + toggled).queue();

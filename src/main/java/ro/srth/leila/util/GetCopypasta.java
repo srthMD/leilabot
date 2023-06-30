@@ -77,7 +77,6 @@ public class GetCopypasta {
                 flag = false;
             }
         }
-        System.out.println(flag);
 
 
         if (query.contains("%20")){

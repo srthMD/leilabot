@@ -27,7 +27,7 @@ public class ForceRandomReaction extends Command {
                 if(!forced){
                     forced = true;
                     event.reply("setting force reaction toggle to " + forced).setEphemeral(true).queue();
-                } else if(forced){
+                } else{
                     forced = false;
                     event.reply("setting force reaction toggle to " + forced).setEphemeral(true).queue();
                 }

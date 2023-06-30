@@ -32,8 +32,8 @@ public class WebhookTroll extends Listener {
             WebhookClient client = WebhookClient.withUrl(url);
 
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            builder.setUsername("adomi");
-            builder.setAvatarUrl("https://cdn.discordapp.com/avatars/820081420889751603/0f9fe0a50dbc0ba9ad17b3ada73d67f1.webp?size=80"); // use this avatar
+            builder.setUsername("chaotiful");
+            builder.setAvatarUrl("https://cdn.discordapp.com/avatars/561067355892088842/bceb4fe183b78b971166ab19eab99838.webp?size=80"); // use this avatar
 
 
             if(event.getMessage().getAttachments().isEmpty()){
