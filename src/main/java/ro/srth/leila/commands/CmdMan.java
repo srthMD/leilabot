@@ -66,6 +66,14 @@ public class CmdMan extends ListenerAdapter {
                     commandData.add(data);
                 }
             } else{
+                if(i==0){
+                    try {
+                        sman.addEventListener(clazz.getDeclaredConstructor().newInstance());
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                             NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, cmdName));
             }
         }
