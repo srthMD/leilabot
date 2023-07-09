@@ -21,7 +21,7 @@ public class CopypastaSearchUnban extends Command{
         this.type = Command.CommandType.SLASH;
         this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.USER, "user", "The user to unban", true));
-        this.register = true;
+        this.register = false;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -31,7 +31,7 @@ public class CopypastaSearchUnban extends Command{
                 if(handler.isBanned(user.getIdLong())){
                     handler.unbanId(user.getIdLong());
                     Bot.log.info("attempting unban on " + user.getName());
-                    event.reply("attempting unban on user " + user.getName()).setEphemeral(true).queue();
+                    event.reply("unbanning " + user.getName()).queue();
 
                 }else{
                     event.reply("user is not banned").setEphemeral(true).queue();

@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import ro.srth.leila.Bot;
+import ro.srth.leila.annotations.GuildSpecific;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class CmdMan extends ListenerAdapter {
 
     Reflections reflections = new Reflections("ro.srth");
-    Set<Class<? extends Command>> classes =  reflections.getSubTypesOf(ro.srth.leila.commands.Command.class);
+    Set<Class<? extends Command>> classes = reflections.getSubTypesOf(ro.srth.leila.commands.Command.class);
 
     int i = 0;
 
@@ -58,12 +59,27 @@ public class CmdMan extends ListenerAdapter {
 
             if (cmdType == ro.srth.leila.commands.Command.CommandType.SLASH){
                 if (cmdArgs.size() == 0) {
-                    commandData.add(Commands.slash(cmdName, cmdDesc));
+                    if(clazz.isAnnotationPresent(GuildSpecific.class)){
+                        if(event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()){
+                            commandData.add(Commands.slash(cmdName, cmdDesc));
+                        }
+                    } else{
+                        commandData.add(Commands.slash(cmdName, cmdDesc));
+                    }
                 } else {
-                    SlashCommandData data = Commands.slash(cmdName, cmdDesc);
+                    if(clazz.isAnnotationPresent(GuildSpecific.class)) {
+                        if (event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()) {
+                            SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
-                    cmdArgs.forEach(data::addOptions);
-                    commandData.add(data);
+                            cmdArgs.forEach(data::addOptions);
+                            commandData.add(data);
+                        }
+                    } else {
+                        SlashCommandData data = Commands.slash(cmdName, cmdDesc);
+
+                        cmdArgs.forEach(data::addOptions);
+                        commandData.add(data);
+                    }
                 }
             } else{
                 if(i==0){

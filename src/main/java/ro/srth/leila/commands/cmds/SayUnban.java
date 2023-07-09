@@ -32,7 +32,7 @@ public class SayUnban extends Command{
                    handler.unbanId(user.getIdLong());
 
                    Bot.log.info(user.getName() + " was successfully unbanned from /say");
-                   event.reply("attempting to unban").setEphemeral(true).queue();
+                   event.reply("unbanning " + user.getName()).queue();
 
                 }else{
                     event.reply("user is not banned").setEphemeral(true).queue();

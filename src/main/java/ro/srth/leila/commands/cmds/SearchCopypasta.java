@@ -24,7 +24,7 @@ public class SearchCopypasta extends Command {
         this.type = CommandType.SLASH;
         this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.STRING, "query", "Searches r/copypasta with the query provided.", true));
-        this.register = true;
+        this.register = false;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

@@ -12,22 +12,26 @@ public abstract class Command extends ListenerAdapter implements EventListener {
         SLASH(0),
         CONTEXT_MENU(1);
 
+
         private final int id;
 
         public int value() {
             return this.id;
         }
+
         CommandType(int id)
         {
             this.id = id;
         }
     }
+
+
     public String commandName;
     public String description;
 
     public CommandType type;
 
     public List<OptionData> args;
-    public boolean register;
 
+    public boolean register;
 }

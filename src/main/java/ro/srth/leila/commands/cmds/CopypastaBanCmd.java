@@ -12,19 +12,19 @@ import ro.srth.leila.util.CopypastaBan;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CopypastaBanCmdHandler extends Command {
+public class CopypastaBanCmd extends Command {
 
     public long user1;
 
     CopypastaBan handler = new CopypastaBan();
 
-    public CopypastaBanCmdHandler() {
+    public CopypastaBanCmd() {
         this.commandName = "copypastaban";
         this.description = "Bans a user from using /searchcopypasta.";
         this.type = Command.CommandType.SLASH;
         this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.USER, "copypastabanuser", "The user you want to ban from /searchcopypasta.", true));
-        this.register = true;
+        this.register = false;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -45,7 +45,7 @@ public class CopypastaBanCmdHandler extends Command {
                     throw new RuntimeException(e);
                 }
 
-                event.reply("Banning " + user.getAsUser().getName() + " from using /searchcopypasta.").setEphemeral(true).queue();
+                event.reply("Banning " + user.getAsUser().getName() + " from using /searchcopypasta.").queue();
 
                 Bot.log.info("Writing " + user1);
                 try {
