@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import ch.qos.logback.classic.LoggerContext;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -8,11 +8,10 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
-import ro.srth.leila.*;
+import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 //i was right
 //@NeedsRevamp(reason = "logger rewrite would probably break this")
@@ -20,10 +19,10 @@ import java.util.ArrayList;
 public class GetLogSlashCmd extends Command {
 
     public GetLogSlashCmd() {
+        super();
         this.commandName = "getlog";
         this.description = "Sends the current log of the bot.";
         this.type = Command.CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true));
         this.register = true;
     }

@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -9,17 +9,16 @@ import ro.srth.leila.annotations.GuildSpecific;
 import ro.srth.leila.commands.Command;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 @GuildSpecific(guildIdLong = 696053797755027537L)
 public class ConfigWebhook extends Command {
 
     public ConfigWebhook() {
+        super();
         this.commandName = "configurewebhook";
         this.description = "Command to change the pfp and name of the webhook";
         this.type = CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false));
         args.add(new OptionData(OptionType.STRING, "name", "The display name for the webhook", false));
         args.add(new OptionData(OptionType.STRING, "link", "The webhook url", false));

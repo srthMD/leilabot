@@ -1,17 +1,16 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.*;
+import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.CopypastaBan;
 import ro.srth.leila.util.GetCopypasta;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SearchCopypasta extends Command {
 
@@ -19,12 +18,12 @@ public class SearchCopypasta extends Command {
     private final CopypastaBan banhandler = new CopypastaBan();
 
     public SearchCopypasta() {
+        super();
         this.commandName = "searchcopypasta";
         this.description = "Replies with a copypasta from r/copypasta given a search query using randomized sorts";
         this.type = CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.STRING, "query", "Searches r/copypasta with the query provided.", true));
-        this.register = false;
+        this.register = true;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

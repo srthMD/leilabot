@@ -2,8 +2,9 @@ package ro.srth.leila.listener.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
+import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.Bot;
-import ro.srth.leila.commands.cmds.ToggleTextReactions;
+import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
 
 import java.io.File;
@@ -28,8 +29,8 @@ public class GenericMentionHandler extends Listener {
     };
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
-        if(!ToggleTextReactions.getToggledStatus() || event.getAuthor().isBot()){return;}
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        if(!Toggle.getTextToggle() || event.getAuthor().isBot()){return;}
 
         for (String trigger: triggers) {
             if(event.getMessage().getContentRaw().toLowerCase().contains(trigger)){

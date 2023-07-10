@@ -2,6 +2,7 @@ package ro.srth.leila.listener.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import ro.srth.leila.Bot;
+import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
 
 import java.util.Random;
@@ -16,14 +17,16 @@ public class GenericUserRandomMessage extends Listener {
     private final long[] ids = {428213747094650882L, 364480181936717855L, 584012160158400573L, 820081420889751603L}; // could have mabye used maps to map an id to a video or vice versa but i dont care
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+
+        if(!Toggle.getTextToggle()){return;}
+
         for (long id : ids) {
             if(id == event.getAuthor().getIdLong()){
                 Random random = ThreadLocalRandom.current();
                 int chance = random.nextInt(0, 100);
 
 
-                if (chance == 57){
-                   // thanks java for not supporting longs in switch
+                if (chance <= 1){
 
                     if(id == 820081420889751603L){
                         event.getMessage().reply("https://cdn.discordapp.com/attachments/1064186787007832214/1113174334463291402/3aee08a1d19f11b1.mp4").queue();

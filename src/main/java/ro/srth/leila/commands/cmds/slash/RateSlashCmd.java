@@ -1,25 +1,24 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.*;
+import ro.srth.leila.Bot;
 import ro.srth.leila.annotations.NeedsRevamp;
 import ro.srth.leila.commands.Command;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 @NeedsRevamp(reason = "unfunny messages and old")
 public class RateSlashCmd extends Command {
 
     public RateSlashCmd() {
+        super();
         this.commandName = "rate";
         this.description = "Rates a user 0-100.";
         this.type = CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
         args.add(new OptionData(OptionType.USER, "user_to_rate", "Select the user to rate.", true));
         this.register = true;
     }

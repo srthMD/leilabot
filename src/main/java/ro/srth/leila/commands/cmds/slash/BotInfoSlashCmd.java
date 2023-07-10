@@ -1,23 +1,21 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.listener.listeners.GenericMentionHandler;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class BotInfoSlashCmd extends Command {
 
     public BotInfoSlashCmd() {
+        super();
         this.commandName = "botinfo";
         this.description = "Sends information about the bot.";
         this.type = Command.CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
         this.register = true;
     }
 
@@ -36,14 +34,14 @@ public class BotInfoSlashCmd extends Command {
 
             eb.addField("Github:", "https://github.com/srthMD/leilabot", false);
             eb.addField("Lastest commit:", "https://github.com/srthMD/leilabot/commit/master", false);
-            eb.addField("Total amt of Leila pictures: ", String.valueOf(LeilaPicSlashCmd.getNumberOfLeilaPictures()), false);
-            eb.addField("Total amt of Octavious pictures: ", String.valueOf(OctaviousPicSlashCmd.getNumberOfOctaviousPictures()), false);
-            eb.addField("Total amt of Simon pictures: ", String.valueOf(SimonPicCmd.getNumberOfSimonPictures()), false);
-            eb.addField("Total amt of Chucky pictures: ", String.valueOf(ChuckyPicCmd.getNumberOfChuckyPictures()), false);
+            eb.addField("Total amt of Leila pictures: ", String.valueOf(PetPicture.getNumberOfLeilaPictures()), false);
+            eb.addField("Total amt of Octavious pictures: ", String.valueOf(PetPicture.getNumberOfOctaviousPictures()), false);
+            eb.addField("Total amt of Simon pictures: ", String.valueOf(PetPicture.getNumberOfSimonPictures()), false);
+            eb.addField("Total amt of Chucky pictures: ", String.valueOf(PetPicture.getNumberOfChuckyPictures()), false);
             eb.addField("Total Amt of birthday art pictures: ", String.valueOf(GenericMentionHandler.getNumberOfBdayArtPctures()), false);
-            eb.addField("Random Messages Toggled: ", String.valueOf(ToggleRandomMsg.getToggledStatus()), false);
-            eb.addField("Random Reactions Toggled: ", String.valueOf(ToggleRandomReaction.getToggledStatus()), false);
-            eb.addField("Random Text Reactions Toggled: ", String.valueOf(ToggleTextReactions.getToggledStatus()), false);
+            eb.addField("Random Messages Toggled: ", String.valueOf(Toggle.getMessageToggle()), false);
+            eb.addField("Random Reactions Toggled: ", String.valueOf(Toggle.getReactionToggle()), false);
+            eb.addField("Random Text Reactions Toggled: ", String.valueOf(Toggle.getTextToggle()), false);
             eb.setFooter("Written in Java by srth#2668 ", "https://avatars.githubusercontent.com/u/94727593?v=4");
 
             try {

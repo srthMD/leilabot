@@ -3,7 +3,9 @@ package ro.srth.leila.commands;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command extends ListenerAdapter implements EventListener {
@@ -32,6 +34,13 @@ public abstract class Command extends ListenerAdapter implements EventListener {
     public CommandType type;
 
     public List<OptionData> args;
+    public List<SubcommandData> subCmds;
 
     public boolean register;
+
+    //to prevent errors
+    public Command(){
+        subCmds = new ArrayList<SubcommandData>();
+        args = new ArrayList<OptionData>();
+    }
 }
