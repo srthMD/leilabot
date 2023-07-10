@@ -1,10 +1,12 @@
 package ro.srth.leila.commands.cmds.slash;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.CopypastaBan;
 import ro.srth.leila.util.SayBan;
@@ -23,6 +25,7 @@ public class Unban extends Command {
         this.type = CommandType.SLASH;
         subCmds.add(new SubcommandData("say", "Unbans a user from /say").addOption(OptionType.USER, "user", "The user you want to unban from /say", true));
         subCmds.add(new SubcommandData("searchcopypasta", "Unbans a user from /searchcopypasta").addOption(OptionType.USER, "user", "The user you want to unban from /searchcopypasta", true));
+        permissions.add(Permission.MESSAGE_MANAGE);
         this.register = true;
 
         shandler = new SayBan();
@@ -44,6 +47,7 @@ public class Unban extends Command {
 
                     try {
                         shandler.unbanId(event.getOption("user", OptionMapping::getAsUser).getIdLong());
+                        Bot.log.info("say unbanned " + event.getOption("user", OptionMapping::getAsUser).getName());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -61,6 +65,7 @@ public class Unban extends Command {
 
                     try {
                         handler.unbanId(event.getOption("user", OptionMapping::getAsUser).getIdLong());
+                        Bot.log.info("copypasta unbanned " + event.getOption("user", OptionMapping::getAsUser).getName());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

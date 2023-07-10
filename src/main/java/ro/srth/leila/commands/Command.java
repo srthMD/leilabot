@@ -1,5 +1,6 @@
 package ro.srth.leila.commands;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -38,8 +39,11 @@ public abstract class Command extends ListenerAdapter implements EventListener {
 
     public boolean register;
 
+    public List<Permission> permissions;
+
     //to prevent errors
     public Command(){
+        permissions = new ArrayList<Permission>();
         subCmds = new ArrayList<SubcommandData>();
         args = new ArrayList<OptionData>();
     }

@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
 import ro.srth.leila.commands.Command;
 
@@ -97,6 +98,8 @@ public class Webhook extends Command {
                         name = event.getOption("name", cfg_namereader.readLine(), OptionMapping::getAsString);
                         img = event.getOption("image", cfg_pfpreader.readLine(), OptionMapping::getAsString);
                         link = event.getOption("link", cfg_webhookreader.readLine(), OptionMapping::getAsString);
+
+                        Bot.log.info(event.getUser().getName() + " fired webhook config with args \n" + name + "\n" + img + "\n" + "link");
 
                         if(!Objects.equals(img, cfg_pfpreader.readLine()) && !(img.endsWith("png")|| img.endsWith("jpg") || img.endsWith("jpeg"))){
                             event.reply("image must be a png or jpeg").setEphemeral(true).queue();

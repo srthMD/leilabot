@@ -1,7 +1,9 @@
 package ro.srth.leila.commands;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +44,7 @@ public class CmdMan extends ListenerAdapter {
             String cmdDesc;
             List<OptionData> cmdArgs;
             List<SubcommandData> subCmds;
+            List<Permission> reqperms;
 
             try {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -58,13 +61,13 @@ public class CmdMan extends ListenerAdapter {
                 cmdArgs = (List<OptionData>) clazz.getField("args").get(instance);
                 subCmds = (List<SubcommandData>) clazz.getField("subCmds").get(instance);
                 cmdType = (ro.srth.leila.commands.Command.CommandType) clazz.getField("type").get(instance);
+                reqperms = (List<Permission>) clazz.getField("permissions").get(instance);
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException |
                      InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
 
             try {
-
                 if (cmdType == ro.srth.leila.commands.Command.CommandType.SLASH) {
                     if (cmdArgs.isEmpty()) {
                         if (clazz.isAnnotationPresent(GuildSpecific.class)) {
@@ -72,11 +75,24 @@ public class CmdMan extends ListenerAdapter {
                                 if (!subCmds.isEmpty()) {
                                     SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
+                                    if(!reqperms.isEmpty()){
+                                        for (Permission p : reqperms) {
+                                            data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
+                                        }
+                                    }
+
                                     subCmds.forEach(data::addSubcommands);
 
                                     commandData.add(data);
                                 } else {
-                                    commandData.add(Commands.slash(cmdName, cmdDesc));
+                                    SlashCommandData data = Commands.slash(cmdName, cmdDesc);
+
+                                    if(!reqperms.isEmpty()){
+                                        for (Permission p : reqperms) {
+                                            data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
+                                        }
+                                    }
+                                    commandData.add(data);
                                 }
                             }
                         } else {
@@ -87,7 +103,14 @@ public class CmdMan extends ListenerAdapter {
 
                                 commandData.add(data);
                             } else {
-                                commandData.add(Commands.slash(cmdName, cmdDesc));
+                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
+
+                                if(!reqperms.isEmpty()){
+                                    for (Permission p : reqperms) {
+                                        data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
+                                    }
+                                }
+                                commandData.add(data);
                             }
                         }
                     } else {
@@ -95,11 +118,23 @@ public class CmdMan extends ListenerAdapter {
                             if (event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()) {
                                 SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
+                                if(!reqperms.isEmpty()){
+                                    for (Permission p : reqperms) {
+                                        data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
+                                    }
+                                }
+
                                 cmdArgs.forEach(data::addOptions);
                                 commandData.add(data);
                             }
                         } else {
                             SlashCommandData data = Commands.slash(cmdName, cmdDesc);
+
+                            if(!reqperms.isEmpty()){
+                                for (Permission p : reqperms) {
+                                    data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
+                                }
+                            }
 
                             cmdArgs.forEach(data::addOptions);
                             commandData.add(data);
