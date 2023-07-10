@@ -17,7 +17,7 @@ public class ConfigWebhook extends Command {
     public ConfigWebhook() {
         super();
         this.commandName = "configurewebhook";
-        this.description = "Command to change the pfp and name of the webhook";
+        this.description = "Change certian options of the webhook";
         this.type = CommandType.SLASH;
         args.add(new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false));
         args.add(new OptionData(OptionType.STRING, "name", "The display name for the webhook", false));
@@ -54,7 +54,7 @@ public class ConfigWebhook extends Command {
                 }
 
                 if(Objects.isNull(img) && Objects.isNull(name) && Objects.isNull(link)) {
-                    event.reply("both options cant be blank").setEphemeral(true).queue();
+                    event.reply("all options cant be blank").setEphemeral(true).queue();
                     namereader.close();
                     pfpreader.close();
                     webhookreader.close();
