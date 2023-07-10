@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import ro.srth.leila.Bot;
 import ro.srth.leila.annotations.PrivateAccess;
+import ro.srth.leila.commands.cmds.slash.Webhook;
 import ro.srth.leila.listener.Listener;
 
 import java.io.BufferedReader;
@@ -24,8 +25,8 @@ public class WebhookTroll extends Listener {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-
         if(event.getChannel().getIdLong() == 1120459667638865950L && (!event.getAuthor().isBot())){
+            if(!Webhook.isActive()){return;}
 
             String url;
             try {

@@ -7,9 +7,9 @@ import ro.srth.leila.commands.Command;
 
 public class Toggle extends Command{
 
-    private static boolean msgtoggle = true;
-    private static boolean reactiontoggle = true;
-    private static boolean txttoggle = true;
+    private static boolean msgtoggle;
+    private static boolean reactiontoggle;
+    private static boolean txttoggle;
 
     public Toggle() {
         super();
@@ -20,6 +20,10 @@ public class Toggle extends Command{
         subCmds.add(new SubcommandData("randomreactions", "toggles random reactions"));
         subCmds.add(new SubcommandData("textreactions", "toggles preset reactions based on message content"));
         this.register = true;
+
+        msgtoggle = true;
+        reactiontoggle = true;
+        txttoggle = true;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

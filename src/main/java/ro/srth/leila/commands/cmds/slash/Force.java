@@ -7,8 +7,8 @@ import ro.srth.leila.commands.Command;
 
 public class Force extends Command{
 
-    private static boolean msgforce = false;
-    private static boolean reactionforce = false;
+    private static boolean msgforce;
+    private static boolean reactionforce;
 
     public Force() {
         super();
@@ -18,6 +18,9 @@ public class Force extends Command{
         subCmds.add(new SubcommandData("randommessages", "forces random messages"));
         subCmds.add(new SubcommandData("randomreactions", "forces random reactions"));
         this.register = true;
+
+        msgforce = false;
+        reactionforce = false;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

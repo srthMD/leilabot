@@ -12,6 +12,10 @@ import ro.srth.leila.util.SayBan;
 import java.io.IOException;
 
 public class Unban extends Command {
+
+    SayBan shandler;
+    CopypastaBan handler;
+
     public Unban() {
         super();
         this.commandName = "unban";
@@ -20,14 +24,15 @@ public class Unban extends Command {
         subCmds.add(new SubcommandData("say", "Unbans a user from /say").addOption(OptionType.USER, "user", "The user you want to unban from /say", true));
         subCmds.add(new SubcommandData("searchcopypasta", "Unbans a user from /searchcopypasta").addOption(OptionType.USER, "user", "The user you want to unban from /searchcopypasta", true));
         this.register = true;
+
+        shandler = new SayBan();
+        handler = new CopypastaBan();
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             switch (event.getSubcommandName()){
                 case("say"):
-                    SayBan shandler = new SayBan();
-
                     try {
                         if(!shandler.isBanned(event.getOption("user", OptionMapping::getAsUser).getIdLong())){
                             event.reply("user isnt banned").setEphemeral(true).queue();
@@ -45,8 +50,6 @@ public class Unban extends Command {
                     break;
 
                 case("searchcopypasta"):
-                    CopypastaBan handler = new CopypastaBan();
-
                     try {
                         if(!handler.isBanned(event.getOption("user", OptionMapping::getAsUser).getIdLong())){
                             event.reply("user isnt already banned").setEphemeral(true).queue();
