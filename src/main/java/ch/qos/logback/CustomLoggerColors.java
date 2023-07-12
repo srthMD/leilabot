@@ -1,4 +1,4 @@
-package com.acme.logback;
+package ch.qos.logback;
 //idfk why i did this but i thought it would be more readable putting it here, also because stack overflow did aswell
 
 import ch.qos.logback.classic.Level;

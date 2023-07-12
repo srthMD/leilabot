@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <conversionRule conversionWord="CustomColoring" converterClass="com.acme.logback.CustomLoggerColors" />
+    <conversionRule conversionWord="CustomColoring" converterClass="ch.qos.logback.CustomLoggerColors" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

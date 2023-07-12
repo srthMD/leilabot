@@ -1,13 +1,11 @@
 package ro.srth.leila.commands.cmds.slash;
 
-import ch.qos.logback.classic.LoggerContext;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.LoggerFactory;
 import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 
@@ -30,8 +28,6 @@ public class GetLogSlashCmd extends Command {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             Bot.log.info(event.getInteraction().getUser().getName() + " Fired GetLogSlashCmd");
-
-            LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
             FileUpload upload = FileUpload.fromData(Paths.get("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\bot.log"));
 

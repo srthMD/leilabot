@@ -50,22 +50,6 @@ public class Ban extends Command {
                         throw new RuntimeException(e);
                     }
                     break;
-                case("searchcopypasta"):
-                    try {
-                        if(handler.isBanned(event.getOption("user", OptionMapping::getAsUser).getIdLong())){
-                            event.reply("user is already banned").setEphemeral(true).queue();
-                            return;
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    try {
-                        handler.banId(event.getOption("user", OptionMapping::getAsUser).getIdLong());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
                 default:
                     event.reply("something went wrong").setEphemeral(true).queue();
             }
