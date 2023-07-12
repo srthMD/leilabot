@@ -24,7 +24,6 @@ public class Unban extends Command {
         this.description = "unbans a user from say or copypastasearch";
         this.type = CommandType.SLASH;
         subCmds.add(new SubcommandData("say", "Unbans a user from /say").addOption(OptionType.USER, "user", "The user you want to unban from /say", true));
-        subCmds.add(new SubcommandData("searchcopypasta", "Unbans a user from /searchcopypasta").addOption(OptionType.USER, "user", "The user you want to unban from /searchcopypasta", true));
         permissions.add(Permission.MESSAGE_MANAGE);
         this.register = true;
 
@@ -48,24 +47,6 @@ public class Unban extends Command {
                     try {
                         shandler.unbanId(event.getOption("user", OptionMapping::getAsUser).getIdLong());
                         Bot.log.info("say unbanned " + event.getOption("user", OptionMapping::getAsUser).getName());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case("searchcopypasta"):
-                    try {
-                        if(!handler.isBanned(event.getOption("user", OptionMapping::getAsUser).getIdLong())){
-                            event.reply("user isnt already banned").setEphemeral(true).queue();
-                            return;
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    try {
-                        handler.unbanId(event.getOption("user", OptionMapping::getAsUser).getIdLong());
-                        Bot.log.info("copypasta unbanned " + event.getOption("user", OptionMapping::getAsUser).getName());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

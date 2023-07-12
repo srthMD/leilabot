@@ -23,7 +23,6 @@ public class Ban extends Command {
         this.description = "bans a user from say or copypastasearch";
         this.type = CommandType.SLASH;
         subCmds.add(new SubcommandData("say", "Bans a user from /say").addOption(OptionType.USER, "user", "The user you want to ban from /say", true));
-        subCmds.add(new SubcommandData("searchcopypasta", "Bans a user from /searchcopypasta").addOption(OptionType.USER, "user", "The user you want to ban from /searchcopypasta", true));
         permissions.add(Permission.MESSAGE_MANAGE);
         this.register = true;
 
