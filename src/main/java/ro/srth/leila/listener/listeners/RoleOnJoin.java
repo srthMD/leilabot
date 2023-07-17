@@ -12,6 +12,6 @@ public class RoleOnJoin extends Listener {
 
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-        event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(1127390470750867526L)).queue();
+        event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(1129149788835815534L)).queue();
     }
 }

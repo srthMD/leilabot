@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.Command;
-import ro.srth.leila.util.CopypastaBan;
 import ro.srth.leila.util.SayBan;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.io.IOException;
 public class Ban extends Command {
 
     SayBan shandler;
-    CopypastaBan handler;
 
     public Ban() {
         super();
@@ -27,7 +25,6 @@ public class Ban extends Command {
         this.register = true;
 
         shandler = new SayBan();
-        handler = new CopypastaBan();
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

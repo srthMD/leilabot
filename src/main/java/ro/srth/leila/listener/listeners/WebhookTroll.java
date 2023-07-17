@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @PrivateAccess
 public class WebhookTroll extends Listener {
@@ -64,17 +63,7 @@ public class WebhookTroll extends Listener {
             } else{
                 List<Message.Attachment> attachmenturl = event.getMessage().getAttachments();
                 for (Message.Attachment attach: attachmenturl) {
-                    try {
-                        try {
-                            builder.addFile(attach.getProxy().downloadToFile(File.createTempFile("send", "." + attach.getFileExtension())).get());
-                        } catch (InterruptedException | ExecutionException e){
-                            builder.reset();
-                            throw new RuntimeException(e);
-                        }
-                    } catch (IOException e) {
-                        builder.reset();
-                        throw new RuntimeException(e);
-                    }
+                    builder.addFile(attach.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attach.getFileName()+"."+attach.getFileExtension())).join());
                 }
                 builder.setContent(event.getMessage().getContentRaw());
                 try{

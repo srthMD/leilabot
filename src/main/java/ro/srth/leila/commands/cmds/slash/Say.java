@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds;
+package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -56,12 +56,7 @@ public class Say extends Command {
 
                     Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
                     File upload;
-                    try {
-                        upload = attachment != null ? attachment.getProxy().downloadToFile(File.createTempFile("send",  "." + attachment.getFileExtension())).join() : null;
-                    } catch (IOException e) {
-                        event.getInteraction().reply("something went wrong processing file").setEphemeral(true).queue();
-                        throw new RuntimeException(e);
-                    }
+                    upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName() + "." + attachment.getFileExtension())).join() : null;
 
                     if (msgId == null) {
                         if (message == null){
