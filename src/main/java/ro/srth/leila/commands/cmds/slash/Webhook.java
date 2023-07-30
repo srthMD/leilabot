@@ -20,7 +20,6 @@ import java.util.Objects;
 public class Webhook extends Command {
 
     private static boolean active;
-    private static boolean mirror;
     public Webhook() {
         super();
         this.commandName = "webhook";
@@ -29,11 +28,9 @@ public class Webhook extends Command {
         subCmds.add(new SubcommandData("info", "Shows set info about the webhook").addOption(OptionType.BOOLEAN, "withlink", "Option to include the webhook link, (will delete message after 10 seconds)", true));
         subCmds.add(new SubcommandData("config", "configure settings about a webhook").addOptions(new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false), new OptionData(OptionType.STRING, "name", "The display name for the webhook", false), new OptionData(OptionType.STRING, "link", "The webhook url", false)));
         subCmds.add(new SubcommandData("setactive", "Activates or deactivates the listener for the webhook").addOption(OptionType.BOOLEAN, "active", "Whether the webhook listener is active or not", true));
-        subCmds.add(new SubcommandData("mirror", "Toggles mirroring messages from the webhook link channel").addOption(OptionType.BOOLEAN, "active", "Whether the webhook listener is active or not", true));
         this.register = true;
 
         active = true;
-        mirror = false;
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
