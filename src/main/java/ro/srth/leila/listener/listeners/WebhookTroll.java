@@ -63,7 +63,7 @@ public class WebhookTroll extends Listener {
             } else{
                 List<Message.Attachment> attachmenturl = event.getMessage().getAttachments();
                 for (Message.Attachment attach: attachmenturl) {
-                    builder.addFile(attach.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attach.getFileName()+"."+attach.getFileExtension())).join());
+                    builder.addFile(attach.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attach.getFileName())).join());
                 }
                 builder.setContent(event.getMessage().getContentRaw());
                 try{

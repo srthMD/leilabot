@@ -22,7 +22,7 @@ public class RandomMsg extends Listener {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
-        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !Toggle.getMessageToggle()){return;}
+        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !Toggle.getMessageToggle() || event.getGuild().getIdLong() == 696053797755027537L){return;}
 
         if(Force.getMessageForced()){
             int index = rand.nextInt(msgs.length);

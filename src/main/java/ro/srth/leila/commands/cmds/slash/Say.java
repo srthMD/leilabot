@@ -56,7 +56,7 @@ public class Say extends Command {
 
                     Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
                     File upload;
-                    upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName() + "." + attachment.getFileExtension())).join() : null;
+                    upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName())).join() : null;
 
                     if (msgId == null) {
                         if (message == null){
