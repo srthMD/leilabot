@@ -16,7 +16,7 @@ public class PetPicture extends Command{
         super();
         this.commandName = "petpicture";
         this.description = "command to house sub commands for pet pictures";
-        this.type = Command.CommandType.SLASH;
+        this.type = CommandType.SLASH;
         subCmds.add(new SubcommandData("simon", "Sends a random picture of simon"));
         subCmds.add(new SubcommandData("leila", "Sends a random picture of leila"));
         subCmds.add(new SubcommandData("octavious", "Sends a random picture of octavious"));
