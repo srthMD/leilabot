@@ -58,6 +58,11 @@ public class Say extends Command {
                     File upload;
                     upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName())).join() : null;
 
+                    if(message == null && upload == null){
+                        event.reply("you must fill in either the content or attachment options").setEphemeral(true).queue();
+                        return;
+                    }
+
                     if (msgId == null) {
                         if (message == null){
                             event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
