@@ -24,7 +24,7 @@ public class Shitify extends Command {
         this.type = CommandType.SLASH;
         //i just copy paste this took me like only one minute
         subCmds.add(new SubcommandData("image", "Shitifies an image").addOption(OptionType.ATTACHMENT, "image", "The image you want to compress", true).addOptions(new OptionData(OptionType.INTEGER, "resizebefore", "resolution to scale the image down to (default 40)", false).setRequiredRange(10L, 150L), new OptionData(OptionType.INTEGER, "resizeafter", "resolution to scale the image back up to lower quality (default 400)", false).setRequiredRange(200L, 600L), new OptionData(OptionType.INTEGER, "quality", "number between 1-50 determining quality (default 7)", false).setRequiredRange(1L, 50L)));
-        subCmds.add(new SubcommandData("video", "Shitifies a video").addOption(OptionType.ATTACHMENT, "video", "The video you want to compress", true).addOptions(new OptionData(OptionType.INTEGER, "bitrate", "bitrate of the video (default 2400)", false).setRequiredRange(1000L, 30000L), new OptionData(OptionType.INTEGER, "fps", "fps of the video (default 5)", false).setRequiredRange(3L, 25L), new OptionData(OptionType.INTEGER, "width", "width dimension of the video (default 700)", false).setRequiredRange(200, 1200L), new OptionData(OptionType.INTEGER, "height", "height dimension of the video (default 250)", false).setRequiredRange(200, 1200L), new OptionData(OptionType.INTEGER, "audiobitrate", "audio bit rate (default 16000)", false).setRequiredRange(15000L, 25000L), new OptionData(OptionType.INTEGER, "audiosamplingrate", "audio sampling rate (default 16000)", false).setRequiredRange(15000L, 25000L)));
+        subCmds.add(new SubcommandData("video", "Shitifies a video").addOption(OptionType.ATTACHMENT, "video", "The video you want to compress", true).addOptions(new OptionData(OptionType.INTEGER, "bitrate", "bitrate of the video (default 5000)", false).setRequiredRange(1000L, 30000L), new OptionData(OptionType.INTEGER, "fps", "fps of the video (default 5)", false).setRequiredRange(3L, 25L), new OptionData(OptionType.INTEGER, "width", "width dimension of the video (default 700)", false).setRequiredRange(200, 1200L), new OptionData(OptionType.INTEGER, "height", "height dimension of the video (default 250)", false).setRequiredRange(200, 1200L), new OptionData(OptionType.INTEGER, "audiobitrate", "audio bit rate (default 16000)", false).setRequiredRange(15000L, 25000L), new OptionData(OptionType.INTEGER, "audiosamplingrate", "audio sampling rate (default 16000)", false).setRequiredRange(15000L, 25000L)));
         this.register = true;
     }
     @Override
@@ -66,7 +66,7 @@ public class Shitify extends Command {
                 case("video"):
                     OptionMapping video = event.getOption("video");
 
-                    Integer bitrate = event.getOption("bitrate", 2400, OptionMapping::getAsInt);
+                    Integer bitrate = event.getOption("bitrate", 5000, OptionMapping::getAsInt);
                     Integer fps = event.getOption("fps", 5, OptionMapping::getAsInt);
                     Integer width = event.getOption("width", 700, OptionMapping::getAsInt);
                     Integer height = event.getOption("height", 250, OptionMapping::getAsInt);
