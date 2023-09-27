@@ -39,8 +39,26 @@ public class Bot{
         builder.enableCache(CacheFlag.EMOJI, CacheFlag.VOICE_STATE);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-        sman = builder.build();
+        try{
+            sman = builder.build();
+        } catch (Exception e) {
+            Bot.log.warn("sman build() failed, most likely no internet connection");
+            Bot.log.info(e.getMessage());
 
+            for (int i = 1; i < 10; i++) {
+                try{
+                    sman = builder.build();
+                } catch (Exception e2){
+                    Bot.log.warn("reconnect attempt failed, attempt " + i);
+
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        }
 
         //register command and listener handlers
         sman.addEventListener(new CmdMan());
@@ -56,7 +74,13 @@ public class Bot{
         try{
            Bot bot = new Bot();
         } catch (LoginException ex){
-            Bot.log.warn("something went wrong on login:\n" + ex.getLocalizedMessage());
+            for (int i = 0; i < 10; i++) {
+                try{
+                    Bot bot = new Bot();
+                } catch (LoginException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }
