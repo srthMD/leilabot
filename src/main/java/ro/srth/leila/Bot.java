@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import ro.srth.leila.commands.CmdMan;
 import ro.srth.leila.listener.ListenerHandler;
 
-import javax.security.auth.login.LoginException;
-
 public class Bot{
 
     public static final Logger log = LoggerFactory.getLogger(Bot.class);
@@ -23,7 +21,7 @@ public class Bot{
 
     private static ShardManager sman;
 
-    public Bot() throws LoginException {
+    public Bot() {
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
 
         String token = env.get("TOKEN");
@@ -46,8 +44,10 @@ public class Bot{
             Bot.log.info(e.getMessage());
 
             for (int i = 1; i < 10; i++) {
+                boolean suc = false;
                 try{
                     sman = builder.build();
+                    suc = true;
                 } catch (Exception e2){
                     Bot.log.warn("reconnect attempt failed, attempt " + i);
 
@@ -57,6 +57,7 @@ public class Bot{
                         throw new RuntimeException(ex);
                     }
                 }
+                if(suc){break;}
             }
         }
 
@@ -71,16 +72,6 @@ public class Bot{
 
 
     public static void main(String[] args){
-        try{
-           Bot bot = new Bot();
-        } catch (LoginException ex){
-            for (int i = 0; i < 10; i++) {
-                try{
-                    Bot bot = new Bot();
-                } catch (LoginException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        Bot bot = new Bot();
     }
 }

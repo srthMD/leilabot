@@ -1,3 +1,5 @@
+//easy to just copy and paste
+
 package ro.srth.leila.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,6 +14,7 @@ public class Template extends Command {
         this.type = CommandType.SLASH;
         this.register = false;
     }
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {

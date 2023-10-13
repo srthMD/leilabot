@@ -30,17 +30,17 @@ public class Toggle extends Command{
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             switch (event.getSubcommandName()){
                 case ("randommessages"):
-                    msgtoggle = msgtoggle ? false: true;
+                    msgtoggle = !msgtoggle;
                     event.reply("setting random message toggle to " + msgtoggle).queue();
                     break;
 
                 case("randomreactions"):
-                    reactiontoggle = reactiontoggle ? false: true;
+                    reactiontoggle = !reactiontoggle;
                     event.reply("setting random reaction toggle to " + reactiontoggle).queue();
                     break;
 
                 case("textreactions"):
-                    txttoggle = txttoggle ? false: true;
+                    txttoggle = !txttoggle;
                     event.reply("setting text reaction toggle to " + txttoggle).queue();
                     break;
 

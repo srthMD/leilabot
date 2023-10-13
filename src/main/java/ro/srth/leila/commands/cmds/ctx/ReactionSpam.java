@@ -38,7 +38,7 @@ public class ReactionSpam extends Command {
         this.commandName = "Reaction Spam";
         this.description = null;
         this.type = CommandType.CONTEXT_MENU;
-        this.args = new ArrayList<OptionData>();
+        this.args = new ArrayList<>();
         this.register = true;
     }
 }

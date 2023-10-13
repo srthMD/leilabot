@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.Bot;
 import ro.srth.leila.commands.Command;
 import ro.srth.leila.util.ShitifyHandler;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 public class Shitify extends Command {
 
-    ShitifyHandler shitifyhandler = new ShitifyHandler();
+    final ShitifyHandler shitifyhandler = new ShitifyHandler();
     public Shitify() {
         super();
         this.commandName = "shitify";
@@ -57,7 +58,7 @@ public class Shitify extends Command {
                             event.getHook().sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Bot.log.error(e.getMessage());
                         event.getHook().sendMessage("something went wrong").queue();
                     }
 
@@ -86,14 +87,14 @@ public class Shitify extends Command {
                         } else {
                             File imageToCompress = v_attachment.getProxy().downloadToPath().get().toFile();
                             try {
-                                v_shitifyFile = shitifyhandler.compressVid(imageToCompress, bitrate, fps, width, height, audiobitrate, audiosamplingrate);
+                                v_shitifyFile = shitifyhandler.compressVid(imageToCompress, bitrate, fps, height, width, audiobitrate, audiosamplingrate);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                             event.getHook().sendFiles(FileUpload.fromData(v_shitifyFile)).submit(true);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Bot.log.error(e.getMessage());
                         event.getHook().sendMessage("something went wrong").queue();
                     }
 

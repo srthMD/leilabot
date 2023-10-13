@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class Unban extends Command {
 
-    SayBan shandler;
+    final SayBan shandler;
 
     public Unban() {
         super();

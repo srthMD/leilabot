@@ -24,7 +24,7 @@ public class RandomMsg extends Listener {
         }
     }
 
-    Random rand = ThreadLocalRandom.current();
+    final Random rand = ThreadLocalRandom.current();
 
 
     @Override
@@ -48,5 +48,5 @@ public class RandomMsg extends Listener {
         }
     }
 
-    public static ArrayList<String> msgs = new ArrayList<String>();
+    public static ArrayList<String> msgs = new ArrayList<>();
 }

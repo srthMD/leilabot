@@ -20,8 +20,8 @@ import java.util.Set;
 @SuppressWarnings(value = "unchecked")
 public class CmdMan extends ListenerAdapter {
 
-    Reflections reflections = new Reflections("ro.srth");
-    Set<Class<? extends Command>> classes = reflections.getSubTypesOf(ro.srth.leila.commands.Command.class);
+    final Reflections reflections = new Reflections("ro.srth");
+    final Set<Class<? extends Command>> classes = reflections.getSubTypesOf(ro.srth.leila.commands.Command.class);
 
     int i = 0;
 
@@ -72,8 +72,8 @@ public class CmdMan extends ListenerAdapter {
                     if (cmdArgs.isEmpty()) {
                         if (clazz.isAnnotationPresent(GuildSpecific.class)) {
                             if (event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()) {
+                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
                                 if (!subCmds.isEmpty()) {
-                                    SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
                                     if(!reqperms.isEmpty()){
                                         for (Permission p : reqperms) {
@@ -83,35 +83,31 @@ public class CmdMan extends ListenerAdapter {
 
                                     subCmds.forEach(data::addSubcommands);
 
-                                    commandData.add(data);
                                 } else {
-                                    SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
                                     if(!reqperms.isEmpty()){
                                         for (Permission p : reqperms) {
                                             data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
                                         }
                                     }
-                                    commandData.add(data);
                                 }
+                                commandData.add(data);
                             }
                         } else {
+                            SlashCommandData data = Commands.slash(cmdName, cmdDesc);
                             if (!subCmds.isEmpty()) {
-                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
                                 subCmds.forEach(data::addSubcommands);
 
-                                commandData.add(data);
                             } else {
-                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
 
                                 if(!reqperms.isEmpty()){
                                     for (Permission p : reqperms) {
                                         data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
                                     }
                                 }
-                                commandData.add(data);
                             }
+                            commandData.add(data);
                         }
                     } else {
                         if (clazz.isAnnotationPresent(GuildSpecific.class)) {
@@ -152,7 +148,7 @@ public class CmdMan extends ListenerAdapter {
                     commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, cmdName));
                 }
             }catch (Exception e){
-                e.printStackTrace();
+                Bot.log.error(e.getMessage());
             }
         }
         event.getGuild().updateCommands().addCommands(commandData).queue();

@@ -13,7 +13,8 @@ import ro.srth.leila.commands.Command;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @GuildSpecific(guildIdLong = 696053797755027537L)
@@ -39,31 +40,18 @@ public class Webhook extends Command {
                 case("info"):
                     boolean withLink = event.getOption("withlink", false, OptionMapping::getAsBoolean);
 
-                    BufferedReader namereader;
-                    BufferedReader pfpreader;
-                    BufferedReader webhookreader;
-
-                    try {
-                        namereader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\name.txt"));
-                        pfpreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\pfp.txt"));
-                        webhookreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\webhook.txt"));
-
-                    } catch (FileNotFoundException e) {
-                        event.reply("something went wrong on execution").setEphemeral(true).queue();
-
-                        throw new RuntimeException(e);
-                    }
+                    List<String> elements = read();
 
                     EmbedBuilder eb = new EmbedBuilder();
 
                     try {
                         eb.setColor(Color.white);
-                        eb.setThumbnail(pfpreader.readLine());
-                        eb.addField("Name: ", namereader.readLine(), false);
+                        eb.setThumbnail(elements.get(2));
+                        eb.addField("Name: ", elements.get(1), false);
                         eb.addField("Active: ", String.valueOf(active), false);
                         eb.setTitle(withLink ? "Webhook Info, **Will be deleted in 10 seconds**" : "Webhook Info");
                         if(withLink){
-                            eb.addField("Link: ", "|| " + webhookreader.readLine() + " ||", false);
+                            eb.addField("Link: ", "|| " + elements.get(3) + " ||", false);
                         }
                         eb.setFooter("Written in Java by srth#2668 ", "https://avatars.githubusercontent.com/u/94727593?v=4");
                         event.getInteraction().replyEmbeds(eb.build()).queue();
@@ -73,86 +61,46 @@ public class Webhook extends Command {
                             event.getInteraction().getHook().deleteOriginal().queue();
                         }
 
-                    } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        Bot.log.error(e.getMessage());
                     }
 
                     break;
 
                 case("config"):
-                    BufferedReader cfg_namereader;
-                    BufferedReader cfg_pfpreader;
-                    BufferedReader cfg_webhookreader;
+                    List<String> c_elements = read();
 
-                    String img;
-                    String name;
-                    String link;
+                    String img = c_elements.get(2);
+                    String name = c_elements.get(1);
+                    String link = c_elements.get(3);
 
-                    try {
-                        cfg_namereader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\name.txt"));
-                        cfg_pfpreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\pfp.txt"));
-                        cfg_webhookreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\webhook.txt"));
+                    name = event.getOption("name", name, OptionMapping::getAsString);
+                    img = event.getOption("image", img, OptionMapping::getAsString);
+                    link = event.getOption("link", link, OptionMapping::getAsString);
 
-                        name = event.getOption("name", cfg_namereader.readLine(), OptionMapping::getAsString);
-                        img = event.getOption("image", cfg_pfpreader.readLine(), OptionMapping::getAsString);
-                        link = event.getOption("link", cfg_webhookreader.readLine(), OptionMapping::getAsString);
+                    Bot.log.info(event.getUser().getName() + " fired webhook config with args \n" + name + "\n" + img + "\n" + "link");
 
-                        Bot.log.info(event.getUser().getName() + " fired webhook config with args \n" + name + "\n" + img + "\n" + "link");
-
-                        if(!Objects.equals(img, cfg_pfpreader.readLine()) && !(img.endsWith("png") || img.endsWith("jpg") || img.endsWith("jpeg"))){
-                            event.reply("image must be a png or jpeg").setEphemeral(true).queue();
-                            cfg_namereader.close();
-                            cfg_webhookreader.close();
-                            cfg_pfpreader.close();
-                            return;
-                        }
-
-
-                        if(!link.startsWith("https://discord.com/api/webhooks/")){
-                            event.reply("provided webhook link is not a webhook link or is an http link").setEphemeral(true).queue();
-                            cfg_namereader.close();
-                            cfg_webhookreader.close();
-                            cfg_pfpreader.close();
-                            return;
-                        }
-
-                        if(Objects.isNull(img) && Objects.isNull(name) && Objects.isNull(link)) {
-                            event.reply("all options cant be blank").setEphemeral(true).queue();
-                            cfg_namereader.close();
-                            cfg_webhookreader.close();
-                            cfg_pfpreader.close();
-                            return;
-                        }
-
-
-                        cfg_pfpreader.close();
-                        cfg_namereader.close();
-                        cfg_webhookreader.close();
-
-                        BufferedWriter namewriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\name.txt"));
-                        BufferedWriter pfpwriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\pfp.txt"));
-                        BufferedWriter webhookwriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\webhook.txt"));
-
-                        namewriter.write(name);
-                        pfpwriter.write(img);
-                        webhookwriter.write(link);
-
-                        namewriter.flush();
-                        namewriter.close();
-                        pfpwriter.flush();
-                        pfpwriter.close();
-                        webhookwriter.flush();
-                        webhookwriter.close();
-
-                        event.reply("success").setEphemeral(true).queue();
-                    } catch (IOException e) {
-                        event.reply("something went wrong executing the command").setEphemeral(true).queue();
+                    if(img.contains("?")){
+                        int indx = img.indexOf("?");
+                        img = img.substring(0, indx);
                     }
+
+                    ValidationMessage msg = validate(name, img, link);
+
+                    if(!msg.successful){
+                        Bot.log.warn(msg.message);
+                        event.reply(msg.message).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    write(name, img, link);
+
+                    event.reply(msg.message).setEphemeral(true).queue();
 
                     break;
 
                 case("setactive"):
-                    active = event.getOption("active", OptionMapping::getAsBoolean);
+                    active = Boolean.TRUE.equals(event.getOption("active", OptionMapping::getAsBoolean));
                     event.reply((active ? "activating ": "deactivating ") + "webhook").queue();
                     break;
 
@@ -162,5 +110,74 @@ public class Webhook extends Command {
         }
     }
 
+    private static void write(String name, String img, String link) {
+        try{
+            BufferedWriter namewriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\name.txt"));
+            BufferedWriter pfpwriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\pfp.txt"));
+            BufferedWriter webhookwriter = new BufferedWriter(new FileWriter("C:\\Users\\SRTH_\\Desktop\\leilabot\\webhook.txt"));
+
+            namewriter.write(name);
+            pfpwriter.write(img);
+            webhookwriter.write(link);
+
+            namewriter.flush();
+            namewriter.close();
+            pfpwriter.flush();
+            pfpwriter.close();
+            webhookwriter.flush();
+            webhookwriter.close();
+        }catch (IOException e){
+            Bot.log.error(e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @return A list of 3 strings where the first string is the name, second string is the pfp and third is the webhook link.
+     */
+
+    private static List<String> read() {
+        try{
+            BufferedReader cfg_namereader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\name.txt"));
+            BufferedReader cfg_pfpreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\pfp.txt"));
+            BufferedReader cfg_webhookreader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\webhook.txt"));
+
+            List<String> toReturn = new ArrayList<>(List.of(cfg_namereader.readLine(), cfg_pfpreader.readLine(), cfg_webhookreader.readLine()));
+
+            cfg_webhookreader.close();
+            cfg_namereader.close();
+            cfg_pfpreader.close();
+
+            return toReturn;
+        }catch (IOException e){
+            Bot.log.error(e.getMessage());
+            return List.of();
+        }
+    }
+
+    private static ValidationMessage validate(String name, String pfp, String webhook){
+        if(!pfp.endsWith("jpg") || !pfp.endsWith("png") || !pfp.endsWith("jpeg")){
+            return new ValidationMessage("profile picture must be a jpeg or png", false);
+        }
+
+        if(!webhook.startsWith("https://discord.com/api/webhooks/")){
+            return new ValidationMessage("invalid webhook link", false);
+        }
+
+        return new ValidationMessage("success", true);
+    }
+
     public static boolean isActive(){return active;}
+
+
+    private static final class ValidationMessage{
+
+        private final String message;
+        private final boolean successful;
+
+        private ValidationMessage(String msg, boolean suc){
+            this.successful = suc;
+            this.message = msg;
+        }
+    }
 }

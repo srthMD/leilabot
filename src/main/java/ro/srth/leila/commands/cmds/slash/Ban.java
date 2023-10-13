@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Ban extends Command {
 
-    SayBan shandler;
+    final SayBan shandler;
 
     public Ban() {
         super();

@@ -29,12 +29,12 @@ public class Force extends Command{
         if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
             switch (event.getSubcommandName()){
                 case ("randommessages"):
-                    msgforce = msgforce ? false: true;
+                    msgforce = !msgforce;
                     event.reply("setting random message status to " + (msgforce ? "forced" : "not forced")).queue();
                     break;
 
                 case("randomreactions"):
-                    reactionforce = reactionforce ? false: true;
+                    reactionforce = !reactionforce;
                     event.reply("setting random reaction status to " + (reactionforce ? "forced" : "not forced")).queue();
                     break;
 

@@ -17,7 +17,7 @@ public class RandomReaction extends Listener {
         this.name = "RandomReaction";
     }
 
-    Random rand = ThreadLocalRandom.current();
+    final Random rand = ThreadLocalRandom.current();
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {

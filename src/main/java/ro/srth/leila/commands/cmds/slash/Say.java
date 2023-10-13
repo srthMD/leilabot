@@ -20,13 +20,13 @@ import java.util.ArrayList;
 
 public class Say extends Command {
 
-    SayBan handler = new SayBan();
+    final SayBan handler = new SayBan();
 
     public Say() {
         this.commandName = "say";
         this.description = "Makes the bot say a message";
         this.type = CommandType.SLASH;
-        this.args = new ArrayList<OptionData>();
+        this.args = new ArrayList<>();
         args.add(new OptionData(OptionType.STRING, "content", "What you want the bot to say.", false));
         args.add(new OptionData(OptionType.STRING, "replyto", "Optional message id of the message you want to reply to.", false));
         args.add(new OptionData(OptionType.ATTACHMENT, "attachment", "Optional attachment to send.", false));
