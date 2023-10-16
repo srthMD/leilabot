@@ -4,9 +4,9 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.Command;
+import ro.srth.leila.commands.SlashCommand;
 
-public class Force extends Command{
+public class Force extends SlashCommand {
 
     private static boolean msgforce;
     private static boolean reactionforce;
@@ -15,7 +15,6 @@ public class Force extends Command{
         super();
         this.commandName = "force";
         this.description = "forces certain listeners";
-        this.type = Command.CommandType.SLASH;
         subCmds.add(new SubcommandData("randommessages", "forces random messages"));
         subCmds.add(new SubcommandData("randomreactions", "forces random reactions"));
         permissions.add(Permission.MESSAGE_MANAGE);
@@ -24,23 +23,22 @@ public class Force extends Command{
         msgforce = false;
         reactionforce = false;
     }
+
     @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if(event.getName().equals(this.commandName) && !event.isAcknowledged()) {
-            switch (event.getSubcommandName()){
-                case ("randommessages"):
-                    msgforce = !msgforce;
-                    event.reply("setting random message status to " + (msgforce ? "forced" : "not forced")).queue();
-                    break;
+    public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
+        switch (event.getSubcommandName()){
+            case ("randommessages"):
+                msgforce = !msgforce;
+                event.reply("setting random message status to " + (msgforce ? "forced" : "not forced")).queue();
+                break;
 
-                case("randomreactions"):
-                    reactionforce = !reactionforce;
-                    event.reply("setting random reaction status to " + (reactionforce ? "forced" : "not forced")).queue();
-                    break;
+            case("randomreactions"):
+                reactionforce = !reactionforce;
+                event.reply("setting random reaction status to " + (reactionforce ? "forced" : "not forced")).queue();
+                break;
 
-                default:
-                    event.reply("something went wrong").setEphemeral(true).queue();
-            }
+            default:
+                event.reply("something went wrong").setEphemeral(true).queue();
         }
     }
 

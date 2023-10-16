@@ -2,157 +2,181 @@ package ro.srth.leila.commands;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.build.*;
-import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import ro.srth.leila.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 @SuppressWarnings(value = "unchecked")
 public class CmdMan extends ListenerAdapter {
 
-    final Reflections reflections = new Reflections("ro.srth");
-    final Set<Class<? extends Command>> classes = reflections.getSubTypesOf(ro.srth.leila.commands.Command.class);
+    static ExecutorService ex = Executors.newCachedThreadPool();
 
-    int i = 0;
+    final static Reflections reflections = new Reflections("ro.srth");
+
+    final static Set<Class<? extends SlashCommand>> slashCommandClasses = reflections.getSubTypesOf(SlashCommand.class);
+    final static Set<Class<? extends ContextMenu>> ctxMenuClasses = reflections.getSubTypesOf(ContextMenu.class);
+
+    static Map<String, Class<? extends SlashCommand>> slashCommandMap = new HashMap<>();
+    static Map<String, Class<? extends ContextMenu>> ctxMenuMap = new HashMap<>();
+
+    private static final Predicate<Class<? extends Command>> pr = Class -> !Class.isInterface();
+
+    static final Set<Class<? extends Command>> allClasses = reflections.getSubTypesOf(Command.class).stream().filter(pr).collect(Collectors.toSet());
+
+
+    public static void initMaps(){
+        allClasses.removeAll(Set.of(ContextMenu.class, SlashCommand.class));
+
+        ex.submit(() -> slashCommandClasses.forEach(clazz -> {
+            try {
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+                String name = (String) clazz.getField("commandName").get(instance);
+                slashCommandMap.put(name, clazz);
+            } catch (IllegalAccessException | NoSuchFieldException | NoSuchMethodException |
+                     InstantiationException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }));
+
+        ex.submit(() -> ctxMenuClasses.forEach(clazz -> {
+            try {
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+                String name = (String) clazz.getField("commandName").get(instance);
+                ctxMenuMap.put(name, clazz);
+            } catch (IllegalAccessException | NoSuchFieldException | InvocationTargetException |
+                     InstantiationException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }));
+    }
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        ShardManager sman = Bot.getSman();
 
         // register commands here
         List<CommandData> commandData = new ArrayList<>();
 
+        for (Class<? extends Command> clazz : allClasses) {
+            boolean isGuildSpecific = clazz.isAnnotationPresent(GuildSpecific.class);
 
-        for (Class<?> clazz: classes) {
-
-            if (clazz.getName().equals("Template")) {
-                continue;
-            }
-
-            ro.srth.leila.commands.Command.CommandType cmdType;
-            String cmdName;
-            String cmdDesc;
-            List<OptionData> cmdArgs;
-            List<SubcommandData> subCmds;
-            List<Permission> reqperms;
-
-            try {
+            try{
                 Object instance = clazz.getDeclaredConstructor().newInstance();
-                if (!(boolean) clazz.getField("register").get(instance)) {
-                    continue;
+
+                if(clazz.getField("register").get(instance) == Boolean.FALSE) continue;
+
+                if(isGuildSpecific){
+                    if(!(event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong())) continue;
                 }
 
-                if (i == 0) {
-                    sman.addEventListener(instance);
-                }
+                String name = (String) clazz.getField("commandName").get(instance);
 
-                cmdName = (String) clazz.getField("commandName").get(instance);
-                cmdDesc = (String) clazz.getField("description").get(instance);
-                cmdArgs = (List<OptionData>) clazz.getField("args").get(instance);
-                subCmds = (List<SubcommandData>) clazz.getField("subCmds").get(instance);
-                cmdType = (ro.srth.leila.commands.Command.CommandType) clazz.getField("type").get(instance);
-                reqperms = (List<Permission>) clazz.getField("permissions").get(instance);
+                if(clazz.getSuperclass() == SlashCommand.class){
+                    String desc = (String) clazz.getField("description").get(instance);
+
+                    List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
+
+                    List<OptionData> cmdArgs = (List<OptionData>) clazz.getField("args").get(instance);
+                    List<SubcommandData> subCmds = (List<SubcommandData>) clazz.getField("subCmds").get(instance);
+
+                    OptionData[] arr = new OptionData[0];
+                    SubcommandData[] arr2 = new SubcommandData[0];
+                    commandData.add(Commands.slash(name, desc).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)).addOptions(cmdArgs.toArray(arr)).addSubcommands(subCmds.toArray(arr2)));
+
+                } else if(clazz.getSuperclass() == ContextMenu.class){
+                    List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
+
+                    commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, name).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)));
+                }
             } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException |
                      InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        event.getGuild().updateCommands().addCommands(commandData).queue();
+
+        Bot.log.info("done registering commands for guild: " + event.getGuild().getName());
+    }
+
+    @Override
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        if(!event.isAcknowledged()){
+            String name = event.getName();
+
+            Class<? extends SlashCommand> clazz = slashCommandMap.get(name);
 
             try {
-                if (cmdType == ro.srth.leila.commands.Command.CommandType.SLASH) {
-                    if (cmdArgs.isEmpty()) {
-                        if (clazz.isAnnotationPresent(GuildSpecific.class)) {
-                            if (event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()) {
-                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
-                                if (!subCmds.isEmpty()) {
+                Object instance = clazz.getDeclaredConstructor().newInstance();
 
-                                    if(!reqperms.isEmpty()){
-                                        for (Permission p : reqperms) {
-                                            data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
-                                        }
-                                    }
+                List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
 
-                                    subCmds.forEach(data::addSubcommands);
+                Permission[] arr = new Permission[0];
 
-                                } else {
+                //double check permissions incase discord is stupi
+                if(Objects.requireNonNull(event.getMember()).hasPermission(perms.toArray(arr))){
+                    Method m = clazz.getDeclaredMethod("runSlashCommand", SlashCommandInteractionEvent.class);
 
-                                    if(!reqperms.isEmpty()){
-                                        for (Permission p : reqperms) {
-                                            data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
-                                        }
-                                    }
-                                }
-                                commandData.add(data);
-                            }
-                        } else {
-                            SlashCommandData data = Commands.slash(cmdName, cmdDesc);
-                            if (!subCmds.isEmpty()) {
-
-                                subCmds.forEach(data::addSubcommands);
-
-                            } else {
-
-                                if(!reqperms.isEmpty()){
-                                    for (Permission p : reqperms) {
-                                        data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
-                                    }
-                                }
-                            }
-                            commandData.add(data);
-                        }
-                    } else {
-                        if (clazz.isAnnotationPresent(GuildSpecific.class)) {
-                            if (event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong()) {
-                                SlashCommandData data = Commands.slash(cmdName, cmdDesc);
-
-                                if(!reqperms.isEmpty()){
-                                    for (Permission p : reqperms) {
-                                        data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
-                                    }
-                                }
-
-                                cmdArgs.forEach(data::addOptions);
-                                commandData.add(data);
-                            }
-                        } else {
-                            SlashCommandData data = Commands.slash(cmdName, cmdDesc);
-
-                            if(!reqperms.isEmpty()){
-                                for (Permission p : reqperms) {
-                                    data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(p));
-                                }
-                            }
-
-                            cmdArgs.forEach(data::addOptions);
-                            commandData.add(data);
-                        }
-                    }
-                } else {
-                    if (i == 0) {
-                        try {
-                            sman.addEventListener(clazz.getDeclaredConstructor().newInstance());
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                                 NoSuchMethodException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, cmdName));
+                    ex.submit(() -> m.invoke(instance, event));
+                } else{
+                    event.reply("you do not have permissions to run this command").setEphemeral(true).queue();
                 }
-            }catch (Exception e){
-                Bot.log.error(e.getMessage());
+
+
+            } catch (NoSuchMethodException | IllegalAccessException | NoSuchFieldException | InstantiationException |
+                     InvocationTargetException e) {
+                throw new RuntimeException(e);
             }
         }
-        event.getGuild().updateCommands().addCommands(commandData).queue();
-        i++;
-        Bot.log.info("done registering commands for guild: " + event.getGuild().getName());
+    }
+
+    @Override
+    public void onMessageContextInteraction(@NotNull MessageContextInteractionEvent event) {
+        if(!event.isAcknowledged()){
+            String name = event.getCommandString();
+
+            Class<? extends ContextMenu> clazz = ctxMenuMap.get(name);
+
+            try {
+
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+
+                List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
+
+                Permission[] arr = new Permission[0];
+
+                if(Objects.requireNonNull(event.getMember()).hasPermission(perms.toArray(arr))){
+                    Method m = clazz.getDeclaredMethod("runContextMenu", MessageContextInteractionEvent.class);
+
+
+                    ex.submit(() -> m.invoke(instance, event));
+
+                } else{
+                    event.reply("you do not have permissions to run this command").setEphemeral(true).queue();
+                }
+
+
+            } catch (NoSuchMethodException | IllegalAccessException | NoSuchFieldException | InstantiationException |
+                     InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

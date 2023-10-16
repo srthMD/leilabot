@@ -22,6 +22,8 @@ public class Bot{
     private static ShardManager sman;
 
     public Bot() {
+        CmdMan.initMaps();
+
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
 
         String token = env.get("TOKEN");

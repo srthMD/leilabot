@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 public class ShitifyHandler {
 
-    public File compressVid(File video, Integer bitrate, Integer fps, Integer height, Integer width, Integer audioBitRate, Integer audioSamplingRate) throws Exception{
+    public static File compressVid(File video, Integer bitrate, Integer fps, Integer height, Integer width, Integer audioBitRate, Integer audioSamplingRate) throws Exception{
         IVCompressor compressor = new IVCompressor();
         IVAudioAttributes audio = new IVAudioAttributes();
         IVVideoAttributes video1 = new IVVideoAttributes();
@@ -48,7 +48,7 @@ public class ShitifyHandler {
     }
 
 
-    public File compressImg(File image, int resizeBefore, int resizeAfter, int quality) throws IOException {
+    public static File compressImg(File image, int resizeBefore, int resizeAfter, int quality) throws IOException {
 
         BufferedImage img = ImageIO.read(image);
 
