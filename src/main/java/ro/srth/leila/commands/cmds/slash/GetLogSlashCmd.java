@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
 
 import java.nio.file.Paths;

@@ -4,7 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 
 import java.io.IOException;
 import java.io.Reader;

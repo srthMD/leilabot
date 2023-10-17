@@ -3,7 +3,7 @@ package ro.srth.leila.listener.listeners;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
 

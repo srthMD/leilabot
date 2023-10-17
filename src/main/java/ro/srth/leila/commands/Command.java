@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command extends ListenerAdapter implements EventListener {
-
+    
     public String commandName;
     public boolean register;
 
@@ -17,10 +17,5 @@ public abstract class Command extends ListenerAdapter implements EventListener {
 
     public Command(){
         permissions = new ArrayList<>();
-    }
-
-    public enum CommandType{
-        SLASH,
-        CONTEXT_MENU
     }
 }

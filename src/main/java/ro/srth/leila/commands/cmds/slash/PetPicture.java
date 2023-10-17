@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.SlashCommand;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PetPicture extends SlashCommand {
@@ -52,25 +53,21 @@ public class PetPicture extends SlashCommand {
 
     static int getNumberOfChuckyPictures(){
         final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
-        File[] files = dir.listFiles();
-        return files.length;
+        return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfLeilaPictures(){
         final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
-        File[] files = dir.listFiles();
-        return files.length;
+        return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfOctaviousPictures(){
         final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
-        File[] files = dir.listFiles();
-        return files.length;
+        return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfSimonPictures(){
         final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
-        File[] files = dir.listFiles();
-        return files.length;
+        return Objects.requireNonNull(dir.listFiles()).length;
     }
 }

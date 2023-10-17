@@ -1,13 +1,8 @@
-package ro.srth.leila;
+package ro.srth.leila.main;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.srth.leila.commands.CmdMan;
@@ -21,6 +16,8 @@ public class Bot{
 
     private static ShardManager sman;
 
+    public static Bot instance;
+
     public Bot() {
         CmdMan.initMaps();
 
@@ -31,13 +28,11 @@ public class Bot{
         //builder stuff
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createLight(token);
 
-        String status = "KICK ME IF ANIMAL ABUSER";
-
-        builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.watching(status));
-        builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES);
-        builder.enableCache(CacheFlag.EMOJI, CacheFlag.VOICE_STATE);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        builder.setStatus(Config.STATUS);
+        builder.setActivity(Config.ACTIVITY_STATUS);
+        builder.enableIntents(Config.GATEWAY_INTENTS);
+        builder.enableCache(Config.CACHE_FLAGS);
+        builder.setMemberCachePolicy(Config.MEMBER_CACHE_POLICY);
 
         try{
             sman = builder.build();
@@ -74,6 +69,6 @@ public class Bot{
 
 
     public static void main(String[] args){
-        Bot bot = new Bot();
+        instance = new Bot();
     }
 }

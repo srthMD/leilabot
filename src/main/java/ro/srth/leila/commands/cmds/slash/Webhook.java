@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
 import ro.srth.leila.commands.SlashCommand;
 
@@ -15,6 +15,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @GuildSpecific(guildIdLong = 696053797755027537L)
@@ -41,27 +42,11 @@ public class Webhook extends SlashCommand {
 
                 List<String> elements = read();
 
-                EmbedBuilder eb = new EmbedBuilder();
+                EmbedBuilder eb = getEmbedBuilder(elements, withLink);
+                event.getInteraction().replyEmbeds(eb.build()).queue();
 
-                try {
-                    eb.setColor(Color.white);
-                    eb.setThumbnail(elements.get(2));
-                    eb.addField("Name: ", elements.get(1), false);
-                    eb.addField("Active: ", String.valueOf(active), false);
-                    eb.setTitle(withLink ? "Webhook Info, **Will be deleted in 10 seconds**" : "Webhook Info");
-                    if(withLink){
-                        eb.addField("Link: ", "|| " + elements.get(3) + " ||", false);
-                    }
-                    eb.setFooter("Written in Java by srth#2668 ", "https://avatars.githubusercontent.com/u/94727593?v=4");
-                    event.getInteraction().replyEmbeds(eb.build()).queue();
-
-                    if(withLink){
-                        Thread.sleep(10000);
-                        event.getInteraction().getHook().deleteOriginal().queue();
-                    }
-
-                } catch (InterruptedException e) {
-                    Bot.log.error(e.getMessage());
+                if(withLink){
+                    event.getInteraction().getHook().deleteOriginal().queueAfter(10000, TimeUnit.MILLISECONDS);
                 }
 
                 break;
@@ -106,6 +91,23 @@ public class Webhook extends SlashCommand {
             default:
                 event.reply("something went wrong").setEphemeral(true).queue();
         }
+    }
+
+    @NotNull
+    private static EmbedBuilder getEmbedBuilder(List<String> elements, boolean withLink) {
+        EmbedBuilder eb = new EmbedBuilder();
+
+
+        eb.setColor(Color.white);
+        eb.setThumbnail(elements.get(2));
+        eb.addField("Name: ", elements.get(1), false);
+        eb.addField("Active: ", String.valueOf(active), false);
+        eb.setTitle(withLink ? "Webhook Info, **Will be deleted in 10 seconds**" : "Webhook Info");
+        if(withLink){
+            eb.addField("Link: ", "|| " + elements.get(3) + " ||", false);
+        }
+        eb.setFooter("Written in Java by srth#2668 ", "https://avatars.githubusercontent.com/u/94727593?v=4");
+        return eb;
     }
 
     private static void write(String name, String img, String link) {

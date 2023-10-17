@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
 
 import java.lang.reflect.InvocationTargetException;
@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
 @SuppressWarnings(value = "unchecked")
 public class CmdMan extends ListenerAdapter {
 
-    static ExecutorService ex = Executors.newCachedThreadPool();
+    static final ExecutorService ex = Executors.newCachedThreadPool();
 
     final static Reflections reflections = new Reflections("ro.srth");
 
     final static Set<Class<? extends SlashCommand>> slashCommandClasses = reflections.getSubTypesOf(SlashCommand.class);
     final static Set<Class<? extends ContextMenu>> ctxMenuClasses = reflections.getSubTypesOf(ContextMenu.class);
 
-    static Map<String, Class<? extends SlashCommand>> slashCommandMap = new HashMap<>();
-    static Map<String, Class<? extends ContextMenu>> ctxMenuMap = new HashMap<>();
+    static final Map<String, Class<? extends SlashCommand>> slashCommandMap = new HashMap<>();
+    static final Map<String, Class<? extends ContextMenu>> ctxMenuMap = new HashMap<>();
 
     private static final Predicate<Class<? extends Command>> pr = Class -> !Class.isInterface();
 

@@ -1,8 +1,8 @@
 package ro.srth.leila.util;
 
-import io.github.techgnious.IVCompressor;
-import io.github.techgnious.dto.*;
-import org.apache.commons.io.FileUtils;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.imgscalr.Scalr;
 
 import javax.imageio.IIOImage;
@@ -17,34 +17,90 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ShitifyHandler {
+    final static Map<String, String> complexFillters = Map.of(
+            "mirror", "crop=iw/2:ih:0:0,split[left][tmp];[tmp]hflip[right];[left][right] hstack",
+            "flanger", "flanger=delay=10:depth=5:regen=95:speed=1:shape=triangular:width=95",
+            "funnymic", "firequalizer=gain_entry='entry(1000,0); entry(1001, -INF); entry(1e6+1000,0)'",
+            "colorbake", "curves=strong_contrast, curves=vintage, curves=strong_contrast, curves=darker, curves=strong_contrast, erosion, eq=saturation=3:gamma=2"
+    );
 
-    public static File compressVid(File video, Integer bitrate, Integer fps, Integer height, Integer width, Integer audioBitRate, Integer audioSamplingRate) throws Exception{
-        IVCompressor compressor = new IVCompressor();
-        IVAudioAttributes audio = new IVAudioAttributes();
-        IVVideoAttributes video1 = new IVVideoAttributes();
+    private static final FFmpeg ffmpeg;
 
-        video1.setBitRate(bitrate);
-        video1.setFrameRate(fps);
+    static {
+        try {
+            ffmpeg = new FFmpeg("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\ffmpeg\\bin\\ffmpeg.exe");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        IVSize size = new IVSize();
-        size.setHeight(height);
-        size.setWidth(width);
+    public static File compressVideo(File video, Integer bitrate, Integer fps, Integer audioBitRate, Integer audioSamplingRate, Integer volume, String preset) throws Exception{
+        File out = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\out\\out" + video.getName().substring(video.getName().lastIndexOf(".")));
 
-        video1.setSize(size);
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(video.getAbsolutePath())
+                .overrideOutputFiles(true)
+                .addOutput(out.getAbsolutePath())
+                    .disableSubtitle()
+                    .setAudioCodec("aac")
+                    .setAudioSampleRate(audioSamplingRate)
+                    .setAudioBitRate(audioBitRate)
 
-        audio.setBitRate(audioBitRate);
-        audio.setChannels(1);
-        audio.setSamplingRate(audioSamplingRate);
+                    .setVideoCodec("libx264")
+                    .setVideoFrameRate((double) fps)
+                    .setVideoBitRate(bitrate)
+                    .addExtraArgs("-filter:a", "volume=" + (volume*35))
+                    .done();
 
-        File file = new File(video.toURI());
+        if(!preset.isEmpty()){
+           builder.setComplexFilter(complexFillters.get(preset));
+        }
 
-        byte[] data = compressor.encodeVideoWithAttributes(FileUtils.readFileToByteArray(file), VideoFormats.MP4, audio, video1);
+        FFmpegExecutor ex = new FFmpegExecutor(ffmpeg);
+        ex.createJob(builder).run();
 
-        FileUtils.writeByteArrayToFile(new File(file.getAbsolutePath()), data);
+        return out;
+    }
 
-        return file;
+    public static File compressAudio(File audio,Integer audioBitRate, Integer audioSamplingRate, Integer volume, Double speed, String preset) throws Exception{
+        File out = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\out\\out" + audio.getName().substring(audio.getName().lastIndexOf(".")));
+
+        String extension = audio.getName().substring(audio.getName().lastIndexOf(".") + 1);
+
+        FFmpegBuilder builder;
+
+        if(!(extension.equals("ogg"))){
+            builder = new FFmpegBuilder()
+                    .setInput(audio.getAbsolutePath())
+                    .overrideOutputFiles(true)
+                    .addOutput(out.getAbsolutePath())
+                    .setAudioBitRate(audioBitRate)
+                    .setAudioSampleRate(audioSamplingRate)
+
+                    .done();
+            } else{
+            builder = new FFmpegBuilder()
+                    .setInput(audio.getAbsolutePath())
+                    .overrideOutputFiles(true)
+                    .addOutput(out.getAbsolutePath())
+                    .setAudioSampleRate(audioSamplingRate)
+
+                    .done();
+            }
+
+        if(!preset.isEmpty()){
+            builder.setComplexFilter(complexFillters.get(preset) + ",volume=" + (volume*3) + ",atempo=" + Math.max(0.5, Math.min(10, speed)));
+        } else{
+            builder.setComplexFilter("volume=" + (volume*3) + ",atempo=" + Math.max(0.5, Math.min(10, speed)));
+        }
+
+        FFmpegExecutor ex = new FFmpegExecutor(ffmpeg);
+        ex.createJob(builder).run();
+
+        return out;
     }
 
 

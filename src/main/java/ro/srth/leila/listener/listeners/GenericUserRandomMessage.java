@@ -1,7 +1,8 @@
 package ro.srth.leila.listener.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import ro.srth.leila.Bot;
+import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
 
@@ -16,7 +17,7 @@ public class GenericUserRandomMessage extends Listener {
 
     private final long[] ids = {428213747094650882L, 364480181936717855L, 584012160158400573L, 820081420889751603L}; // could have mabye used maps to map an id to a video or vice versa but i dont care
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         if(!Toggle.getTextToggle()){return;}
 

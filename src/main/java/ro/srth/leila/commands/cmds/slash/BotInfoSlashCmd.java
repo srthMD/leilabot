@@ -3,7 +3,7 @@ package ro.srth.leila.commands.cmds.slash;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
 import ro.srth.leila.listener.listeners.GenericMentionHandler;
 

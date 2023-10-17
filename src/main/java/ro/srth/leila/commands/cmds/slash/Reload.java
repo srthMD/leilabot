@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
 import ro.srth.leila.commands.SlashCommand;
 import ro.srth.leila.listener.listeners.RandomMsg;
@@ -41,10 +41,8 @@ public class Reload extends SlashCommand {
 
 
     public static void reloadRandomMsgs() throws IOException {
-        String line = null;
-        BufferedReader reader;
-
-        reader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"));
+        String line;
+        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"));;
 
         RandomMsg.msgs.clear();
 

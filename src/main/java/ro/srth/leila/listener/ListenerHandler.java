@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import ro.srth.leila.Bot;
+import ro.srth.leila.main.Bot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;

@@ -48,5 +48,5 @@ public class RandomMsg extends Listener {
         }
     }
 
-    public static ArrayList<String> msgs = new ArrayList<>();
+    public static final ArrayList<String> msgs = new ArrayList<>();
 }
