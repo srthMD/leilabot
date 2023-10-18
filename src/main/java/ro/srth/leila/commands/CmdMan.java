@@ -135,6 +135,8 @@ public class CmdMan extends ListenerAdapter {
                     Method m = clazz.getDeclaredMethod("runSlashCommand", SlashCommandInteractionEvent.class);
 
                     ex.submit(() -> m.invoke(instance, event));
+
+                    Bot.log.info(event.getUser().getName() + " fired " + event.getFullCommandName());
                 } else{
                     event.reply("you do not have permissions to run this command").setEphemeral(true).queue();
                 }
@@ -165,9 +167,9 @@ public class CmdMan extends ListenerAdapter {
                 if(Objects.requireNonNull(event.getMember()).hasPermission(perms.toArray(arr))){
                     Method m = clazz.getDeclaredMethod("runContextMenu", MessageContextInteractionEvent.class);
 
-
                     ex.submit(() -> m.invoke(instance, event));
 
+                    Bot.log.info(event.getUser().getName() + " fired " + event.getFullCommandName());
                 } else{
                     event.reply("you do not have permissions to run this command").setEphemeral(true).queue();
                 }

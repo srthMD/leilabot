@@ -34,8 +34,6 @@ public class Say extends SlashCommand {
             event.reply("you are banned from this command").setEphemeral(true).queue();
         }
         else{
-            Bot.log.info(event.getInteraction().getUser().getName() + " Fired SaySlashCmd");
-
             String message = event.getOption("content", OptionMapping::getAsString);
 
             Long msgId;
