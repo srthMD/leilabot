@@ -2,6 +2,7 @@ package ro.srth.leila.listener.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
@@ -19,7 +20,15 @@ public class GenericUserRandomMessage extends Listener {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
-        if(!Toggle.getTextToggle()){return;}
+        boolean toggle;
+
+        try {
+            toggle = Toggle.getTextToggle(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+            toggle = true;
+        }
+
+        if(!toggle){return;}
 
         for (long id : ids) {
             if(id == event.getAuthor().getIdLong()){

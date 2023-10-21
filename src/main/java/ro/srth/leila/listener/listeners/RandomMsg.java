@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.cmds.slash.Force;
 import ro.srth.leila.commands.cmds.slash.Reload;
 import ro.srth.leila.commands.cmds.slash.Toggle;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.listener.Listener;
 
 import java.io.IOException;
@@ -29,10 +30,24 @@ public class RandomMsg extends Listener {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        boolean toggle, force;
 
-        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !Toggle.getMessageToggle() || event.getGuild().getIdLong() == 696053797755027537L){return;}
+        try {
+            toggle = Toggle.getMessageToggle(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+           toggle = true;
+        }
 
-        if(Force.getMessageForced()){
+        try {
+            force = Force.getMessageForced(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+            force = false;
+        }
+
+
+        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !toggle){return;}
+
+        if(force){
             int index = rand.nextInt(msgs.size());
 
             String reply = msgs.get(index);

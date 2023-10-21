@@ -1,11 +1,15 @@
 package ro.srth.leila.main;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.srth.leila.commands.CmdMan;
+import ro.srth.leila.guild.GuildConfiguration;
+import ro.srth.leila.guild.GuildHandler;
 import ro.srth.leila.listener.ListenerHandler;
 
 public class Bot{
@@ -16,10 +20,14 @@ public class Bot{
 
     private static ShardManager sman;
 
-    public static Bot instance;
+    private static Bot instance;
+
+    private final Cache<Long, GuildConfiguration> guildCache;
 
     public Bot() {
         CmdMan.initMaps();
+
+        guildCache = CacheBuilder.newBuilder().build();
 
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
 
@@ -61,14 +69,19 @@ public class Bot{
         //register command and listener handlers
         sman.addEventListener(new CmdMan());
         sman.addEventListener(new ListenerHandler());
+        sman.addEventListener(new GuildHandler());
     }
 
     public static ShardManager getSman(){
         return sman;
     }
 
+    public static Bot instance(){return instance;}
+
 
     public static void main(String[] args){
         instance = new Bot();
     }
+
+    public Cache<Long, GuildConfiguration> getGuildCache() {return guildCache;}
 }

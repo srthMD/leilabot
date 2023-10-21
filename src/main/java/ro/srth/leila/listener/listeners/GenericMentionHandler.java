@@ -3,6 +3,7 @@ package ro.srth.leila.listener.listeners;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
@@ -30,7 +31,15 @@ public class GenericMentionHandler extends Listener {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if(!Toggle.getTextToggle() || event.getAuthor().isBot()){return;}
+        boolean toggle;
+
+        try {
+            toggle = Toggle.getTextToggle(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+            toggle = false;
+        }
+
+        if(!toggle || event.getAuthor().isBot()){return;}
 
         for (String trigger: triggers) {
             if(event.getMessage().getContentRaw().toLowerCase().contains(trigger)){

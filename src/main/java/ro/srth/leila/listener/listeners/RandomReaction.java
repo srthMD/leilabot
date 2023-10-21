@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.cmds.slash.Force;
 import ro.srth.leila.commands.cmds.slash.Toggle;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.listener.Listener;
 
 import java.util.List;
@@ -22,9 +23,23 @@ public class RandomReaction extends Listener {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
-        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !Toggle.getReactionToggle()){return;}
+        boolean toggle, force;
 
-        if (rand.nextInt(1, 101) <= 2 && !Force.getReactionForced()){
+        try {
+            toggle = Toggle.getReactionToggle(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+            toggle = true;
+        }
+
+        try {
+            force = Force.getReactionForced(event.getGuild().getIdLong());
+        } catch (GuildNotFoundException e) {
+            force = false;
+        }
+
+        if(event.getAuthor().isBot() || event.getAuthor().isSystem() || !toggle){return;}
+
+        if (rand.nextInt(1, 101) <= 2 && !force){
 
             List<RichCustomEmoji> emojis = event.getGuild().getEmojis();
 
@@ -34,7 +49,7 @@ public class RandomReaction extends Listener {
 
             RichCustomEmoji reaction = emojis.get(index);
             event.getMessage().addReaction(reaction).queue();
-        }else if(Force.getReactionForced()){
+        }else if(force){
             List<RichCustomEmoji> emojis = event.getGuild().getEmojis();
 
             int index = rand.nextInt(emojis.size());

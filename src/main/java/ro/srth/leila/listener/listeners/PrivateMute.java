@@ -23,7 +23,6 @@ public class PrivateMute extends Listener {
             try {
                 member = event.getJDA().getGuildById(1021759228236529726L).getMemberById(event.getMessage().getContentRaw().replaceAll("[^0-9]", ""));
             } catch (Exception ignored) {
-                System.out.println("member is null");
                 return;
             }
 

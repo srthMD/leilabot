@@ -11,11 +11,12 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.SlashCommand;
 import ro.srth.leila.main.Bot;
-import ro.srth.leila.util.MediaHandler;
+import ro.srth.leila.commands.util.MediaHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class Shitify extends SlashCommand {
 
@@ -43,7 +44,9 @@ public class Shitify extends SlashCommand {
                         new OptionData(OptionType.INTEGER, "volume", "sets volume of the video", false).setRequiredRange(1L, 25L),
                         new OptionData(OptionType.STRING, "filter", "extra cool filters", false).addChoices(
                                 new Command.Choice("Mirror", "mirror"),
-                                new Command.Choice("Color Bake", "colorbake"))));
+                                new Command.Choice("Color Bake", "colorbake"),
+                                new Command.Choice("Audio Distort", "extremedistort")
+                        )));
 
         subCmds.add(new SubcommandData("audio", "Shitifies an audio")
                 .addOption(OptionType.ATTACHMENT, "audio", "the audio file to shitify", true)
@@ -55,7 +58,8 @@ public class Shitify extends SlashCommand {
                         new OptionData(OptionType.STRING, "filter", "extra filters to apply", false).addChoices(
                                 new Command.Choice("Funny Flanger", "flanger"),
                                 new Command.Choice("Funny Equalizer", "funnymic"),
-                                new Command.Choice("Extreme High Pass", "highpass"))));
+                                new Command.Choice("Extreme High Pass", "highpass"),
+                                new Command.Choice("Audio Distort", "extremedistort"))));
 
         this.register = true;
     }
@@ -86,7 +90,11 @@ public class Shitify extends SlashCommand {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.getHook().sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
+                        CompletableFuture<Message> future = event.getHook().sendFiles(FileUpload.fromData(shitifyFile)).submit(true);
+
+                        future.whenComplete((_unused, _unused1) -> shitifyFile.delete());
+
+
                     }
                 } catch (Exception e) {
                     Bot.log.error(e.getMessage());
@@ -121,7 +129,9 @@ public class Shitify extends SlashCommand {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.getHook().sendFiles(FileUpload.fromData(v_shitifyFile)).submit(true);
+                        CompletableFuture<Message> future = event.getHook().sendFiles(FileUpload.fromData(v_shitifyFile)).submit(true);
+
+                        future.whenComplete((_unused, _unused1) -> v_shitifyFile.delete());
                     }
                 } catch (Exception e) {
                     Bot.log.error(e.getMessage());
@@ -159,7 +169,9 @@ public class Shitify extends SlashCommand {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        event.getHook().sendFiles(FileUpload.fromData(a_shitifyFile)).submit(true);
+                        CompletableFuture<Message> future = event.getHook().sendFiles(FileUpload.fromData(a_shitifyFile)).submit(true);
+
+                        future.whenComplete((_unused, _unused1) -> a_shitifyFile.delete());
                     }
                 } catch (Exception e) {
                     Bot.log.error(e.getMessage());

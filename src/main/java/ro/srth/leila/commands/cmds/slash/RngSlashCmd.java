@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.SlashCommand;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RngSlashCmd extends SlashCommand {
@@ -33,7 +32,7 @@ public class RngSlashCmd extends SlashCommand {
         if(min < 0 || max < 0 || min > Integer.MAX_VALUE || max > Integer.MAX_VALUE || min == max){
             event.reply("None of the options can be negative, equal to each other or be more than the maximum value of " + Integer.MAX_VALUE + ".").setEphemeral(true).queue();
         } else{
-            Random random = ThreadLocalRandom.current();
+            ThreadLocalRandom random = ThreadLocalRandom.current();
             int rating = random.nextInt(min, max);
 
             event.reply(rating + " (min: " + min + " max: " + max + ")").queue();

@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
-import ro.srth.leila.util.SayBan;
+import ro.srth.leila.commands.util.SayBan;
 
 import java.io.File;
 

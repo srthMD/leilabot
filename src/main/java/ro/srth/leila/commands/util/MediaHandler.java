@@ -1,4 +1,4 @@
-package ro.srth.leila.util;
+package ro.srth.leila.commands.util;
 
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
@@ -21,11 +21,18 @@ import java.util.Map;
 
 public class MediaHandler {
     final static Map<String, String> complexFillters = Map.of(
-            "mirror", "crop=iw/2:ih:0:0,split[left][tmp];[tmp]hflip[right];[left][right] hstack",
-            "flanger", "flanger=delay=10:depth=0:regen=95:speed=10:shape=triangular:width=95, flanger=delay=10:depth=0:regen=95:speed=8:shape=triangular:width=85, flanger=delay=10:depth=0.1:regen=95:speed=7:shape=triangular:width=90",
+            "mirror", "crop=iw/2:ih:0:0,split[left][tmp];[tmp]hflip[right];[left][right]hstack",
+            "flanger", "flanger=delay=10:depth=0:regen=95:speed=10:shape=triangular:width=95,flanger=delay=10:depth=0:regen=95:speed=8:shape=triangular:width=85,flanger=delay=10:depth=0.1:regen=95:speed=7:shape=triangular:width=90",
             "funnymic", "firequalizer=gain_entry='entry(1000,0); entry(1001, -INF); entry(1e6+1000,0)',asubboost=dry=0.2:wet=1:boost=8:decay=0.3:cutoff=500:feedback=1",
-            "colorbake", "curves=strong_contrast, curves=vintage, curves=strong_contrast, curves=darker, curves=strong_contrast, erosion, eq=saturation=3:gamma=2",
-            "highpass", "asuperpass=centerf=600:order=10:qfactor=0.76:level=2,asuperpass=centerf=600:order=10:qfactor=0.76:level=1"
+            "colorbake", "curves=strong_contrast,curves=vintage,curves=strong_contrast,curves=darker,curves=strong_contrast,erosion,eq=saturation=3:gamma=2,asubboost=dry=0.2:wet=1:boost=8:decay=0.3:cutoff=500:feedback=1",
+            "highpass", "asuperpass=centerf=600:order=10:qfactor=0.76:level=2,asuperpass=centerf=600:order=10:qfactor=0.76:level=1",
+            "extremedistort", "flanger=delay=10:depth=0:regen=95:speed=10:shape=triangular:width=95," +
+                    "flanger=delay=10:depth=0:regen=95:speed=8:shape=triangular:width=85," +
+                    "firequalizer=gain_entry='entry(1000,0); entry(1001, -INF); entry(1e6+1000,0)'," +
+                    "asubboost=dry=0.2:wet=1:boost=8:decay=0.3:cutoff=500:feedback=1," +
+                    "asuperpass=centerf=600:order=10:qfactor=0.76:level=2," +
+                    "asuperpass=centerf=600:order=10:qfactor=0.76:level=1," +
+                    "volume=3"
     );
 
     private static final FFmpeg ffmpeg;
@@ -121,7 +128,7 @@ public class MediaHandler {
         g2d.drawImage(image2, 0, 0, Color.WHITE, null);
         g2d.dispose();
 
-        File compressed = new File( "C:\\temp\\compressed.png");
+        File compressed = new File("C:\\temp\\compressed.png");
         OutputStream os = new FileOutputStream(compressed);
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpeg");

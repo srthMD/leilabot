@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.SlashCommand;
-import ro.srth.leila.util.SayBan;
+import ro.srth.leila.commands.util.SayBan;
 
 public class Unban extends SlashCommand {
 

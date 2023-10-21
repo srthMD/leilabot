@@ -3,6 +3,7 @@ package ro.srth.leila.commands.cmds.slash;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
 import ro.srth.leila.listener.listeners.GenericMentionHandler;
@@ -22,6 +23,27 @@ public class BotInfoSlashCmd extends SlashCommand {
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
         Bot.log.info(event.getInteraction().getUser().getName() + " Fired BotInfoSlashCmd");
 
+        long guildId = event.getGuild().getIdLong();
+
+        String tt, rt, mt;
+
+        try {
+            tt = String.valueOf(Toggle.getTextToggle(guildId));
+        } catch (GuildNotFoundException e) {
+            tt = "N/A";
+        }
+        try {
+            rt = String.valueOf(Toggle.getReactionToggle(guildId));
+        } catch (GuildNotFoundException e) {
+            rt = "N/A";
+        }
+        try {
+            mt = String.valueOf(Toggle.getMessageToggle(guildId));
+        } catch (GuildNotFoundException e) {
+            mt = "N/A";
+        }
+
+
         EmbedBuilder eb = new EmbedBuilder();
 
         eb.setTitle("Bot Information", null);
@@ -37,14 +59,14 @@ public class BotInfoSlashCmd extends SlashCommand {
         eb.addField("Total amt of Simon pictures: ", String.valueOf(PetPicture.getNumberOfSimonPictures()), false);
         eb.addField("Total amt of Chucky pictures: ", String.valueOf(PetPicture.getNumberOfChuckyPictures()), false);
         eb.addField("Total Amt of birthday art pictures: ", String.valueOf(GenericMentionHandler.getNumberOfBdayArtPctures()), false);
-        eb.addField("Random Messages Toggled: ", String.valueOf(Toggle.getMessageToggle()), false);
-        eb.addField("Random Reactions Toggled: ", String.valueOf(Toggle.getReactionToggle()), false);
-        eb.addField("Random Text Reactions Toggled: ", String.valueOf(Toggle.getTextToggle()), false);
-        eb.setFooter("Written in Java by srth#2668 ", "https://avatars.githubusercontent.com/u/94727593?v=4");
+        eb.addField("Random Messages Toggled: ", mt, false);
+        eb.addField("Random Reactions Toggled: ", rt, false);
+        eb.addField("Random Text Reactions Toggled: ", tt, false);
+        eb.setFooter("Written in Java by srth ", "https://avatars.githubusercontent.com/u/94727593?v=4");
 
         try {
             event.getInteraction().replyEmbeds(eb.build()).queue();
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             Bot.log.error(e.getMessage());
         }
     }
