@@ -21,7 +21,6 @@ public class GetLogSlashCmd extends SlashCommand {
         this.commandName = "getlog";
         this.description = "Sends the current log of the bot.";
         args.add(new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true));
-        this.register = true;
     }
 
     @Override

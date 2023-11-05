@@ -11,15 +11,12 @@ import ro.srth.leila.commands.util.SayBan;
 
 public class Ban extends SlashCommand {
 
-
-
     public Ban() {
         super();
         this.commandName = "ban";
         this.description = "bans a user from say or copypastasearch";
         subCmds.add(new SubcommandData("say", "Bans a user from /say").addOption(OptionType.USER, "user", "The user you want to ban from /say", true));
         permissions.add(Permission.MESSAGE_MANAGE);
-        this.register = true;
     }
 
     @Override

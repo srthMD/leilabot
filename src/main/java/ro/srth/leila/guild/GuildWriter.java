@@ -9,7 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Static utility class for writing guild configurations to disk and cache.
@@ -58,16 +57,11 @@ public class GuildWriter {
 
         long id = vars.getGuildId();
 
-        try {
-            if(cache.get(id, () -> GuildConfiguration.NULLCFG) == GuildConfiguration.NULLCFG){
-                cache.put(id, vars);
-            } else{
-                cache.invalidate(id);
-                cache.put(id, vars);
-            }
-        } catch (ExecutionException e) {
-            Bot.log.error(e.getMessage());
-            return false;
+        if(cache.get(id, (k) -> GuildConfiguration.NULLCFG) == GuildConfiguration.NULLCFG){
+            cache.put(id, vars);
+        } else{
+            cache.invalidate(id);
+            cache.put(id, vars);
         }
 
         return true;

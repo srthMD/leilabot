@@ -1,7 +1,7 @@
 package ro.srth.leila.main;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -24,10 +24,11 @@ public class Bot{
 
     private final Cache<Long, GuildConfiguration> guildCache;
 
+
     public Bot() {
         CmdMan.initMaps();
 
-        guildCache = CacheBuilder.newBuilder().build();
+        guildCache = Caffeine.newBuilder().build();
 
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env
 
@@ -78,10 +79,9 @@ public class Bot{
 
     public static Bot instance(){return instance;}
 
+    public Cache<Long, GuildConfiguration> getGuildCache() {return guildCache;}
 
     public static void main(String[] args){
         instance = new Bot();
     }
-
-    public Cache<Long, GuildConfiguration> getGuildCache() {return guildCache;}
 }

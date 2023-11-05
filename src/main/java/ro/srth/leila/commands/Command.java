@@ -10,7 +10,8 @@ import java.util.List;
 public abstract class Command extends ListenerAdapter implements EventListener {
     
     public String commandName;
-    public boolean register;
+
+    public boolean register = true; // true by default
 
     public final List<Permission> permissions;
 

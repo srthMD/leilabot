@@ -10,9 +10,9 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
 import ro.srth.leila.commands.util.SayBan;
+import ro.srth.leila.main.Bot;
 
 import java.io.File;
 
@@ -24,7 +24,6 @@ public class Say extends SlashCommand {
         args.add(new OptionData(OptionType.STRING, "content", "What you want the bot to say.", false));
         args.add(new OptionData(OptionType.STRING, "replyto", "Optional message id of the message you want to reply to.", false));
         args.add(new OptionData(OptionType.ATTACHMENT, "attachment", "Optional attachment to send.", false));
-        this.register = true;
     }
 
     @Override
@@ -35,6 +34,13 @@ public class Say extends SlashCommand {
         }
         else{
             String message = event.getOption("content", OptionMapping::getAsString);
+
+            if (message != null) {
+                String sanitized = sanitize(message);
+            } else{
+                event.reply("message is null").setEphemeral(true).queue();
+                return;
+            }
 
             Long msgId;
 
@@ -92,5 +98,19 @@ public class Say extends SlashCommand {
                 }));
             }
         }
+    }
+    
+    private String sanitize(String str){
+        StringBuilder after = new StringBuilder();
+
+        for (char c : str.toCharArray()) {
+            after.append(c);
+
+            if(c == '@'){
+                after.append('.');
+            }
+        }
+
+        return after.toString();
     }
 }

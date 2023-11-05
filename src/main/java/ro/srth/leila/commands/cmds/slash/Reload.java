@@ -25,7 +25,6 @@ public class Reload extends SlashCommand {
         this.description = "Refreshes certian parts of the bot.";
         subCmds.add(new SubcommandData("randommsg", "reloads all the random messages from disk"));
         permissions.add(Permission.ADMINISTRATOR);
-        this.register = true;
     }
 
     @Override

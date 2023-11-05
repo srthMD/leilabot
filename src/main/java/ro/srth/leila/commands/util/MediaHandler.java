@@ -57,7 +57,6 @@ public class MediaHandler {
                     .setAudioCodec("aac")
                     .setAudioSampleRate(audioSamplingRate)
                     .setAudioBitRate(audioBitRate)
-
                     .setVideoCodec("libx264")
                     .setVideoFrameRate((double) fps)
                     .setVideoBitRate(bitrate)
@@ -76,6 +75,8 @@ public class MediaHandler {
         return out;
     }
 
+
+
     public static File compressAudio(File audio,Integer audioBitRate, Integer audioSamplingRate, Integer volume, Double speed, String preset) throws Exception{
         File out = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\out\\out" + audio.getName().substring(audio.getName().lastIndexOf(".")));
 
@@ -88,6 +89,7 @@ public class MediaHandler {
                     .setInput(audio.getAbsolutePath())
                     .overrideOutputFiles(true)
                     .addOutput(out.getAbsolutePath())
+                    .disableSubtitle()
                     .setAudioBitRate(audioBitRate)
                     .setAudioSampleRate(audioSamplingRate)
 
@@ -148,39 +150,5 @@ public class MediaHandler {
         writer.dispose();
 
         return compressed;
-    }
-
-    public enum WaveformMode {
-        POINT("point"),
-        LINE("line"),
-        P2P("P2P"),
-        CLINE("CLINE");
-
-        private final String arg;
-
-        public String getArg() {
-            return arg;
-        }
-
-        WaveformMode(String arg) {
-            this.arg = arg;
-        }
-    }
-
-    public enum WaveformScale {
-        LINEAR("lin"),
-        LOGARITHMIC("log"),
-        SQUARE_ROOT("sqrt"),
-        CUBE_ROOT("cbrt");
-
-        private final String arg;
-
-        public String getArg() {
-            return arg;
-        }
-
-        WaveformScale(String arg) {
-            this.arg = arg;
-        }
     }
 }

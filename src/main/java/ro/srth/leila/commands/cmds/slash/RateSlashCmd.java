@@ -21,7 +21,6 @@ public class RateSlashCmd extends SlashCommand {
         this.commandName = "rate";
         this.description = "Rates a user 0-100.";
         args.add(new OptionData(OptionType.USER, "user_to_rate", "Select the user to rate.", true));
-        this.register = true;
 
         random = ThreadLocalRandom.current();
     }

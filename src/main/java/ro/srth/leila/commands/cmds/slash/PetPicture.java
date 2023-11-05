@@ -22,7 +22,6 @@ public class PetPicture extends SlashCommand {
         subCmds.add(new SubcommandData("leila", "Sends a random picture of leila"));
         subCmds.add(new SubcommandData("octavious", "Sends a random picture of octavious"));
         subCmds.add(new SubcommandData("chucky", "Sends a random picture of chucky"));
-        this.register = true;
         rand =  ThreadLocalRandom.current();
     }
 

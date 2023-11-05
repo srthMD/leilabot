@@ -4,11 +4,6 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ContextMenu extends Command{
-
-    public String commandName;
-    public boolean register;
-
-
     public ContextMenu(){
         super();
     }

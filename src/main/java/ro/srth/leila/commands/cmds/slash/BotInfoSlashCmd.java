@@ -16,7 +16,6 @@ public class BotInfoSlashCmd extends SlashCommand {
         super();
         this.commandName = "botinfo";
         this.description = "Sends information about the bot.";
-        this.register = true;
     }
 
     @Override

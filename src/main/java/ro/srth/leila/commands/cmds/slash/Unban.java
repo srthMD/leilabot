@@ -17,7 +17,6 @@ public class Unban extends SlashCommand {
         this.description = "unbans a user from say or copypastasearch";
         subCmds.add(new SubcommandData("say", "Unbans a user from /say").addOption(OptionType.USER, "user", "The user you want to unban from /say", true));
         permissions.add(Permission.MESSAGE_MANAGE);
-        this.register = true;
     }
 
     @Override

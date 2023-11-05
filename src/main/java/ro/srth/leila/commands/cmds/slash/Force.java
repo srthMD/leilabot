@@ -27,7 +27,6 @@ public class Force extends SlashCommand {
         subCmds.add(new SubcommandData("randommessages", "forces random messages"));
         subCmds.add(new SubcommandData("randomreactions", "forces random reactions"));
         permissions.add(Permission.MESSAGE_MANAGE);
-        this.register = true;
 
         msgforce = false;
         reactionforce = false;

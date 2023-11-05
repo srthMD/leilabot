@@ -29,7 +29,6 @@ public class Toggle extends SlashCommand {
         subCmds.add(new SubcommandData("randommessages", "toggles random messages"));
         subCmds.add(new SubcommandData("randomreactions", "toggles random reactions"));
         subCmds.add(new SubcommandData("textreactions", "toggles preset reactions based on message content"));
-        this.register = true;
 
         msgtoggle = true;
         reactiontoggle = true;

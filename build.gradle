@@ -38,6 +38,7 @@ dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     implementation "org.apache.commons:commons-csv:1.10.0"
     implementation "net.bramp.ffmpeg:ffmpeg:0.7.0"
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
     //because discord-webhooks uses a version of org.json with vulnerabilities
     implementation "org.json:json:20230618"
 }

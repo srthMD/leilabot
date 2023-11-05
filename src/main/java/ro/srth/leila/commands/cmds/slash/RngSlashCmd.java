@@ -17,7 +17,6 @@ public class RngSlashCmd extends SlashCommand {
         this.description = "Generates a random number with given paramaters";
         args.add(new OptionData(OptionType.INTEGER, "minimum", "Minimum number.", true));
         args.add(new OptionData(OptionType.INTEGER, "maximum", "Maximum number.", true));
-        this.register = true;
     }
 
     @Override

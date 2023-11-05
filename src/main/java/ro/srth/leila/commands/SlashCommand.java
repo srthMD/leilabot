@@ -10,13 +10,10 @@ import java.util.List;
 
 public abstract class SlashCommand extends Command{
 
-    public String commandName;
     public String description;
-    public boolean register;
 
     public final List<OptionData> args;
     public final List<SubcommandData> subCmds;
-
 
 
     public SlashCommand(){

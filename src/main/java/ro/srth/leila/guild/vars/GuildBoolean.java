@@ -1,7 +1,7 @@
 package ro.srth.leila.guild.vars;
 
 /**
- * Extension of {@link GuildVariable} to be able to operate specificly with booleans.
+ * Extension of {@link GuildVariable GuildVariable} to be able to operate specificly with booleans.
  */
 public class GuildBoolean extends GuildVariable<Boolean> {
     public GuildBoolean(boolean var, String name) {
