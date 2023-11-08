@@ -2,6 +2,8 @@ package ro.srth.leila.commands;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -71,8 +73,16 @@ public final class CmdMan extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {
+    public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        runHandler(event);
+    }
 
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        runHandler(event);
+    }
+
+    private static void runHandler(@NotNull GenericGuildEvent event) {
         Guild guild = event.getGuild();
 
         // register commands here
