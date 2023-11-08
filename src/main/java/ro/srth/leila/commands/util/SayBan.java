@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-public class SayBan {
+public final class SayBan {
 
     private static final Path path = Paths.get("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.csv");
 

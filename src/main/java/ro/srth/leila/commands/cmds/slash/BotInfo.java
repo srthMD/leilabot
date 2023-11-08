@@ -1,18 +1,25 @@
 package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.exception.GuildNotFoundException;
-import ro.srth.leila.main.Bot;
 import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.listener.listeners.GenericMentionHandler;
+import ro.srth.leila.main.Bot;
 
 import java.awt.*;
 
-public class BotInfoSlashCmd extends SlashCommand {
+public class BotInfo extends SlashCommand {
 
-    public BotInfoSlashCmd() {
+    public BotInfo(Guild guild) {
+        super(guild);
+        this.commandName = "botinfo";
+        this.description = "Sends information about the bot.";
+    }
+
+    public BotInfo() {
         super();
         this.commandName = "botinfo";
         this.description = "Sends information about the bot.";
@@ -20,8 +27,6 @@ public class BotInfoSlashCmd extends SlashCommand {
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
-        Bot.log.info(event.getInteraction().getUser().getName() + " Fired BotInfoSlashCmd");
-
         long guildId = event.getGuild().getIdLong();
 
         String tt, rt, mt;

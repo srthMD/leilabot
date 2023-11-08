@@ -1,5 +1,6 @@
 package ro.srth.leila.commands.cmds.slash;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -24,8 +25,8 @@ public class Shitify extends SlashCommand {
 
     private static final List<Integer> VALID_MP3_SAMPLE_RATES = new ArrayList<Integer>(Arrays.asList(8000, 11025, 12000, 16000, 22050, 32000, 44100, 48000));
 
-    public Shitify() {
-        super();
+    public Shitify(Guild guild) {
+        super(guild);
         this.commandName = "shitify";
         this.description = "compresses media to extreme levels";
         subCmds.add(new SubcommandData("image", "Shitifies an image")
@@ -61,6 +62,12 @@ public class Shitify extends SlashCommand {
                                 new Command.Choice("Extreme High Pass", "highpass"),
                                 new Command.Choice("Audio Distort", "extremedistort"))));
 
+    }
+
+    public Shitify() {
+        super();
+        this.commandName = "shitify";
+        this.description = "compresses media to extreme levels";
     }
 
     @Override

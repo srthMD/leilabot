@@ -1,6 +1,7 @@
 package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
@@ -19,12 +20,18 @@ import java.util.Collections;
 @GuildSpecific(guildIdLong = 696053797755027537L)
 public class Reload extends SlashCommand {
 
-    public Reload() {
-        super();
+    public Reload(Guild guild) {
+        super(guild);
         this.commandName = "reload";
         this.description = "Refreshes certian parts of the bot.";
         subCmds.add(new SubcommandData("randommsg", "reloads all the random messages from disk"));
         permissions.add(Permission.ADMINISTRATOR);
+    }
+
+    public Reload() {
+        super();
+        this.commandName = "reload";
+        this.description = "Refreshes certian parts of the bot.";
     }
 
     @Override

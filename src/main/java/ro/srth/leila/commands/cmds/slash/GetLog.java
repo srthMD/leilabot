@@ -1,5 +1,6 @@
 package ro.srth.leila.commands.cmds.slash;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -11,16 +12,19 @@ import ro.srth.leila.commands.SlashCommand;
 
 import java.nio.file.Paths;
 
-//i was right
-//@NeedsRevamp(reason = "logger rewrite would probably break this")
+public class GetLog extends SlashCommand {
 
-public class GetLogSlashCmd extends SlashCommand {
-
-    public GetLogSlashCmd() {
-        super();
+    public GetLog(Guild guild) {
+        super(guild);
         this.commandName = "getlog";
         this.description = "Sends the current log of the bot.";
         args.add(new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true));
+    }
+
+    public GetLog() {
+        super();
+        this.commandName = "getlog";
+        this.description = "Sends the current log of the bot.";
     }
 
     @Override

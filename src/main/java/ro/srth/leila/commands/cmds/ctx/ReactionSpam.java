@@ -1,5 +1,6 @@
 package ro.srth.leila.commands.cmds.ctx;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
@@ -13,7 +14,14 @@ import java.util.stream.IntStream;
 public class ReactionSpam extends ContextMenu {
     private static final int MAX_REACTIONS = 20;
 
+    public ReactionSpam(Guild guild) {
+        super(guild);
+        this.commandName = "Reaction Spam";
+        this.register = true;
+    }
+
     public ReactionSpam() {
+        super();
         this.commandName = "Reaction Spam";
         this.register = true;
     }
@@ -21,7 +29,7 @@ public class ReactionSpam extends ContextMenu {
     @Override
     public void runContextMenu(@NotNull MessageContextInteractionEvent event) {
         int currentreactions = event.getTarget().getReactions().size();
-        if(currentreactions == 20){return;}
+        if(currentreactions == MAX_REACTIONS){return;}
         int iteratorcount = MAX_REACTIONS-currentreactions;
 
         List<RichCustomEmoji> emojis = event.getJDA().getEmojis();

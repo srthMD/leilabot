@@ -1,5 +1,6 @@
 package ro.srth.leila.commands.cmds.slash;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
@@ -12,17 +13,23 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PetPicture extends SlashCommand {
 
-    final ThreadLocalRandom rand;
+    ThreadLocalRandom rand;
 
-    public PetPicture() {
-        super();
+    public PetPicture(Guild guild) {
+        super(guild);
         this.commandName = "petpicture";
         this.description = "command to house sub commands for pet pictures";
         subCmds.add(new SubcommandData("simon", "Sends a random picture of simon"));
         subCmds.add(new SubcommandData("leila", "Sends a random picture of leila"));
         subCmds.add(new SubcommandData("octavious", "Sends a random picture of octavious"));
         subCmds.add(new SubcommandData("chucky", "Sends a random picture of chucky"));
-        rand =  ThreadLocalRandom.current();
+        rand = ThreadLocalRandom.current();
+    }
+
+    public PetPicture() {
+        super();
+        this.commandName = "petpicture";
+        this.description = "command to house sub commands for pet pictures";
     }
 
     @Override

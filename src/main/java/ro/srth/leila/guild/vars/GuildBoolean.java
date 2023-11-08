@@ -1,11 +1,19 @@
 package ro.srth.leila.guild.vars;
 
+import net.dv8tion.jda.api.entities.Guild;
+
 /**
  * Extension of {@link GuildVariable GuildVariable} to be able to operate specificly with booleans.
  */
+
 public class GuildBoolean extends GuildVariable<Boolean> {
-    public GuildBoolean(boolean var, String name) {
-        super(var, name);
+
+    public GuildBoolean(String var, String name, Guild guild) {
+        super(Boolean.parseBoolean(var), name, guild);
+    }
+
+    public GuildBoolean(boolean var, String name, Guild guild) {
+        super(var, name, guild);
     }
 
     @Override

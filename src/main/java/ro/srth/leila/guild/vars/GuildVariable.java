@@ -1,12 +1,18 @@
 package ro.srth.leila.guild.vars;
 
+import net.dv8tion.jda.api.entities.Guild;
+
 public abstract class GuildVariable<T> implements IGuildVariable<T>{
+
     final String name;
     T var;
 
-    public GuildVariable(T var, String name) {
+    Guild guild;
+
+    public GuildVariable(T var, String name, Guild guild) {
         this.name = name;
         this.var = var;
+        this.guild = guild;
     }
 
     @Override
@@ -19,9 +25,16 @@ public abstract class GuildVariable<T> implements IGuildVariable<T>{
         return var;
     }
 
+    @Override
+    public Guild getGuild(){
+        return guild;
+    }
+
     public void setVar(T var) {
         this.var = var;
     }
 
     public abstract String toString();
+
+
 }

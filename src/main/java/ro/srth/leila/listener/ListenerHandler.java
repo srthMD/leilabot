@@ -10,7 +10,7 @@ import ro.srth.leila.main.Bot;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
-public class ListenerHandler extends ListenerAdapter {
+public final class ListenerHandler extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
 

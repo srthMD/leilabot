@@ -1,6 +1,7 @@
 package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -11,13 +12,20 @@ import ro.srth.leila.commands.util.SayBan;
 
 public class Unban extends SlashCommand {
 
-    public Unban() {
-        super();
+    public Unban(Guild guild) {
+        super(guild);
         this.commandName = "unban";
         this.description = "unbans a user from say or copypastasearch";
         subCmds.add(new SubcommandData("say", "Unbans a user from /say").addOption(OptionType.USER, "user", "The user you want to unban from /say", true));
         permissions.add(Permission.MESSAGE_MANAGE);
     }
+
+    public Unban() {
+        super();
+        this.commandName = "unban";
+        this.description = "unbans a user from say or copypastasearch";
+    }
+
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

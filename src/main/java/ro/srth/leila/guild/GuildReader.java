@@ -1,18 +1,22 @@
 package ro.srth.leila.guild;
 
+import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsucessfulReadException;
-import ro.srth.leila.guild.vars.GuildBoolean;
+import ro.srth.leila.guild.vars.GuildVariable;
 import ro.srth.leila.main.Bot;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Static utility class for reading guild configurations from disk and cache.
  */
+
+@SuppressWarnings(value = "unchecked")
 public class GuildReader {
 
     private static final String EXTENSION = ".lbgcfg";
@@ -25,6 +29,7 @@ public class GuildReader {
      * @param guildId The id of the guild.
      * @return The GuildConfiguration of the guild.
      */
+
     public static GuildConfiguration getFromDisk(long guildId) throws UnsucessfulReadException {
         if(!exists(guildId)){
             return GuildConfiguration.NULLCFG;
@@ -35,9 +40,17 @@ public class GuildReader {
         GuildConfiguration gc = new GuildConfiguration(guildId);
 
         strs.forEach((str) -> {
-            String[] s = str.split("=");
-            if((s[1].equals("true")) || (s[1].equals("false"))){
-                gc.getVars().put(s[0], new GuildBoolean(Boolean.getBoolean(s[1]), s[0]));
+            try {
+                String[] split = str.split(";;");
+                Class<? extends GuildVariable<?>> clazz = (Class<? extends GuildVariable<?>>) Class.forName("ro.srth.leila.guild.vars." + split[0]);
+
+                String[] varSplit = split[1].split("=");
+
+                gc.getVars().put(varSplit[0], clazz.getDeclaredConstructor(String.class, String.class, Guild.class).newInstance(varSplit[1], varSplit[0], Bot.getSman().getGuildById(guildId)));
+
+            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                     InvocationTargetException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -49,6 +62,7 @@ public class GuildReader {
      * @param guildId The id of the guild.
      * @return The GuildConfiguration of the guild.
      */
+
     public static GuildConfiguration get(long guildId) throws GuildNotFoundException {
         var cache = Bot.instance().getGuildCache();
 
@@ -64,6 +78,7 @@ public class GuildReader {
      * @param guildId The id of the guild.
      * @return True if it exists.
      */
+
     public static boolean exists(long guildId){
         File f = new File(PATH + guildId + EXTENSION);
         return f.isFile();
@@ -74,6 +89,7 @@ public class GuildReader {
      * @param guildId The id of the guild.
      * @return True if it exists.
      */
+
     public static boolean existsInCache(long guildId){return Objects.isNull(Bot.instance().getGuildCache().getIfPresent(guildId));}
 
     /**
@@ -81,6 +97,7 @@ public class GuildReader {
      * @param guildId The id of the guild.
      * @return The file containing the guild configuration.
      */
+
     public static File getRaw(long guildId){return new File(PATH + guildId + EXTENSION);}
 
 

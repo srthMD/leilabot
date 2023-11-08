@@ -36,7 +36,7 @@ public class GuildWriter {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            writeDisk(file, GuildConfiguration.getDefaultGuildConfiguration());
+            writeDisk(file, GuildConfiguration.getDefaultGuildConfiguration(vars.getGuildId()));
         }
         return true;
     }
@@ -75,14 +75,15 @@ public class GuildWriter {
         }
     }
 
-    public static void write(GuildVariable<?> var, long id) throws UnsuccessfulWriteException {
-        boolean s2 = writeCache(var, id);
+    public static void write(GuildVariable<?> var) throws UnsuccessfulWriteException {
+        boolean s2 = writeCache(var, var.getGuild().getIdLong());
 
         if(!s2){
             throw new UnsuccessfulWriteException("Unsuccessful write() attempt.");
         }
     }
 
+    //TODO: actual error handling wtf is this shit
     private static boolean writeDisk(File file, GuildConfiguration vars){
         BufferedWriter bw;
         try {
@@ -93,7 +94,7 @@ public class GuildWriter {
 
         vars.getVars().forEach((name, var) -> {
             try {
-                bw.write(name + "=" + var + "#");
+                bw.write(var.getClass().getSimpleName() + ";;" + name + "=" + var + "#");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

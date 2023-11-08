@@ -1,12 +1,14 @@
 package ro.srth.leila.guild;
 
+import net.dv8tion.jda.api.entities.Guild;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.guild.vars.GuildObject;
 import ro.srth.leila.guild.vars.GuildVariable;
+import ro.srth.leila.main.Bot;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,16 +40,21 @@ public class GuildConfiguration {
         guildId = id;
     }
 
-    public static GuildConfiguration getDefaultGuildConfiguration(){
-        Set<Field> defaults = new Reflections("ro.srth", Scanners.FieldsAnnotated).getFieldsAnnotatedWith(Local.class);
+    public static GuildConfiguration getDefaultGuildConfiguration(long guildId){
+        Reflections ref = new Reflections("ro.srth", Scanners.FieldsAnnotated);
 
+        Set<Field> defaults = ref.getFieldsAnnotatedWith(Local.class);
 
         GuildConfiguration guildConfiguration = new GuildConfiguration(0);
         defaults.forEach((field -> {
             try {
-                var gv = new GuildObject(field.get(null), field.getName());
-                guildConfiguration.vars.put(field.getName(), gv);
-            } catch (IllegalAccessException e) {
+                Class<? extends GuildVariable<?>> clazz = field.getAnnotation(Local.class).clazz();
+
+                Object instance = clazz.getDeclaredConstructor(field.getType(), String.class, Guild.class).newInstance(field.get(null), field.getName(), Bot.getSman().getGuildById(guildId));
+
+
+                guildConfiguration.vars.put(field.getName(), (GuildVariable<?>) instance);
+            } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         }));

@@ -2,6 +2,7 @@ package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.commands.SlashCommand;
@@ -11,11 +12,19 @@ import java.awt.*;
 
 public class Cache extends SlashCommand {
 
-    public Cache(){
+    public Cache(Guild guild){
+        super(guild);
         this.commandName = "guildcache";
         this.description = "Shows the cached variables of the current guild.";
         permissions.add(Permission.ADMINISTRATOR);
     }
+
+    public Cache(){
+        super();
+        this.commandName = "guildcache";
+        this.description = "Shows the cached variables of the current guild.";
+    }
+
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
         var cache = Bot.instance().getGuildCache();
@@ -30,11 +39,15 @@ public class Cache extends SlashCommand {
         eb.setFooter("Written in Java by srth ", "https://avatars.githubusercontent.com/u/94727593?v=4");
 
         cache.getIfPresent(event.getGuild().getIdLong()).getVars().forEach((name, var) -> {
-            eb.addField(var.getClass().getSimpleName() + " " + name +  ":", var.toString(), false);
+            if(name.equals("webhookLink")){
+                eb.addField(var.getClass().getSimpleName() + " " + name +  ":", "N/A", false);
+            }else{
+                eb.addField(var.getClass().getSimpleName() + " " + name +  ":", var.toString(), false);
+            }
         });
 
         try {
-            event.getInteraction().replyEmbeds(eb.build()).queue();
+            event.getInteraction().replyEmbeds(eb.build()).setEphemeral(true).queue();
         } catch (IllegalStateException e) {
             Bot.log.error(e.getMessage());
         }

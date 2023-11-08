@@ -1,6 +1,7 @@
 package ro.srth.leila.commands;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,8 +13,8 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
-import ro.srth.leila.main.Bot;
 import ro.srth.leila.annotations.GuildSpecific;
+import ro.srth.leila.main.Bot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,10 +25,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
+//
 @SuppressWarnings(value = "unchecked")
-public class CmdMan extends ListenerAdapter {
+public final class CmdMan extends ListenerAdapter {
 
-    static final ExecutorService ex = Executors.newCachedThreadPool();
+    static final ExecutorService ex = Executors.newCachedThreadPool(); //default args are ok
 
     final static Reflections reflections = new Reflections("ro.srth");
 
@@ -71,6 +73,8 @@ public class CmdMan extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
 
+        Guild guild = event.getGuild();
+
         // register commands here
         List<CommandData> commandData = new ArrayList<>();
 
@@ -78,12 +82,12 @@ public class CmdMan extends ListenerAdapter {
             boolean isGuildSpecific = clazz.isAnnotationPresent(GuildSpecific.class);
 
             try{
-                Object instance = clazz.getDeclaredConstructor().newInstance();
+                Object instance = clazz.getDeclaredConstructor(Guild.class).newInstance(guild);
 
                 if(clazz.getField("register").get(instance) == Boolean.FALSE) continue;
 
                 if(isGuildSpecific){
-                    if(!(event.getGuild().getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong())) continue;
+                    if(!(guild.getIdLong() == clazz.getAnnotation(GuildSpecific.class).guildIdLong())) continue;
                 }
 
                 String name = (String) clazz.getField("commandName").get(instance);
@@ -105,8 +109,8 @@ public class CmdMan extends ListenerAdapter {
 
                     commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, name).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)));
                 }
-            } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException |
-                     InvocationTargetException e) {
+            } catch (NoSuchFieldException | IllegalAccessException | InstantiationException |
+                     InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -120,11 +124,12 @@ public class CmdMan extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(!event.isAcknowledged()){
             String name = event.getName();
+            Guild guild = event.getGuild();
 
             Class<? extends SlashCommand> clazz = slashCommandMap.get(name);
 
             try {
-                Object instance = clazz.getDeclaredConstructor().newInstance();
+                Object instance = clazz.getDeclaredConstructor(Guild.class).newInstance(guild);
 
                 List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
 
@@ -154,11 +159,12 @@ public class CmdMan extends ListenerAdapter {
         if(!event.isAcknowledged()){
             String name = event.getCommandString();
 
+            Guild guild = event.getGuild();
+
             Class<? extends ContextMenu> clazz = ctxMenuMap.get(name);
 
             try {
-
-                Object instance = clazz.getDeclaredConstructor().newInstance();
+                Object instance = clazz.getDeclaredConstructor(Guild.class).newInstance(guild);
 
                 List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
 

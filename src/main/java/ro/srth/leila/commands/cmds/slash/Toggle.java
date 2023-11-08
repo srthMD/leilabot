@@ -1,5 +1,6 @@
 package ro.srth.leila.commands.cmds.slash;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
@@ -13,27 +14,30 @@ import ro.srth.leila.guild.vars.GuildBoolean;
 
 public class Toggle extends SlashCommand {
 
-    @Local
+    @Local(clazz = GuildBoolean.class)
     public static boolean msgtoggle = true;
 
-    @Local
+    @Local(clazz = GuildBoolean.class)
     public static boolean reactiontoggle = true;
 
-    @Local
+    @Local(clazz = GuildBoolean.class)
     public static boolean txttoggle = true;
 
-    public Toggle() {
-        super();
+    public Toggle(Guild guild) {
+        super(guild);
         this.commandName = "toggle";
         this.description = "toggles certain listeners";
         subCmds.add(new SubcommandData("randommessages", "toggles random messages"));
         subCmds.add(new SubcommandData("randomreactions", "toggles random reactions"));
         subCmds.add(new SubcommandData("textreactions", "toggles preset reactions based on message content"));
-
-        msgtoggle = true;
-        reactiontoggle = true;
-        txttoggle = true;
     }
+
+    public Toggle() {
+        super();
+        this.commandName = "toggle";
+        this.description = "toggles certain listeners";
+    }
+
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
@@ -48,7 +52,7 @@ public class Toggle extends SlashCommand {
                     t_msgtoggle = !t_msgtoggle;
                     event.reply("setting random message status to " + (t_msgtoggle ? "forced" : "not forced")).queue();
 
-                    GuildWriter.write(new GuildBoolean(t_msgtoggle, "msgtoggle"), guildId);
+                    GuildWriter.write(new GuildBoolean(t_msgtoggle, "msgtoggle", event.getGuild()));
                 }catch (UnsuccessfulWriteException | GuildNotFoundException e) {
                     event.reply("something went wrong reading/writing cache, message: " + e.getMessage()).setEphemeral(true).queue();
                 }
@@ -63,7 +67,7 @@ public class Toggle extends SlashCommand {
                     t_reactiontoggle = !t_reactiontoggle;
                     event.reply("setting random reaction status to " + (t_reactiontoggle ? "forced" : "not forced")).queue();
 
-                    GuildWriter.write(new GuildBoolean(t_reactiontoggle, "reactiontoggle"), guildId);
+                    GuildWriter.write(new GuildBoolean(t_reactiontoggle, "reactiontoggle", event.getGuild()));
                 }catch (UnsuccessfulWriteException | GuildNotFoundException e) {
                     event.reply("something went wrong reading/writing cache, message: " + e.getMessage()).setEphemeral(true).queue();
                 }
@@ -78,7 +82,7 @@ public class Toggle extends SlashCommand {
                     t_txttoggle = !t_txttoggle;
                     event.reply("setting set text reaction status to " + (t_txttoggle ? "forced" : "not forced")).queue();
 
-                    GuildWriter.write(new GuildBoolean(t_txttoggle, "txttoggle"), guildId);
+                    GuildWriter.write(new GuildBoolean(t_txttoggle, "txttoggle", event.getGuild()));
                 }catch (UnsuccessfulWriteException | GuildNotFoundException e) {
                     event.reply("something went wrong reading/writing cache, message: " + e.getMessage()).setEphemeral(true).queue();
                 }

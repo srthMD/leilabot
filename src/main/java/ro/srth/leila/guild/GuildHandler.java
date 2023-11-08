@@ -15,7 +15,7 @@ public class GuildHandler extends ListenerAdapter {
 
         if(!GuildReader.exists(id)){
             try {
-                GuildWriter.write(new GuildConfiguration(GuildConfiguration.getDefaultGuildConfiguration(), id));
+                GuildWriter.write(new GuildConfiguration(GuildConfiguration.getDefaultGuildConfiguration(id), id));
             } catch (UnsuccessfulWriteException e) {
                 Bot.log.error(e.getMessage());
             }

@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
 
-public class MediaHandler {
+public final class MediaHandler {
     final static Map<String, String> complexFillters = Map.of(
             "mirror", "crop=iw/2:ih:0:0,split[left][tmp];[tmp]hflip[right];[left][right]hstack",
             "flanger", "flanger=delay=10:depth=0:regen=95:speed=10:shape=triangular:width=95,flanger=delay=10:depth=0:regen=95:speed=8:shape=triangular:width=85,flanger=delay=10:depth=0.1:regen=95:speed=7:shape=triangular:width=90",

@@ -1,6 +1,7 @@
 package ro.srth.leila.commands.cmds.slash;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
@@ -14,23 +15,27 @@ import ro.srth.leila.guild.vars.GuildBoolean;
 
 public class Force extends SlashCommand {
 
-    @Local
+    @Local(clazz = GuildBoolean.class)
     public static boolean msgforce = false;
 
-    @Local
+    @Local(clazz = GuildBoolean.class)
     public static boolean reactionforce = false;
 
-    public Force() {
-        super();
+    public Force(Guild guild) {
+        super(guild);
         this.commandName = "force";
         this.description = "forces certain listeners";
         subCmds.add(new SubcommandData("randommessages", "forces random messages"));
         subCmds.add(new SubcommandData("randomreactions", "forces random reactions"));
         permissions.add(Permission.MESSAGE_MANAGE);
-
-        msgforce = false;
-        reactionforce = false;
     }
+
+    public Force() {
+        super();
+        this.commandName = "force";
+        this.description = "forces certain listeners";
+    }
+
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
@@ -49,7 +54,7 @@ public class Force extends SlashCommand {
                     t_msgforce = !t_msgforce;
                     event.reply("setting random message status to " + (t_msgforce ? "forced" : "not forced")).queue();
 
-                    GuildWriter.write(new GuildBoolean(t_msgforce, "msgforce"), guildId);
+                    GuildWriter.write(new GuildBoolean(t_msgforce, "msgforce", event.getGuild()));
                 }catch (UnsuccessfulWriteException | GuildNotFoundException e) {
                     event.reply("something went wrong reading/writing cache, message: " + e.getMessage()).setEphemeral(true).queue();
                 }
@@ -65,7 +70,7 @@ public class Force extends SlashCommand {
                     t_reactionforce = !t_reactionforce;
                     event.reply("setting random reaction status to " + (t_reactionforce ? "forced" : "not forced")).queue();
 
-                    GuildWriter.write(new GuildBoolean(t_reactionforce, "reactionforce"), guildId);
+                    GuildWriter.write(new GuildBoolean(t_reactionforce, "reactionforce", event.getGuild()));
                 }catch (UnsuccessfulWriteException | GuildNotFoundException e) {
                     event.reply("something went wrong reading/writing cache, message: " + e.getMessage()).setEphemeral(true).queue();
                 }
