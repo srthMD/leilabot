@@ -13,6 +13,7 @@ public final class Config {
     public static final OnlineStatus STATUS = OnlineStatus.ONLINE;
 
     private static final String ACTIVITY_TEXT = "KICK ME IF ANIMAL ABUSER";
+    
     public static final Activity ACTIVITY_STATUS = Activity.watching(ACTIVITY_TEXT);
 
     public static final MemberCachePolicy MEMBER_CACHE_POLICY = MemberCachePolicy.ALL;
