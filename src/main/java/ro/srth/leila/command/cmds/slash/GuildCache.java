@@ -1,28 +1,24 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.main.Bot;
 
 import java.awt.*;
 
-public class Cache extends SlashCommand {
+public class GuildCache extends SlashCommand {
 
-    public Cache(Guild guild){
-        super(guild);
-        this.commandName = "guildcache";
-        this.description = "Shows the cached variables of the current guild.";
+    static {
+        description = "Shows the cached variables of the current guild.";
         permissions.add(Permission.ADMINISTRATOR);
     }
 
-    public Cache(){
-        super();
-        this.commandName = "guildcache";
-        this.description = "Shows the cached variables of the current guild.";
+    public GuildCache(Guild guild){
+        super(guild);
     }
 
     @Override

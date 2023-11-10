@@ -1,11 +1,11 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 
 import java.io.File;
 import java.util.Objects;
@@ -15,21 +15,17 @@ public class PetPicture extends SlashCommand {
 
     ThreadLocalRandom rand;
 
-    public PetPicture(Guild guild) {
-        super(guild);
-        this.commandName = "petpicture";
-        this.description = "command to house sub commands for pet pictures";
+    static {
+        description = "command to house sub commands for pet pictures";
         subCmds.add(new SubcommandData("simon", "Sends a random picture of simon"));
         subCmds.add(new SubcommandData("leila", "Sends a random picture of leila"));
         subCmds.add(new SubcommandData("octavious", "Sends a random picture of octavious"));
         subCmds.add(new SubcommandData("chucky", "Sends a random picture of chucky"));
-        rand = ThreadLocalRandom.current();
     }
 
-    public PetPicture() {
-        super();
-        this.commandName = "petpicture";
-        this.description = "command to house sub commands for pet pictures";
+    public PetPicture(Guild guild) {
+        super(guild);
+        rand = ThreadLocalRandom.current();
     }
 
     @Override

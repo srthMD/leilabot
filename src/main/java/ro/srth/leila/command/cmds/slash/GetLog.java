@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -8,23 +8,19 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.main.Bot;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 
 import java.nio.file.Paths;
 
 public class GetLog extends SlashCommand {
 
-    public GetLog(Guild guild) {
-        super(guild);
-        this.commandName = "getlog";
-        this.description = "Sends the current log of the bot.";
+    static {
+        description = "Sends the current log of the bot.";
         args.add(new OptionData(OptionType.BOOLEAN, "isephemeral", "Makes the reply visible to others (false = visible to others).", true));
     }
 
-    public GetLog() {
-        super();
-        this.commandName = "getlog";
-        this.description = "Sends the current log of the bot.";
+    public GetLog(Guild guild) {
+        super(guild);
     }
 
     @Override

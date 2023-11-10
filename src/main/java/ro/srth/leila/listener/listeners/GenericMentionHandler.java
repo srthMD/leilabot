@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
-import ro.srth.leila.commands.cmds.slash.Toggle;
+import ro.srth.leila.command.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
 
 import java.io.File;

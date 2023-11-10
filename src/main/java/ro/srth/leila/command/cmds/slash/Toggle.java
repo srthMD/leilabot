@@ -1,11 +1,11 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
 import ro.srth.leila.guild.GuildReader;
@@ -13,6 +13,13 @@ import ro.srth.leila.guild.GuildWriter;
 import ro.srth.leila.guild.vars.GuildBoolean;
 
 public class Toggle extends SlashCommand {
+
+    static {
+        description = "toggles certain listeners";
+        subCmds.add(new SubcommandData("randommessages", "toggles random messages"));
+        subCmds.add(new SubcommandData("randomreactions", "toggles random reactions"));
+        subCmds.add(new SubcommandData("textreactions", "toggles preset reactions based on message content"));
+    }
 
     @Local(clazz = GuildBoolean.class)
     public static boolean msgtoggle = true;
@@ -25,19 +32,7 @@ public class Toggle extends SlashCommand {
 
     public Toggle(Guild guild) {
         super(guild);
-        this.commandName = "toggle";
-        this.description = "toggles certain listeners";
-        subCmds.add(new SubcommandData("randommessages", "toggles random messages"));
-        subCmds.add(new SubcommandData("randomreactions", "toggles random reactions"));
-        subCmds.add(new SubcommandData("textreactions", "toggles preset reactions based on message content"));
     }
-
-    public Toggle() {
-        super();
-        this.commandName = "toggle";
-        this.description = "toggles certain listeners";
-    }
-
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

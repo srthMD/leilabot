@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ro.srth.leila.commands.CmdMan;
+import ro.srth.leila.command.CmdMan;
 import ro.srth.leila.guild.GuildConfiguration;
 import ro.srth.leila.guild.GuildHandler;
 import ro.srth.leila.listener.ListenerHandler;
@@ -26,8 +26,6 @@ public class Bot{
 
 
     public Bot() {
-        CmdMan.initMaps();
-
         guildCache = Caffeine.newBuilder().build();
 
         env = Dotenv.configure().directory("C:\\Users\\SRTH_\\Desktop\\leilabot").load(); //load .env

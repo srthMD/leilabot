@@ -1,4 +1,4 @@
-package ro.srth.leila.commands;
+package ro.srth.leila.command;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -9,21 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command extends ListenerAdapter implements EventListener {
-    
-    public String commandName;
+    public static boolean register = true; // true by default
 
-    public boolean register = true; // true by default
-
-    public final List<Permission> permissions;
+    public static List<Permission> permissions = new ArrayList<>();
 
     public Guild guild;
 
-    public Command(Guild guild){
-        permissions = new ArrayList<>();
+    public Command(Guild guild){;
         this.guild = guild;
-    }
-
-    public Command(){
-        permissions = new ArrayList<>();
     }
 }

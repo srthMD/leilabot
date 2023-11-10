@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -6,10 +6,9 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.main.Bot;
-import ro.srth.leila.annotations.GuildSpecific;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.listener.listeners.RandomMsg;
+import ro.srth.leila.main.Bot;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,21 +16,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 
-@GuildSpecific(guildIdLong = 696053797755027537L)
 public class Reload extends SlashCommand {
 
-    public Reload(Guild guild) {
-        super(guild);
-        this.commandName = "reload";
-        this.description = "Refreshes certian parts of the bot.";
+    static {
+        description = "Refreshes certian parts of the bot.";
         subCmds.add(new SubcommandData("randommsg", "reloads all the random messages from disk"));
         permissions.add(Permission.ADMINISTRATOR);
     }
 
-    public Reload() {
-        super();
-        this.commandName = "reload";
-        this.description = "Refreshes certian parts of the bot.";
+    public Reload(Guild guild) {
+        super(guild);
     }
 
     @Override
@@ -48,7 +42,7 @@ public class Reload extends SlashCommand {
 
     public static void reloadRandomMsgs() throws IOException {
         String line;
-        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"));;
+        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"));
 
         RandomMsg.msgs.clear();
 

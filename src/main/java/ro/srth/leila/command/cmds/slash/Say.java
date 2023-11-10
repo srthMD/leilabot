@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -11,27 +11,23 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.SlashCommand;
-import ro.srth.leila.commands.util.SayBan;
+import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.util.SayBan;
 import ro.srth.leila.main.Bot;
 
 import java.io.File;
 
 public class Say extends SlashCommand {
 
-    public Say(Guild guild) {
-        super(guild);
-        this.commandName = "say";
-        this.description = "Makes the bot say a message";
+    static {
+        description = "Makes the bot say a message";
         args.add(new OptionData(OptionType.STRING, "content", "What you want the bot to say.", false));
         args.add(new OptionData(OptionType.STRING, "replyto", "Optional message id of the message you want to reply to.", false));
         args.add(new OptionData(OptionType.ATTACHMENT, "attachment", "Optional attachment to send.", false));
     }
 
-    public Say() {
-        super();
-        this.commandName = "say";
-        this.description = "Makes the bot say a message";
+    public Say(Guild guild) {
+        super(guild);
     }
 
     @Override

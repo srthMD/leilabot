@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.util;
+package ro.srth.leila.command.util;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

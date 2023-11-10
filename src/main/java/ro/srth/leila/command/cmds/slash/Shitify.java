@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -10,8 +10,8 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.SlashCommand;
-import ro.srth.leila.commands.util.MediaHandler;
+import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.util.MediaHandler;
 import ro.srth.leila.main.Bot;
 
 import java.io.File;
@@ -25,10 +25,8 @@ public class Shitify extends SlashCommand {
 
     private static final List<Integer> VALID_MP3_SAMPLE_RATES = new ArrayList<Integer>(Arrays.asList(8000, 11025, 12000, 16000, 22050, 32000, 44100, 48000));
 
-    public Shitify(Guild guild) {
-        super(guild);
-        this.commandName = "shitify";
-        this.description = "compresses media to extreme levels";
+    static {
+        description = "compresses media to extreme levels";
         subCmds.add(new SubcommandData("image", "Shitifies an image")
                 .addOption(OptionType.ATTACHMENT, "image", "The image you want to compress", true)
                 .addOptions(new OptionData(OptionType.INTEGER, "resizebefore", "resolution to scale the image down to (default 40)", false).setRequiredRange(10L, 150L),
@@ -64,10 +62,8 @@ public class Shitify extends SlashCommand {
 
     }
 
-    public Shitify() {
-        super();
-        this.commandName = "shitify";
-        this.description = "compresses media to extreme levels";
+    public Shitify(Guild guild) {
+        super(guild);
     }
 
     @Override

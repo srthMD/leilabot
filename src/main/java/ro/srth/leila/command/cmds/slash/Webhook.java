@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.cmds.slash;
+package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.commands.SlashCommand;
+import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
 import ro.srth.leila.guild.GuildReader;
@@ -26,6 +26,19 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Webhook extends SlashCommand {
+
+    static {
+        description = "SlashCommand for webhook functionality";
+        subCmds.add(new SubcommandData("info", "Shows set info about the webhook").addOption(OptionType.BOOLEAN, "withlink", "Option to include the webhook link, (will delete message after 10 seconds)", true));
+        subCmds.add(new SubcommandData("config", "configure settings about a webhook").addOptions(
+                new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false),
+                new OptionData(OptionType.STRING, "name", "The display name for the webhook", false),
+                new OptionData(OptionType.STRING, "link", "The webhook url", false),
+                new OptionData(OptionType.CHANNEL, "webhookchannel", "The channel to listen for messages", false)
+        ));
+        subCmds.add(new SubcommandData("setactive", "Activates or deactivates the listener for the webhook").addOption(OptionType.BOOLEAN, "active", "Whether the webhook listener is active or not", true));
+        permissions.add(Permission.MANAGE_WEBHOOKS);
+    }
 
     @Local(clazz = GuildBoolean.class)
     public static boolean webhookActive = true;
@@ -45,26 +58,7 @@ public class Webhook extends SlashCommand {
 
     public Webhook(Guild guild) {
         super(guild);
-        this.commandName = "webhook";
-        this.description = "SlashCommand for webhook functionality";
-        subCmds.add(new SubcommandData("info", "Shows set info about the webhook").addOption(OptionType.BOOLEAN, "withlink", "Option to include the webhook link, (will delete message after 10 seconds)", true));
-        subCmds.add(new SubcommandData("config", "configure settings about a webhook").addOptions(
-                new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false),
-                new OptionData(OptionType.STRING, "name", "The display name for the webhook", false),
-                new OptionData(OptionType.STRING, "link", "The webhook url", false),
-                new OptionData(OptionType.CHANNEL, "webhookchannel", "The channel to listen for messages", false)
-                ));
-
-        subCmds.add(new SubcommandData("setactive", "Activates or deactivates the listener for the webhook").addOption(OptionType.BOOLEAN, "active", "Whether the webhook listener is active or not", true));
-        permissions.add(Permission.MANAGE_WEBHOOKS);
     }
-
-    public Webhook() {
-        super();
-        this.commandName = "webhook";
-        this.description = "SlashCommand for webhook functionality";
-    }
-
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

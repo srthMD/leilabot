@@ -2,9 +2,9 @@ package ro.srth.leila.listener.listeners;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.commands.cmds.slash.Force;
-import ro.srth.leila.commands.cmds.slash.Reload;
-import ro.srth.leila.commands.cmds.slash.Toggle;
+import ro.srth.leila.command.cmds.slash.Force;
+import ro.srth.leila.command.cmds.slash.Reload;
+import ro.srth.leila.command.cmds.slash.Toggle;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.listener.Listener;
 

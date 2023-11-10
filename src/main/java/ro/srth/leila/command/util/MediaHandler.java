@@ -1,4 +1,4 @@
-package ro.srth.leila.commands.util;
+package ro.srth.leila.command.util;
 
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
