@@ -2,15 +2,22 @@ package ro.srth.leila.main;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.srth.leila.command.CmdMan;
+import ro.srth.leila.command.util.stream.GuildMusicManager;
 import ro.srth.leila.guild.GuildConfiguration;
 import ro.srth.leila.guild.GuildHandler;
 import ro.srth.leila.listener.ListenerHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Bot{
 
@@ -23,6 +30,12 @@ public class Bot{
     private static Bot instance;
 
     private final Cache<Long, GuildConfiguration> guildCache;
+
+    public Cache<Long, GuildConfiguration> getGuildCache() {return guildCache;}
+
+    private final Map<Long, GuildMusicManager> streamManagers = new HashMap<>();
+
+    private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 
 
     public Bot() {
@@ -77,9 +90,13 @@ public class Bot{
 
     public static Bot instance(){return instance;}
 
-    public Cache<Long, GuildConfiguration> getGuildCache() {return guildCache;}
+    public Map<Long, GuildMusicManager> getStreamManagers(){return streamManagers;}
+
+    public AudioPlayerManager getPlayerManager(){return playerManager;}
 
     public static void main(String[] args){
         instance = new Bot();
+        AudioSourceManagers.registerRemoteSources(instance.playerManager);
+        AudioSourceManagers.registerLocalSource(instance.playerManager);
     }
 }

@@ -30,7 +30,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
-//
+
 @SuppressWarnings(value = "unchecked")
 public final class CmdMan extends ListenerAdapter {
 
