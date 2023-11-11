@@ -44,7 +44,8 @@ public class Stream extends SlashCommand {
                 new SubcommandData("pause", "Stops the stream"),
                 new SubcommandData("resume", "resumes the current stream"),
                 new SubcommandData("abort", "Disconnects the bot and clears the queue"),
-                new SubcommandData("queue", "displays the current queue")
+                new SubcommandData("queue", "displays the current queue"),
+                new SubcommandData("current", "Displays the current track if there is one playing")
         ));
 
         permissions.add(Permission.VOICE_USE_SOUNDBOARD);
@@ -65,6 +66,8 @@ public class Stream extends SlashCommand {
             return;
         }
 
+
+        System.out.println(event.getSubcommandName());
         switch (event.getSubcommandName()){
             case("link"): {
                 connect(guild.getAudioManager(), userVcState.getChannel().asVoiceChannel());
@@ -91,7 +94,6 @@ public class Stream extends SlashCommand {
 
                 if(canUse(userVcState, guild.getAudioManager())){
                     skipTrack(event);
-                    event.reply("skipping track").queue();
                 } else{
                     event.reply("you can only use this command when you are in the same vc as the bot").setEphemeral(true).queue();
                 }
@@ -126,9 +128,9 @@ public class Stream extends SlashCommand {
 
                     AtomicInteger indx = new AtomicInteger(1);
                     man.scheduler.getQueue().forEach((audioTrack -> {
-                        var currentInfo = current.getInfo();
+                        var currentInfo = audioTrack.getInfo();
 
-                        eb.addField(indx + ".", info.title + " - " + info.author, false);
+                        eb.addField(indx + ".", currentInfo.title + " - " + currentInfo.author, false);
                         indx.getAndIncrement();
                     }));
 
@@ -190,6 +192,29 @@ public class Stream extends SlashCommand {
                 break;
             }
         }
+    }
+
+    @NotNull
+    private EmbedBuilder getEmbedBuilder(AudioTrack track, GuildMusicManager man) {
+        EmbedBuilder eb = new EmbedBuilder();
+
+        AudioTrackInfo info = track.getInfo();
+
+        eb.setTitle("Current Track");
+
+        if(info.artworkUrl != null){
+            eb.setThumbnail(info.artworkUrl);
+        }
+
+        eb.setFooter("Written in Java by srth ", "https://avatars.githubusercontent.com/u/94727593?v=4");
+        eb.setColor(Color.white);
+
+        if(!info.title.equalsIgnoreCase("Unknown Title")){
+            eb.addField("Track Name: ", info.title + " - " + info.author, false);
+        }
+
+        eb.addField("Time Remaining: ", toTime(man.plr.getPlayingTrack().getPosition()) + " out of " + toTime(info.length) ,false);
+        return eb;
     }
 
     private void connect(AudioManager man, VoiceChannel channel){
@@ -303,5 +328,18 @@ public class Stream extends SlashCommand {
             return usrChannel.getIdLong() == botChannel.getIdLong();
         }
         return false;
+    }
+
+
+    private String toTime(long time){
+        long seconds = time/1000;
+        long minutes = 0;
+
+        while (seconds < 60){
+            minutes++;
+            seconds -= 60;
+        }
+
+        return minutes + ":" + seconds;
     }
 }

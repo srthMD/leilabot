@@ -40,7 +40,7 @@ public class Say extends SlashCommand {
             String message = event.getOption("content", OptionMapping::getAsString);
 
             if (message != null) {
-                String sanitized = sanitize(message);
+                String sanitized = sanitize(message); // unused rn bc sanitization is shit
             } else{
                 event.reply("message is null").setEphemeral(true).queue();
                 return;
@@ -59,42 +59,27 @@ public class Say extends SlashCommand {
             File upload;
             upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName())).join() : null;
 
-            if(message == null && upload == null){
-                event.reply("you must fill in either the content or attachment options").setEphemeral(true).queue();
-                return;
-            }
-
             if (msgId == null) {
-                if (message == null){
-                    event.getChannel().sendFiles(FileUpload.fromData(upload)).queue();
-                    event.reply("sending file").setEphemeral(true).queue();
-                } else {
-                    MessageCreateAction tmp = event.getChannel().sendMessage(message);
+                MessageCreateAction tmp = event.getChannel().sendMessage(message);
 
-                    if (upload != null) {
-                        tmp.addFiles(FileUpload.fromData(upload)).queue();
-                    } else {
-                        tmp.queue();
-                    }
-                    event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                if (upload != null) {
+                    tmp.addFiles(FileUpload.fromData(upload)).queue();
+                } else {
+                    tmp.queue();
                 }
+                event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
             } else {
                 event.getChannel().retrieveMessageById(msgId).queue((msg) -> {
 
-                    if (message == null){
-                        msg.replyFiles(FileUpload.fromData(upload)).queue();
-                        event.reply("sending file").setEphemeral(true).queue();
-                    } else{
-                        MessageCreateAction tmp = msg.reply(message);
+                    MessageCreateAction tmp = msg.reply(message);
 
-                        if(upload != null){
-                            tmp.addFiles(FileUpload.fromData(upload)).queue();
-                        }
-                        else{
-                            tmp.queue();
-                        }
-                        event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
+                    if(upload != null){
+                        tmp.addFiles(FileUpload.fromData(upload)).queue();
                     }
+                    else{
+                        tmp.queue();
+                    }
+                    event.reply("sending content " + '"' + message + '"').setEphemeral(true).queue();
 
                 }, new ErrorHandler().handle(ErrorResponse.UNKNOWN_MESSAGE, (e) -> {
                     event.getInteraction().reply("message id is invalid").setEphemeral(true).queue();
