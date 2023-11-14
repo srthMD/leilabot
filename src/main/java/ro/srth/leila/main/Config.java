@@ -7,10 +7,11 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.EnumSet;
 
 public final class Config {
-    public static final String ROOT = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath()).getAbsolutePath() +  File.separator + ".." + File.separator + ".." + File.separator + ".." + File.separator + "..";
+    public static final String ROOT =  Paths.get("").toAbsolutePath() +  File.separator + ".." + File.separator + "..";
 
     public static final OnlineStatus STATUS = OnlineStatus.ONLINE;
 
