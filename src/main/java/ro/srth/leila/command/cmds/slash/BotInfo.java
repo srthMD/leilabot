@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.exception.GuildNotFoundException;
-import ro.srth.leila.listener.listeners.GenericMentionHandler;
 import ro.srth.leila.main.Bot;
 
 import java.awt.*;
@@ -59,7 +58,7 @@ public class BotInfo extends SlashCommand {
         eb.addField("Total amt of Octavious pictures: ", String.valueOf(PetPicture.getNumberOfOctaviousPictures()), false);
         eb.addField("Total amt of Simon pictures: ", String.valueOf(PetPicture.getNumberOfSimonPictures()), false);
         eb.addField("Total amt of Chucky pictures: ", String.valueOf(PetPicture.getNumberOfChuckyPictures()), false);
-        eb.addField("Total Amt of birthday art pictures: ", String.valueOf(GenericMentionHandler.getNumberOfBdayArtPctures()), false);
+        eb.addField("Total Amt of birthday art pictures: ", String.valueOf(Bot.getNumberOfBdayArtPctures()), false);
         eb.addField("Random Messages Toggled: ", mt, false);
         eb.addField("Random Reactions Toggled: ", rt, false);
         eb.addField("Random Text Reactions Toggled: ", tt, false);

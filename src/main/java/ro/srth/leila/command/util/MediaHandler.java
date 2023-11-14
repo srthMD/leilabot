@@ -4,6 +4,7 @@ import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import org.imgscalr.Scalr;
+import ro.srth.leila.main.Config;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -47,7 +48,7 @@ public final class MediaHandler {
 
 
     public static File compressVideo(File video, Integer bitrate, Integer fps, Integer audioBitRate, Integer audioSamplingRate, Integer volume, String preset) throws Exception{
-        File out = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\out\\out" + video.getName().substring(video.getName().lastIndexOf(".")));
+        File out = new File(Config.ROOT + "\\ff\\out\\out" + video.getName().substring(video.getName().lastIndexOf(".")));
 
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(video.getAbsolutePath())
@@ -78,7 +79,7 @@ public final class MediaHandler {
 
 
     public static File compressAudio(File audio,Integer audioBitRate, Integer audioSamplingRate, Integer volume, Double speed, String preset) throws Exception{
-        File out = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\ff\\out\\out" + audio.getName().substring(audio.getName().lastIndexOf(".")));
+        File out = new File(Config.ROOT + "\\ff\\out\\out" + audio.getName().substring(audio.getName().lastIndexOf(".")));
 
         String extension = audio.getName().substring(audio.getName().lastIndexOf(".") + 1);
 
@@ -130,7 +131,7 @@ public final class MediaHandler {
         g2d.drawImage(image2, 0, 0, Color.WHITE, null);
         g2d.dispose();
 
-        File compressed = new File("C:\\temp\\compressed.png");
+        File compressed = File.createTempFile("compressed", ".png");
         OutputStream os = new FileOutputStream(compressed);
 
         Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpeg");

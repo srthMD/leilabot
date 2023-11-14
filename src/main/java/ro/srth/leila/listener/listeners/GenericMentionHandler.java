@@ -7,6 +7,7 @@ import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.command.cmds.slash.Toggle;
 import ro.srth.leila.listener.Listener;
+import ro.srth.leila.main.Config;
 
 import java.io.File;
 import java.util.Random;
@@ -58,7 +59,7 @@ public class GenericMentionHandler extends Listener {
                 event.getMessage().reply("\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7Mustafa Kemal ATATURK\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7 KEBAB STRONG \uD83C\uDDF9\uD83C\uDDF7\uD83D\uDCAA\uD83D\uDCAA\uD83D\uDCAAOTTOMAN STRONG\uD83C\uDDF9\uD83C\uDDF7\uD83D\uDCAA\uD83C\uDDF9\uD83C\uDDF7 GO CRY ARMENIA\uD83E\uDD2E\uD83E\uDD22\uD83C\uDDE6\uD83C\uDDF2\uD83E\uDD22\uD83E\uDD2E ARMENIA GENOCIDE NOT HAPPEN BUT IF DID THEY DESERVE\uD83D\uDD95\uD83D\uDD95 ARMNIA KILL TURKS FIRST!! GAYREEK SWIM 1923\uD83C\uDDEC\uD83C\uDDF7\uD83E\uDD22\uD83E\uDD2E\uD83E\uDD23\uD83E\uDD23 TURKEY VS WHOLE WORLD 1919-1923\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7 ISTANBUL>>>>CONSTANTINOPLE 1453 BEST YEAR OTTOMAN\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83D\uDCAA\uD83D\uDCAA\uD83D\uDC4A\uD83D\uDC4A TURAN POWER\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDE6\uD83C\uDDFF\uD83C\uDDE6\uD83C\uDDFF GAYMNIA=EAST TURKEY, WEST AZERBAIJAN\uD83C\uDDE6\uD83C\uDDFF\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDE6\uD83C\uDDFF\uD83C\uDDF9\uD83C\uDDF7 OTTOMAN DEFEAT BRITISH GAY in GALIPOLI\uD83E\uDD2E\uD83E\uDD22\uD83C\uDDEC\uD83C\uDDE7 TURKEY\uD83C\uDDF9\uD83C\uDDF7\uD83C\uDDF9\uD83C\uDDF7 BETTER THAN EUROSHIT\uD83D\uDCA9\uD83D\uDCA9\uD83C\uDDEA\uD83C\uDDFA\uD83E\uDD2E\uD83D\uDD95\uD83D\uDD95\uD83D\uDD95").queue();
                 break;
             case("happy birthday"):
-                final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
+                final File dir = new File(Config.ROOT + "\\bday");
 
                 Random rand = ThreadLocalRandom.current();
 
@@ -92,11 +93,5 @@ public class GenericMentionHandler extends Listener {
             default:
                 Bot.log.warn(trigger + " is not a known trigger in switch statement");
         }
-    }
-
-    public static int getNumberOfBdayArtPctures(){
-        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\bday");
-        File[] files = dir.listFiles();
-        return files.length;
     }
 }

@@ -67,7 +67,6 @@ public class Stream extends SlashCommand {
         }
 
 
-        System.out.println(event.getSubcommandName());
         switch (event.getSubcommandName()){
             case("link"): {
                 connect(guild.getAudioManager(), userVcState.getChannel().asVoiceChannel());
@@ -93,7 +92,9 @@ public class Stream extends SlashCommand {
                 }
 
                 if(canUse(userVcState, guild.getAudioManager())){
-                    skipTrack(event);
+                    AudioTrack next = skipTrack(event);
+                    AudioTrackInfo info = next.getInfo();
+                    event.reply("Now Playing: " + info.title + " - " + info.author).queue();
                 } else{
                     event.reply("you can only use this command when you are in the same vc as the bot").setEphemeral(true).queue();
                 }
@@ -109,7 +110,7 @@ public class Stream extends SlashCommand {
                     GuildMusicManager man = getGuildAudioPlayer(event.getGuild());
 
                     if(man.scheduler.getQueue().isEmpty()){
-                        event.reply("Queue is empty").queue();
+                        event.reply("queue is empty").queue();
                         return;
                     }
 
@@ -124,6 +125,7 @@ public class Stream extends SlashCommand {
                     eb.addField("Current song:", info.title + " - " + info.author, false);
                     eb.setFooter("Written in Java by srth ", "https://avatars.githubusercontent.com/u/94727593?v=4");
                     eb.setColor(Color.white);
+
 
 
                     AtomicInteger indx = new AtomicInteger(1);
@@ -224,7 +226,7 @@ public class Stream extends SlashCommand {
         }
     }
 
-    //https://github.com/lavalink-devs/lavaplayer/blob/main/demo-jda/src/main/java/com/sedmelluq/discord/lavaplayer/demo/jda/Main.java
+
     private synchronized GuildMusicManager getGuildAudioPlayer(Guild guild) {
         long guildId = guild.getIdLong();
         GuildMusicManager musicManager = inst.getStreamManagers().get(guildId);
@@ -258,7 +260,7 @@ public class Stream extends SlashCommand {
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                event.reply("Adding to queue:  " + firstTrack.getInfo().title + " - " + firstTrack.getInfo().author + " (first track of playlist " + playlist.getName() + ")").queue();
+                event.reply("Adding to queue:  " + firstTrack.getInfo().title + " - " + firstTrack.getInfo().author).queue();
 
                 play(event.getGuild(), musicManager, firstTrack);
             }
@@ -303,11 +305,10 @@ public class Stream extends SlashCommand {
         musicManager.scheduler.queue(track);
     }
 
-    private void skipTrack(SlashCommandInteractionEvent event) {
+    private AudioTrack skipTrack(SlashCommandInteractionEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
-        AudioTrack track = musicManager.scheduler.nextTrack();
 
-        event.reply("Skipped to next track: " +  track.getInfo().title + " - " + track.getInfo().author).queue();
+        return musicManager.scheduler.nextTrack();
     }
 
     private void abort(SlashCommandInteractionEvent event){

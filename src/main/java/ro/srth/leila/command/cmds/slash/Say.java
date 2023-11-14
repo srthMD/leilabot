@@ -16,6 +16,7 @@ import ro.srth.leila.command.util.SayBan;
 import ro.srth.leila.main.Bot;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Say extends SlashCommand {
 
@@ -57,7 +58,11 @@ public class Say extends SlashCommand {
 
             Message.Attachment attachment = event.getOption("attachment", OptionMapping::getAsAttachment);
             File upload;
-            upload = attachment != null ? attachment.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attachment.getFileName())).join() : null;
+            try {
+                upload = attachment != null ? attachment.getProxy().downloadToFile(File.createTempFile("send", "." + attachment.getFileName())).join() : null;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             if (msgId == null) {
                 MessageCreateAction tmp = event.getChannel().sendMessage(message);

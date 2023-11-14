@@ -16,6 +16,7 @@ import ro.srth.leila.guild.GuildConfiguration;
 import ro.srth.leila.guild.GuildHandler;
 import ro.srth.leila.listener.ListenerHandler;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +37,6 @@ public class Bot{
     private final Map<Long, GuildMusicManager> streamManagers = new HashMap<>();
 
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
-
 
     public Bot() {
         guildCache = Caffeine.newBuilder().build();
@@ -93,6 +93,12 @@ public class Bot{
     public Map<Long, GuildMusicManager> getStreamManagers(){return streamManagers;}
 
     public AudioPlayerManager getPlayerManager(){return playerManager;}
+
+    public static int getNumberOfBdayArtPctures(){
+        final File dir = new File(Config.ROOT + "\\bday");
+        File[] files = dir.listFiles();
+        return files.length;
+    }
 
     public static void main(String[] args){
         instance = new Bot();

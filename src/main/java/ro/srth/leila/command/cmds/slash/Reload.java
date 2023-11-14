@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.command.SlashCommand;
 import ro.srth.leila.listener.listeners.RandomMsg;
 import ro.srth.leila.main.Bot;
+import ro.srth.leila.main.Config;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,13 +37,13 @@ public class Reload extends SlashCommand {
             event.reply("something went wrong while reloading").queue();
             Bot.log.error(e.getMessage());
         }
-        event.reply("successfully reloaded file from file attached").addFiles(FileUpload.fromData(new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"))).queue();
+        event.reply("successfully reloaded file from file attached").addFiles(FileUpload.fromData(new File(Config.ROOT + "\\randommsg.txt"))).queue();
     }
 
 
     public static void reloadRandomMsgs() throws IOException {
         String line;
-        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\SRTH_\\Desktop\\leilabot\\randommsg.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader(Config.ROOT + "\\randommsg.txt"));
 
         RandomMsg.msgs.clear();
 

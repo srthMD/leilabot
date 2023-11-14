@@ -12,6 +12,7 @@ import ro.srth.leila.guild.vars.GuildVariable;
 import ro.srth.leila.listener.Listener;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -68,7 +69,11 @@ public class WebhookTroll extends Listener {
         } else{
             List<Message.Attachment> attachmenturl = event.getMessage().getAttachments();
             for (Message.Attachment attach: attachmenturl) {
-                builder.addFile(attach.getProxy().downloadToFile(new File("C:\\Users\\SRTH_\\AppData\\Local\\Temp\\" + attach.getFileName())).join());
+                try {
+                    builder.addFile(attach.getProxy().downloadToFile(File.createTempFile(attach.getFileName(), "." + attach.getFileExtension())).join());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             builder.setContent(event.getMessage().getContentRaw());
             try{
@@ -80,7 +85,6 @@ public class WebhookTroll extends Listener {
             }
 
             builder.reset();
-
         }
     }
 }

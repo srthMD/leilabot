@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.main.Config;
 
 import java.io.File;
 import java.util.Objects;
@@ -33,10 +34,10 @@ public class PetPicture extends SlashCommand {
         File dir;
 
         switch (event.getSubcommandName()) {
-            case ("simon") -> dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
-            case ("leila") -> dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
-            case ("octavious") -> dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
-            case ("chucky") -> dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
+            case ("simon") -> dir = new File(Config.ROOT + "\\simon");
+            case ("leila") -> dir = new File(Config.ROOT + "\\leila");
+            case ("octavious") -> dir = new File(Config.ROOT + "\\octavious");
+            case ("chucky") -> dir = new File(Config.ROOT + "\\chucky");
             default -> {
                 event.reply("something went wrong").setEphemeral(true).queue();
                 return;
@@ -54,22 +55,22 @@ public class PetPicture extends SlashCommand {
     }
 
     static int getNumberOfChuckyPictures(){
-        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\chucky");
+        final File dir = new File(Config.ROOT + "\\chucky");
         return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfLeilaPictures(){
-        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\leila");
+        final File dir = new File(Config.ROOT + "\\leila");
         return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfOctaviousPictures(){
-        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\octavious");
+        final File dir = new File(Config.ROOT + "\\octavious");
         return Objects.requireNonNull(dir.listFiles()).length;
     }
 
     static int getNumberOfSimonPictures(){
-        final File dir = new File("C:\\Users\\SRTH_\\Desktop\\leilabot\\simon");
+        final File dir = new File(Config.ROOT + "\\simon");
         return Objects.requireNonNull(dir.listFiles()).length;
     }
 }

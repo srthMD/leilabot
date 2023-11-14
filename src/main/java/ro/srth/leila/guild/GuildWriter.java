@@ -4,6 +4,7 @@ import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
 import ro.srth.leila.guild.vars.GuildVariable;
 import ro.srth.leila.main.Bot;
+import ro.srth.leila.main.Config;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class GuildWriter {
     private static final String EXTENSION = ".lbgcfg";
 
-    private static final String PATH = "C:\\Users\\SRTH_\\Desktop\\leilabot\\guild\\";
+    private static final String PATH = Config.ROOT + "\\guild\\";
 
     /**
      * Writes or overwrites a guild configuration to disk.

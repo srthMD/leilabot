@@ -7,6 +7,7 @@ plugins {
 
 shadowJar {
     archiveBaseName.set('leilabot')
+    buildDir = "\\..\\bin"
 }
 
 jar {
