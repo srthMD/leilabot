@@ -6,13 +6,13 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.command.cmds.slash.Force;
 import ro.srth.leila.command.cmds.slash.Toggle;
 import ro.srth.leila.exception.GuildNotFoundException;
-import ro.srth.leila.listener.Listener;
+import ro.srth.leila.listener.LBListener;
 
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomReaction extends Listener {
+public class RandomReaction extends LBListener {
 
     public RandomReaction(){
         this.name = "RandomReaction";

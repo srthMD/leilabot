@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import ro.srth.leila.main.Bot;
+import ro.srth.leila.main.Config;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -15,13 +16,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-public final class SayBan {
+public final class BanHandler {
 
-    private static final Path path = Paths.get("C:\\Users\\SRTH_\\Desktop\\leilabot\\saybanned.csv");
+    private static final Path rootPath = Paths.get(Config.ROOT + "\\ban");
 
-    public static boolean banId(long id) {
+    public static boolean banId(long id, Command cmd) {
         try{
-            Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            Path finalPath = Paths.get(rootPath + "\\" + cmd.getFilename());
+
+            Writer writer = Files.newBufferedWriter(finalPath, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 
             CSVPrinter printer = CSVFormat.DEFAULT.print(writer);
 
@@ -38,17 +41,19 @@ public final class SayBan {
         }
     }
 
-    public static boolean unbanId(long id) {
+    public static boolean unbanId(long id, Command cmd) {
         try{
-            if(isBanned(id)){
-                Reader in = Files.newBufferedReader(path);
+            if(isBanned(id, cmd)){
+                Path finalPath = Paths.get(rootPath + "\\" + cmd.getFilename());
+
+                Reader in = Files.newBufferedReader(finalPath);
                 CSVParser parser = new CSVParser(in, CSVFormat.DEFAULT);
                 List<CSVRecord> records = parser.getRecords();
                 parser.close();
 
                 records.removeIf(record -> record.get(0).equals(String.valueOf(id)));
 
-                Writer writer = Files.newBufferedWriter(path);
+                Writer writer = Files.newBufferedWriter(finalPath);
                 CSVPrinter printer = CSVFormat.DEFAULT.print(writer);
 
                 records.forEach(record -> {
@@ -71,9 +76,11 @@ public final class SayBan {
         }
     }
 
-    public static boolean isBanned(long id) {
+    public static boolean isBanned(long id, Command cmd) {
         try{
-            Reader reader = Files.newBufferedReader(path);
+            Path finalPath = Paths.get(rootPath + "\\" + cmd.getFilename());
+
+            Reader reader = Files.newBufferedReader(finalPath);
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(reader);
             boolean a = false;
 
@@ -88,6 +95,21 @@ public final class SayBan {
         }catch (Exception e){
             Bot.log.error(e.getMessage());
             return false;
+        }
+    }
+
+    public enum Command{
+        SAY("say"),
+        STREAM("stream");
+
+        private String filename;
+
+        Command(String filename){
+            this.filename = filename;
+        }
+
+        public String getFilename() {
+            return filename + ".csv";
         }
     }
 }

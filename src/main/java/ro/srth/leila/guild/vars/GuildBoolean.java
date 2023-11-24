@@ -3,10 +3,10 @@ package ro.srth.leila.guild.vars;
 import net.dv8tion.jda.api.entities.Guild;
 
 /**
- * Extension of {@link GuildVariable GuildVariable} to be able to operate specificly with booleans.
+ * Extension of {@link AbstractGuildVariableImpl AbstractGuildVariableImpl} to be able to operate specificly with booleans.
  */
 
-public class GuildBoolean extends GuildVariable<Boolean> {
+public class GuildBoolean extends AbstractGuildVariableImpl<Boolean> {
 
     public GuildBoolean(String var, String name, Guild guild) {
         super(Boolean.parseBoolean(var), name, guild);

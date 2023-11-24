@@ -12,9 +12,9 @@ public class CustomLoggerColors extends ForegroundCompositeConverterBase<ILoggin
     protected String getForegroundColorCode(ILoggingEvent event) {
         Level level = event.getLevel();
         return switch (level.toInt()) {
-            case Level.ERROR_INT -> ANSIConstants.BOLD + ANSIConstants.RED_FG; // same as default color scheme
+            case Level.ERROR_INT -> ANSIConstants.BOLD + ANSIConstants.RED_FG;
             case Level.WARN_INT -> ANSIConstants.YELLOW_FG;
-            case Level.INFO_INT -> ANSIConstants.GREEN_FG; // use CYAN instead of BLUE
+            case Level.INFO_INT -> ANSIConstants.GREEN_FG;
             case Level.DEBUG_INT -> ANSIConstants.CYAN_FG;
             case Level.TRACE_INT -> ANSIConstants.MAGENTA_FG;
             default -> ANSIConstants.DEFAULT_FG;

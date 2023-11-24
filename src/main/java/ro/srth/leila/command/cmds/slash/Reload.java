@@ -1,12 +1,11 @@
 package ro.srth.leila.command.cmds.slash;
 
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBSlashCommand;
 import ro.srth.leila.listener.listeners.RandomMsg;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.main.Config;
@@ -17,7 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 
-public class Reload extends SlashCommand {
+public class Reload extends LBSlashCommand {
 
     static {
         description = "Refreshes certian parts of the bot.";
@@ -25,9 +24,6 @@ public class Reload extends SlashCommand {
         permissions.add(Permission.ADMINISTRATOR);
     }
 
-    public Reload(Guild guild) {
-        super(guild);
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

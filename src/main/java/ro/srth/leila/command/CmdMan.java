@@ -9,9 +9,8 @@ import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionE
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
@@ -20,10 +19,7 @@ import ro.srth.leila.main.Bot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Predicate;
@@ -38,47 +34,52 @@ public final class CmdMan extends ListenerAdapter {
 
     final static Reflections reflections = new Reflections("ro.srth");
 
-    private static final Predicate<Class<? extends Command>> pr = Class -> !Class.isInterface();
+    private static final Predicate<Class<? extends LBCommand>> pr = Class -> !Class.isInterface();
 
-    static final Set<Class<? extends Command>> allClasses = reflections.getSubTypesOf(Command.class).stream().filter(pr).collect(Collectors.toSet());
+    static final Set<Class<? extends LBCommand>> allClasses = reflections.getSubTypesOf(LBCommand.class).stream().filter(pr).collect(Collectors.toSet());
 
-    private static List<CommandData> getData(){
+    static final Map<String, Class<? extends LBCommand>> classMap = new HashMap<>();
+
+
+    private static List<LBCommandData> getData(){
         // register commands here
-        List<CommandData> commandData = new ArrayList<>();
+        List<LBCommandData> commandData = new ArrayList<>();
 
-        for (Class<? extends Command> clazz : allClasses) {
+        for (Class<? extends LBCommand> clazz : allClasses) {
             try{
                 Class.forName(clazz.getName());
 
                 if(clazz.getField("register").get(null) == Boolean.FALSE) continue;
 
-                if(clazz.getSuperclass() == SlashCommand.class){
+                List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(null);
+
+                if(clazz.getSuperclass() == LBSlashCommand.class || clazz.getSuperclass() == LBLocalSlashCommand.class){
                     String name = clazz.getSimpleName().toLowerCase();
 
                     String desc = (String) clazz.getField("description").get(null);
-
-                    List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(null);
 
                     List<OptionData> cmdArgs = (List<OptionData>) clazz.getField("args").get(null);
                     List<SubcommandData> subCmds = (List<SubcommandData>) clazz.getField("subCmds").get(null);
 
                     OptionData[] arr = new OptionData[0];
                     SubcommandData[] arr2 = new SubcommandData[0];
-                    commandData.add(Commands.slash(name, desc).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)).addOptions(cmdArgs.toArray(arr)).addSubcommands(subCmds.toArray(arr2)));
 
-                    //idk why i need to do this but if i dont it fucks everything up
-                    perms.clear();
+                    commandData.add((LBCommandData) LBCommandData.slash(name, desc, (Class<? extends LBSlashCommand>) clazz).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)).addOptions(cmdArgs.toArray(arr)).addSubcommands(subCmds.toArray(arr2)));
+
+                    classMap.put(name, clazz);
+
+                    //idk why i need to do this but if i dont it fucks everything up, something something static im too retarded to care
                     cmdArgs.clear();
                     subCmds.clear();
                     desc = "";
 
-                } else if(clazz.getSuperclass() == ContextMenu.class){
-                    List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(null);
-
+                } else if(clazz.getSuperclass() == LBContextMenu.class){
                     String name = (String) clazz.getField("formalName").get(null);
 
-                    commandData.add(Commands.context(net.dv8tion.jda.api.interactions.commands.Command.Type.MESSAGE, name).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)));
+                    commandData.add((LBCommandData) LBCommandData.context(Command.Type.MESSAGE, name, clazz).setDefaultPermissions(DefaultMemberPermissions.enabledFor(perms)));
+                    classMap.put(clazz.getSimpleName().toLowerCase(), clazz);
                 }
+                perms.clear();
             } catch (NoSuchFieldException | IllegalAccessException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -91,7 +92,8 @@ public final class CmdMan extends ListenerAdapter {
             String name = event.getName();
             Guild guild = event.getGuild();
 
-            Class<? extends Command> clazz = allClasses.stream().filter(aClass -> aClass.getSimpleName().equalsIgnoreCase(name)).findFirst().orElseThrow();
+            //idk why i decided on using allclasses and streaming the set to get the class, my brain works differently depending on the day
+            Class<? extends LBCommand> clazz = classMap.get(name);
 
             String method;
 
@@ -102,9 +104,14 @@ public final class CmdMan extends ListenerAdapter {
             }
 
             try {
-                Object instance = clazz.getDeclaredConstructor(Guild.class).newInstance(guild);
+                Object instance;
+                if (clazz.getSuperclass() == LBLocalSlashCommand.class) {
+                    instance = clazz.getDeclaredConstructor(Guild.class).newInstance(guild);
+                } else{
+                    instance = clazz.getDeclaredConstructor().newInstance();
+                }
 
-                List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(instance);
+                List<Permission> perms = (List<Permission>) clazz.getField("permissions").get(null);
 
                 Permission[] arr = new Permission[0];
 
@@ -126,20 +133,21 @@ public final class CmdMan extends ListenerAdapter {
     }
 
 
-    static List<CommandData> data = getData();
-    private static void runHandler(@NotNull GenericGuildEvent event) {
+    static List<LBCommandData> data = getData();
+    private static void registerCommands(@NotNull GenericGuildEvent event) {
         event.getGuild().updateCommands().addCommands(data).queue();
         Bot.log.info("registering commands for guild " + event.getGuild().getName() + " ID: " + event.getGuild().getIdLong());
     }
 
+
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        runHandler(event);
+        registerCommands(event);
     }
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        runHandler(event);
+        registerCommands(event);
     }
 
     @Override

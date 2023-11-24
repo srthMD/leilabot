@@ -1,18 +1,17 @@
 package ro.srth.leila.command.cmds.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBSlashCommand;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RNG extends SlashCommand {
+public class RNG extends LBSlashCommand {
 
-    ThreadLocalRandom rand;
+    static final ThreadLocalRandom rand = ThreadLocalRandom.current();
 
     static {
         description = "Generates a random number with given paramaters";
@@ -20,10 +19,6 @@ public class RNG extends SlashCommand {
         args.add(new OptionData(OptionType.INTEGER, "maximum", "Maximum number.", true));
     }
 
-    public RNG(Guild guild) {
-        super(guild);
-        rand = ThreadLocalRandom.current();
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

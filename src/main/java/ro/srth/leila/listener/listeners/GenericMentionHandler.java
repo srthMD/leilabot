@@ -6,14 +6,14 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.command.cmds.slash.Toggle;
-import ro.srth.leila.listener.Listener;
+import ro.srth.leila.listener.LBListener;
 import ro.srth.leila.main.Config;
 
 import java.io.File;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GenericMentionHandler extends Listener {
+public class GenericMentionHandler extends LBListener {
 
     public GenericMentionHandler(){
         this.name = "GenericMentionHandler";

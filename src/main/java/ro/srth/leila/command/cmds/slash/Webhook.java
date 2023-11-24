@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBLocalSlashCommand;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
 import ro.srth.leila.guild.GuildReader;
@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-public class Webhook extends SlashCommand {
+public class Webhook extends LBLocalSlashCommand {
 
     static {
-        description = "SlashCommand for webhook functionality";
+        description = "LBSlashCommand for webhook functionality";
         subCmds.add(new SubcommandData("info", "Shows set info about the webhook").addOption(OptionType.BOOLEAN, "withlink", "Option to include the webhook link, (will delete message after 10 seconds)", true));
         subCmds.add(new SubcommandData("config", "configure settings about a webhook").addOptions(
                 new OptionData(OptionType.STRING, "image", "The link to the image you want the webhook to be", false),

@@ -2,7 +2,7 @@ package ro.srth.leila.guild;
 
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
-import ro.srth.leila.guild.vars.GuildVariable;
+import ro.srth.leila.guild.vars.AbstractGuildVariableImpl;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.main.Config;
 
@@ -76,7 +76,7 @@ public class GuildWriter {
         }
     }
 
-    public static void write(GuildVariable<?> var) throws UnsuccessfulWriteException {
+    public static void write(AbstractGuildVariableImpl<?> var) throws UnsuccessfulWriteException {
         boolean s2 = writeCache(var, var.getGuild().getIdLong());
 
         if(!s2){
@@ -109,7 +109,7 @@ public class GuildWriter {
     }
 
     //TODO: currently just overwrites bc im too lazy
-    private static boolean writeDisk(File file, GuildVariable<?> arg, long id){
+    private static boolean writeDisk(File file, AbstractGuildVariableImpl<?> arg, long id){
         BufferedWriter bw;
 
         try {
@@ -132,7 +132,7 @@ public class GuildWriter {
         return true;
     }
 
-    private static boolean writeCache(GuildVariable<?> arg, long id){
+    private static boolean writeCache(AbstractGuildVariableImpl<?> arg, long id){
         boolean suc = writeDisk(GuildReader.getRaw(id), arg, id);
 
         if(!suc){return suc;}

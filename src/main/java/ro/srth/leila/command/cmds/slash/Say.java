@@ -1,6 +1,5 @@
 package ro.srth.leila.command.cmds.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
@@ -11,14 +10,14 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
-import ro.srth.leila.command.util.SayBan;
+import ro.srth.leila.command.LBSlashCommand;
+import ro.srth.leila.command.util.BanHandler;
 import ro.srth.leila.main.Bot;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Say extends SlashCommand {
+public class Say extends LBSlashCommand {
 
     static {
         description = "Makes the bot say a message";
@@ -27,13 +26,10 @@ public class Say extends SlashCommand {
         args.add(new OptionData(OptionType.ATTACHMENT, "attachment", "Optional attachment to send.", false));
     }
 
-    public Say(Guild guild) {
-        super(guild);
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
-        if(SayBan.isBanned(event.getUser().getIdLong())){
+        if(BanHandler.isBanned(event.getUser().getIdLong(), BanHandler.Command.SAY)){
             Bot.log.info(event.getUser().getName() + "Fired /say but was banned");
             event.reply("you are banned from this command").setEphemeral(true).queue();
         }

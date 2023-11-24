@@ -18,7 +18,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBSlashCommand;
+import ro.srth.leila.command.util.BanHandler;
 import ro.srth.leila.command.util.stream.GuildMusicManager;
 import ro.srth.leila.main.Bot;
 
@@ -27,11 +28,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Stream extends SlashCommand {
+public class Stream extends LBSlashCommand {
 
     Set<String> VALIDFORMATS = Set.of("mp4","mp3","ogg","wav");
 
-    Bot inst;
+    final Bot inst = Bot.instance();
 
     static{
         description = "Streams audio from a supported link or file";
@@ -51,13 +52,13 @@ public class Stream extends SlashCommand {
         permissions.add(Permission.VOICE_USE_SOUNDBOARD);
     }
 
-    public Stream(Guild guild) {
-        super(guild);
-        inst = Bot.instance();
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
+
+        if(BanHandler.isBanned(event.getMember().getIdLong(), BanHandler.Command.STREAM)){return;}
+
+        Guild guild = event.getGuild();
 
         GuildVoiceState userVcState = Objects.requireNonNull(event.getMember()).getVoiceState();
 

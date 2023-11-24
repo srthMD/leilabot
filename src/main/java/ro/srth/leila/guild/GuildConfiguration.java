@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.guild.vars.GuildVariable;
+import ro.srth.leila.guild.vars.AbstractGuildVariableImpl;
 import ro.srth.leila.main.Bot;
 
 import java.lang.reflect.Field;
@@ -16,12 +16,12 @@ import java.util.Set;
 
 /**
  * Links discord guilds to guild-specific variables used by leilabot.
- * @see GuildVariable
+ * @see AbstractGuildVariableImpl
  */
 public class GuildConfiguration {
    public static final GuildConfiguration NULLCFG = new GuildConfiguration(0);
 
-    private Map<String, GuildVariable<?>> vars;
+    private Map<String, AbstractGuildVariableImpl<?>> vars;
 
     private long guildId;
 
@@ -30,7 +30,7 @@ public class GuildConfiguration {
         guildId = id;
     }
 
-    GuildConfiguration(long id, List<GuildVariable<?>> vars){
+    GuildConfiguration(long id, List<AbstractGuildVariableImpl<?>> vars){
         vars = List.copyOf(vars);
         guildId = id;
     }
@@ -48,12 +48,12 @@ public class GuildConfiguration {
         GuildConfiguration guildConfiguration = new GuildConfiguration(0);
         defaults.forEach((field -> {
             try {
-                Class<? extends GuildVariable<?>> clazz = field.getAnnotation(Local.class).clazz();
+                Class<? extends AbstractGuildVariableImpl<?>> clazz = field.getAnnotation(Local.class).clazz();
 
                 Object instance = clazz.getDeclaredConstructor(field.getType(), String.class, Guild.class).newInstance(field.get(null), field.getName(), Bot.getSman().getGuildById(guildId));
 
 
-                guildConfiguration.vars.put(field.getName(), (GuildVariable<?>) instance);
+                guildConfiguration.vars.put(field.getName(), (AbstractGuildVariableImpl<?>) instance);
             } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
@@ -61,7 +61,7 @@ public class GuildConfiguration {
         return guildConfiguration;
     }
 
-    public Map<String, GuildVariable<?>> getVars() {return vars;}
+    public Map<String, AbstractGuildVariableImpl<?>> getVars() {return vars;}
 
     public long getGuildId() {return guildId;}
 

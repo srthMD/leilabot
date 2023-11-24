@@ -5,12 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.command.cmds.slash.Toggle;
-import ro.srth.leila.listener.Listener;
+import ro.srth.leila.listener.LBListener;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GenericUserRandomMessage extends Listener {
+public class GenericUserRandomMessage extends LBListener {
 
     public GenericUserRandomMessage(){
         this.name = "GenericUserRandomMessage";

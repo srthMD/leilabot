@@ -6,7 +6,7 @@ import ro.srth.leila.command.cmds.slash.Force;
 import ro.srth.leila.command.cmds.slash.Reload;
 import ro.srth.leila.command.cmds.slash.Toggle;
 import ro.srth.leila.exception.GuildNotFoundException;
-import ro.srth.leila.listener.Listener;
+import ro.srth.leila.listener.LBListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class RandomMsg extends Listener {
+public class RandomMsg extends LBListener {
 
     public RandomMsg(){
         this.name = "RandomMsg";

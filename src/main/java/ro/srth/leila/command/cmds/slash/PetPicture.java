@@ -1,20 +1,19 @@
 package ro.srth.leila.command.cmds.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBSlashCommand;
 import ro.srth.leila.main.Config;
 
 import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PetPicture extends SlashCommand {
+public class PetPicture extends LBSlashCommand {
 
-    ThreadLocalRandom rand;
+    static final ThreadLocalRandom rand = ThreadLocalRandom.current();
 
     static {
         description = "command to house sub commands for pet pictures";
@@ -24,10 +23,6 @@ public class PetPicture extends SlashCommand {
         subCmds.add(new SubcommandData("chucky", "Sends a random picture of chucky"));
     }
 
-    public PetPicture(Guild guild) {
-        super(guild);
-        rand = ThreadLocalRandom.current();
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {

@@ -2,7 +2,7 @@ package ro.srth.leila.guild.vars;
 
 import net.dv8tion.jda.api.entities.Guild;
 
-public class GuildString extends GuildVariable<String>{
+public class GuildString extends AbstractGuildVariableImpl<String> {
     public GuildString(String var, String name, Guild guild) {
         super(var, name, guild);
     }

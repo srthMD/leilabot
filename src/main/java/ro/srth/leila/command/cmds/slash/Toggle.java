@@ -5,14 +5,14 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.annotations.Local;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBLocalSlashCommand;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsuccessfulWriteException;
 import ro.srth.leila.guild.GuildReader;
 import ro.srth.leila.guild.GuildWriter;
 import ro.srth.leila.guild.vars.GuildBoolean;
 
-public class Toggle extends SlashCommand {
+public class Toggle extends LBLocalSlashCommand {
 
     static {
         description = "toggles certain listeners";

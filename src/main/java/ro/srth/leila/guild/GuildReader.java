@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.exception.UnsucessfulReadException;
-import ro.srth.leila.guild.vars.GuildVariable;
+import ro.srth.leila.guild.vars.AbstractGuildVariableImpl;
 import ro.srth.leila.main.Bot;
 import ro.srth.leila.main.Config;
 
@@ -43,7 +43,7 @@ public class GuildReader {
         strs.forEach((str) -> {
             try {
                 String[] split = str.split(";;");
-                Class<? extends GuildVariable<?>> clazz = (Class<? extends GuildVariable<?>>) Class.forName("ro.srth.leila.guild.vars." + split[0]);
+                Class<? extends AbstractGuildVariableImpl<?>> clazz = (Class<? extends AbstractGuildVariableImpl<?>>) Class.forName("ro.srth.leila.guild.vars." + split[0]);
 
                 String[] varSplit = split[1].split("=");
 

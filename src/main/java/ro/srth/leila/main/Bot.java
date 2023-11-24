@@ -20,6 +20,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Main class of the bot.
+ */
 public class Bot{
 
     public static final Logger log = LoggerFactory.getLogger(Bot.class);
@@ -38,6 +42,7 @@ public class Bot{
 
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 
+    //preforms login and starts all event listeners
     public Bot() {
         guildCache = Caffeine.newBuilder().build();
 

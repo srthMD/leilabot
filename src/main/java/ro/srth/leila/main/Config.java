@@ -10,6 +10,10 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.EnumSet;
 
+/**
+ * Class that holds static values
+ */
+
 public final class Config {
     public static final String ROOT =  Paths.get("").toAbsolutePath() +  File.separator + ".." + File.separator + "..";
 

@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.Channel;
 
 
-public class GuildChannel extends GuildVariable<Long>{
+public class GuildChannel extends AbstractGuildVariableImpl<Long> {
 
     public GuildChannel(String var, String name, Guild guild) {
         super(Long.valueOf(var), name, guild);
@@ -22,6 +22,7 @@ public class GuildChannel extends GuildVariable<Long>{
     public String toString() {
         return String.valueOf(var);
     }
+
 
     public Channel toChannel(){
         return guild.getChannelById(Channel.class, var);

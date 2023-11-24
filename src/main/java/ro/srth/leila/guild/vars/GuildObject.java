@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 
 import java.util.Objects;
 
-public class GuildObject extends GuildVariable<Object>{
+public class GuildObject extends AbstractGuildVariableImpl<Object> {
     public GuildObject(String var, String name, Guild guild) {
         super(var, name, guild);
     }

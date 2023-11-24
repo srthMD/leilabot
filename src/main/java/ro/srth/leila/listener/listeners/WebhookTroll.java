@@ -8,15 +8,15 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import ro.srth.leila.exception.GuildNotFoundException;
 import ro.srth.leila.guild.GuildConfiguration;
 import ro.srth.leila.guild.GuildReader;
-import ro.srth.leila.guild.vars.GuildVariable;
-import ro.srth.leila.listener.Listener;
+import ro.srth.leila.guild.vars.AbstractGuildVariableImpl;
+import ro.srth.leila.listener.LBListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 
-public class WebhookTroll extends Listener {
+public class WebhookTroll extends LBListener {
 
     public WebhookTroll(){
         this.name = "WebhookTroll";
@@ -28,8 +28,8 @@ public class WebhookTroll extends Listener {
 
         try {
             GuildConfiguration config = GuildReader.get(guild.getIdLong());
-            GuildVariable<?> var = config.getVars().get("webhookActive");
-            GuildVariable<?> channel = config.getVars().get("webhookChannel");
+            AbstractGuildVariableImpl<?> var = config.getVars().get("webhookActive");
+            AbstractGuildVariableImpl<?> channel = config.getVars().get("webhookChannel");
 
             //webhookActive is a boolean, no need to check the cast
             if(!((boolean) var.getVar())){

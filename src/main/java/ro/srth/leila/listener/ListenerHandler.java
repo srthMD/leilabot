@@ -15,7 +15,7 @@ public final class ListenerHandler extends ListenerAdapter {
     public void onReady(@NotNull ReadyEvent event) {
 
         Reflections reflections = new Reflections("ro.srth");
-        Set<Class<? extends Listener>> classes =  reflections.getSubTypesOf(ro.srth.leila.listener.Listener.class);
+        Set<Class<? extends LBListener>> classes =  reflections.getSubTypesOf(LBListener.class);
 
         ShardManager sman = Bot.getSman();
 

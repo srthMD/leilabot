@@ -1,6 +1,5 @@
 package ro.srth.leila.command.cmds.slash;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -10,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
-import ro.srth.leila.command.SlashCommand;
+import ro.srth.leila.command.LBSlashCommand;
 import ro.srth.leila.command.util.MediaHandler;
 import ro.srth.leila.main.Bot;
 
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public class Shitify extends SlashCommand {
+public class Shitify extends LBSlashCommand {
 
     private static final Set<String> AUDIO_FORMATS = new HashSet<String>(Arrays.asList("mp3", "m4a", "wav", "ogg"));
 
@@ -59,12 +58,8 @@ public class Shitify extends SlashCommand {
                                 new Command.Choice("Funny Equalizer", "funnymic"),
                                 new Command.Choice("Extreme High Pass", "highpass"),
                                 new Command.Choice("Audio Distort", "extremedistort"))));
-
     }
 
-    public Shitify(Guild guild) {
-        super(guild);
-    }
 
     @Override
     public void runSlashCommand(@NotNull SlashCommandInteractionEvent event) {
